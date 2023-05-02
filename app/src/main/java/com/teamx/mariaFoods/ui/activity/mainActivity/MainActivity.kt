@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.BR
+import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseActivity
 import com.teamx.mariaFoods.databinding.ActivityMainBinding
@@ -35,10 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     private var navController: NavController? = null
 
-
-    //    override fun onResumeFragments() {
-//        super.onResumeFragments()
-//    }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
      Timber.tag("321321").d( "onRestoreInstanceState: ")
