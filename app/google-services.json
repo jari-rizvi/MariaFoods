@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "579913298834",
+    "project_id": "multivendor-f090a",
+    "storage_bucket": "multivendor-f090a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579913298834:android:417d3e01a5b0211ef4874b",
+        "android_client_info": {
+          "package_name": "com.teamx.multivendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579913298834-26lj1ngd7l8on01or89hacps46ufmsbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTom1gbUcqL7RUSM5AgeQThyY9GH06K94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579913298834-26lj1ngd7l8on01or89hacps46ufmsbl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "579913298834-0bbrl1rdtu299186eemoc6p43i0b702c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ae.teamx.multivendor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
