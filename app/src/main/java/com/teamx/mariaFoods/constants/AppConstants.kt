@@ -9,7 +9,7 @@ object AppConstants {
     annotation class ApiConfiguration {
         companion object {
             //            const val BASE_URL = "https://raseefapi.teamxmv.com/api/"
-            const val BASE_URL = "https://api.raseef.app/api/"
+            const val BASE_URL = "http://192.168.100.23:8000/api/v1/"
 
         }
     }
@@ -27,16 +27,6 @@ object AppConstants {
         DataStore.LOCALIZATION_KEY_NAME,
         DataStore.USER_NAME_KEY,
         DataStore.TOKEN,
-        DataStore.DETAILS,
-        DataStore.PAYMENT,
-        DataStore.SAVE_ID,
-        DataStore.AVATAR,
-        DataStore.USER_ID,
-        DataStore.NUMBER,
-        DataStore.CARPLATE,
-        DataStore.NAME,
-        DataStore.PAYTYPE,
-        DataStore.EMAIL
     )
 
     annotation class DataStore {
@@ -47,14 +37,6 @@ object AppConstants {
             const val TOKEN = "token"
             const val DETAILS = "details"
             const val USER_ID = "user_id"
-            const val PAYMENT = "payment"
-            const val SAVE_ID = "save_id"
-            const val AVATAR = "avatar"
-            const val NUMBER = "number"
-            const val CARPLATE = "car_plate"
-            const val PAYTYPE = "pay_type"
-            const val NAME = "name"
-            const val EMAIL = "email"
         }
     }
 

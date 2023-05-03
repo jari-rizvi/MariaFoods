@@ -1,16 +1,14 @@
 package com.teamx.mariaFoods.di.module
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.teamx.mariaFoods.BuildConfig
 import com.teamx.mariaFoods.constants.AppConstants
 import com.teamx.mariaFoods.data.local.datastore.DataStoreProvider
 import com.teamx.mariaFoods.data.local.db.AppDatabase
 import com.teamx.mariaFoods.data.remote.ApiService
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.teamx.mariaFoods.data.local.db.AppDao
-import com.teamx.mariaFoods.data.local.dbModel.CartDao
-import com.teamx.mariaFoods.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,12 +74,8 @@ class ApplicationModule {
 
     @Singleton
     @Provides
-    fun provideRepository(apiService: ApiService,
-                          localDataSource: AppDao,
-                          localDataSource2: CartDao,
+    fun provideRepository(apiService: ApiService
     ) = MainRepository(
-        apiService,
-        localDataSource,
-        localDataSource2)
+        apiService)
 
 }

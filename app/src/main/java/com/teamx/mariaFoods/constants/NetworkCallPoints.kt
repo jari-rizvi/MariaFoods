@@ -2,8 +2,8 @@ package com.teamx.mariaFoods.constants
 
 class NetworkCallPoints {
     companion object {
-        const val LOGIN_PHONE = "token/phone";
-        const val SIGN_UP = "register/phone";
+        const val LOGIN = "users/signin";
+        const val SIGN_UP = "users/singup";
 
         // Register Otp Verify
 
