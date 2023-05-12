@@ -17,4 +17,8 @@
         android:id="@+id/signupFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.signup.SignupFragment"
         android:label="SignupFragment" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Dashboard.home.DashboardFragment"
+        android:label="DashboardFragment" />
 </navigation>

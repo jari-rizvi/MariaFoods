@@ -16,9 +16,11 @@ class NetworkCallPoints {
         const val RESET_PASS = "reset-password";
         const val RESET_PASS_PHONE = "Reset-Password-Phone";
         const val CHANGE_PASSWORD = "change-password";
-
-
         const val FORGOT_PASS_PHONE = "forget-password-phone";
+
+
+        //Get Countries
+        const val COUNTRIES  = "users/address/get-country-city-states";
 
 
         var TOKENER = ""

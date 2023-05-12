@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.MainApplication
@@ -60,20 +61,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.onPause()
         val navState = navController!!.saveState()!!
         mViewModel.bundleB.postValue(navState)
-//        val prefs = getPreferences(Context.MODE_PRIVATE)
-//        prefs.edit().putString("navState", navState!!).apply()
         Log.d("321321", "onPause:$navState ")
     }
 
     override fun onResume() {
         super.onResume()
-//        val prefs = getPreferences(Context.MODE_PRIVATE)
-//        val navState = prefs.getString("navState", null)
         val navState = mViewModel.bundleB.value
         navState!!.let {
             navController!!.restoreState(it)
-//            navController!!.navigate(navController!!.currentDestination!!.id, null)
-//        navController?.popBackStack()
         }
         Log.d("321321", "onResume:$navState ")
     }
@@ -92,8 +87,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         if (savedInstanceState == null) {
             idN = R.id.tempFragment
         } else {
-
-
             val helperState = savedInstanceState.getBundle(STATE_HELPER)
             stateHelper.restoreHelperState(helperState!!)
         }
@@ -108,43 +101,20 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         mViewModel.bundleB.postValue(navState)
 
 
-//        setupBottomNavMenu(navController!!)
+        setupBottomNavMenu(navController!!)
 
-//        navController!!.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//
-//                R.id.dashboard -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.cartFragment -> {
-//
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.homeFragment -> {
-//
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.userProfileFragment -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.editProfileFragment -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.notificationFragment -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.shopHomePageFragment -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                R.id.productPreviewFragment -> {
-//                    bottomNav?.visibility = View.VISIBLE
-//                }
-//                else -> {
-//                    bottomNav?.visibility = View.GONE
-//                }
-//            }
-//            setupBottomNavMenu(navController!!)
-//        }
+        navController!!.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+
+                R.id.home -> {
+                    bottomNav?.visibility = View.VISIBLE
+                }
+                else -> {
+                    bottomNav?.visibility = View.GONE
+                }
+            }
+            setupBottomNavMenu(navController!!)
+        }
 
 
     }
@@ -173,53 +143,54 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     var bottomNav: BottomNavigationView? = null
 
-//    private fun setupBottomNavMenu(navController: NavController) {
-//        bottomNav?.setupWithNavController(navController)
-//        bottomNav?.setOnItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.profile -> {
-//                    navController.navigate(R.id.userProfileFragment, null)
-//                }
-//                R.id.dashboard -> {
-//                    navController.navigate(R.id.dashboard, null)
-//                }
-//                R.id.cart -> {
-//                    navController.navigate(R.id.cartFragment, null)
-//                }
-//                R.id.notification -> {
-//                    navController.navigate(R.id.notificationFragment, null)
-//                }
-//            }
-//            /* val newFragment = if (true) {
-//                 fragments[it.itemId] ?: TempFragment()
-//             } else {
-//                 // We are pretending we aren't keeping the Fragments in memory
-//                 TempFragment()
-//             }
-//             fragments[it.itemId] = newFragment
-//             idN = it.itemId
-//             if (*//*state_switch.isChecked &&*//*idN != 0) {
-//                Log.d("321321", "setupBottomNavMenu: $idN")
-//                saveCurrentState()
-//                stateHelper.restoreState(newFragment, it.itemId)
-//            }*/
-//            Log.d("321321", "saveCurrentState:$idN ")
-////            supportFragmentManager.beginTransaction()
-////                .replace(R.id.container, newFragment)
-////                .commitNowAllowingStateLoss()
+    private fun setupBottomNavMenu(navController: NavController) {
+        bottomNav?.setupWithNavController(navController)
+        bottomNav?.setOnItemSelectedListener {
+            when (it.itemId) {
+
+                R.id.home -> {
+                    navController.navigate(R.id.dashboardFragment, null)
+                }
+                R.id.order -> {
+                    navController.navigate(R.id.dashboardFragment, null)
+                }
+                R.id.cart -> {
+                    navController.navigate(R.id.dashboardFragment, null)
+                }
+                R.id.profile -> {
+                    navController.navigate(R.id.dashboardFragment, null)
+                }
+            }
+            /* val newFragment = if (true) {
+                 fragments[it.itemId] ?: TempFragment()
+             } else {
+                 // We are pretending we aren't keeping the Fragments in memory
+                 TempFragment()
+             }
+             fragments[it.itemId] = newFragment
+             idN = it.itemId
+             if (*//*state_switch.isChecked &&*//*idN != 0) {
+                Log.d("321321", "setupBottomNavMenu: $idN")
+                saveCurrentState()
+                stateHelper.restoreState(newFragment, it.itemId)
+            }*/
+            Log.d("321321", "saveCurrentState:$idN ")
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.container, newFragment)
+//                .commitNowAllowingStateLoss()
+
+
+            return@setOnItemSelectedListener true
+        }
+
+
 //
-//
-//            return@setOnItemSelectedListener true
-//        }
-//
-//
-////
-//
-//
-//        ///
-//
-//
-//    }
+
+
+        ///
+
+
+    }
 
 
     companion object {

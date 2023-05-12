@@ -6,6 +6,7 @@ import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -16,16 +17,19 @@ interface ApiService {
     @POST(NetworkCallPoints.LOGIN)
     suspend fun loginPhone(@Body params: JsonObject?): Response<LoginData>
 
- @Headers("secret: dev")
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.SIGN_UP)
     suspend fun signup(@Body params: JsonObject?): Response<SignupData>
-
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.OTP_VERIFY)
     suspend fun otpVerify(@Body params: JsonObject?): Response<SignupData>
 
-
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.RESEND_OTP_VERIFY)
     suspend fun resendOtp(@Body params: JsonObject?): Response<SignupData>
+     @Headers("secret: dev")
+    @GET(NetworkCallPoints.COUNTRIES)
+    suspend fun getCountries(@Body params: JsonObject?): Response<SignupData>
 
 
 }

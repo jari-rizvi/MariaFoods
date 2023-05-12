@@ -3,18 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/dashboard"
+        android:id="@+id/home"
         android:icon="@drawable/account"
         android:enabled="true"
         android:title="Dashboard" />
 
     <item
-        android:id="@+id/cart"
+        android:id="@+id/order"
         android:icon="@drawable/account"
         android:title="Cart" />
 
     <item
-        android:id="@+id/notification"
+        android:id="@+id/cart"
+        android:icon="@drawable/account"
+        android:title="Notification" />
+
+    <item
+        android:id="@+id/profile"
         android:icon="@drawable/account"
         android:title="Notification" />
 

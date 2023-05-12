@@ -13,4 +13,8 @@ class MainRepository @Inject constructor(
     suspend fun otpVerify(@Body param: JsonObject) = apiService.otpVerify(param)
     suspend fun resendOtp(@Body param: JsonObject) = apiService.resendOtp(param)
 
+    suspend fun getCountries(@Body param: JsonObject) = apiService.getCountries(param)
+
+
+
 }

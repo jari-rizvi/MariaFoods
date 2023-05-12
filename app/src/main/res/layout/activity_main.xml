@@ -45,21 +45,25 @@
         <!--                android:layout_height="wrap_content"-->
         <!--                android:layout_gravity="bottom">-->
 
-      <!--  <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomnavigationbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            app:itemIconTint="@color/bottom_nav_color"
-            app:itemTextColor="@color/bottom_nav_color"
-            app:labelVisibilityMode="selected"
-            app:menu="@menu/bottom_navigation_menu"
-            app:popUpToInclusive="true" />-->
 
         <!--            </com.google.android.material.bottomnavigation.BottomNavigationView>-->
 
         <!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:background="@drawable/bottom_nav_background"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_alignParentBottom="true"
+            android:elevation="@dimen/_2sdp"
+            app:menu="@menu/bottom_navigation_menu"/>
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
