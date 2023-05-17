@@ -3,8 +3,10 @@ package com.teamx.mariaFoods.ui.fragments.Auth.login
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -31,6 +33,10 @@ class LogInFragment :
     private var userEmail: String? = null
     private var password: String? = null
 
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -47,6 +53,67 @@ class LogInFragment :
         mViewDataBinding.btn.setOnClickListener {
             subscribeToNetworkLiveData()
         }
+
+
+        bottomSheetBehavior =
+            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+
+
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+               when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> "Close Persistent Bottom Sheet"
+                    BottomSheetBehavior.STATE_COLLAPSED -> "Open Persistent Bottom Sheet"
+                    else -> "Persistent Bottom Sheet"
+                }
+            }
+        })
+
+
+        //#4 Changing the BottomSheet State on ButtonClick
+        mViewDataBinding.btn.setOnClickListener {
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                    BottomSheetBehavior.STATE_COLLAPSED
+                else
+                    BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
+
+
+
+
+
+
+//        bottomSheetBehavior.addBottomSheetCallback(object :
+//            BottomSheetBehavior.BottomSheetCallback() {
+//
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//
+//                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    mViewDataBinding.email.visibility = View.GONE
+//                    mViewDataBinding.bottomSheetLayout.bottomSheet = View.VISIBLE
+//
+//
+//                } else {
+//                    mViewDataBinding.email.visibility = View.VISIBLE
+//                }
+//
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//            }
+//
+//
+//        })
+
 
     }
 

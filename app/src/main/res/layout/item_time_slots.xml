@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:backgroundTint="@color/light_pink"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/card_background">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout9"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_slots_fill"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:00 Am \n - 12:00 Pm "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lunch Time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/time"
+            app:layout_constraintStart_toStartOf="@+id/time"
+            app:layout_constraintTop_toBottomOf="@+id/time" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

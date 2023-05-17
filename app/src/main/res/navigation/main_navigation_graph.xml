@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_navigation_graph"
-    app:startDestination="@id/signupFragment">
+    app:startDestination="@id/dashboardFragment">
 
 
     <fragment
@@ -21,4 +21,8 @@
         android:id="@+id/dashboardFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Dashboard.home.DashboardFragment"
         android:label="DashboardFragment" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Checkout.CheckoutFragment"
+        android:label="CheckoutFragment" />
 </navigation>

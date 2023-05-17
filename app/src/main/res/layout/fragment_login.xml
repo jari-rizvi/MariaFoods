@@ -11,6 +11,23 @@
         android:layout_height="match_parent">
 
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <include
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_slots" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
         <EditText
             android:id="@+id/email"
             android:layout_width="@dimen/_100sdp"

@@ -4,9 +4,8 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string name="login">Login</string>
-
-
-
+    <string name="book_your_slots">Book Your Slots</string>
+    <string name="checkout">Checkout</string>
 
 
 </resources>

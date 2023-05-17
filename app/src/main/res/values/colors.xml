@@ -24,6 +24,7 @@
     <color name="orange">#FA6109</color>
     <color name="orange1">#FFF89918</color>
     <color name="light_orange">#FFBF9D</color>
+    <color name="light_pink">#FFEFF0</color>
     <color name="light_yellow">#FFA702</color>
     <color name="dark_green">#00732F</color>
     <color name="red">#EA1B25</color>
@@ -34,5 +35,4 @@
     <color name="light_gray_color">#666666</color>
     <color name="normal_gray_color">#343434</color>
     <color name="normal_light_gray_color">#656464</color>
-    <color name="green">#1ED860</color>
 </resources>
