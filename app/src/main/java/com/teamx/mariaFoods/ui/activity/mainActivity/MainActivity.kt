@@ -183,13 +183,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             return@setOnItemSelectedListener true
         }
 
-
-//
-
-
-        ///
-
-
     }
 
 
@@ -205,9 +198,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     var idN: Int = 0;
     override fun onSaveInstanceState(outState: Bundle) {
-        // Make sure we save the current tab's state too!
         saveCurrentState()
-//
+
 //        outState.putInt("asdf",navController!!.currentDestination!!.id)
         outState.putBundle(STATE_HELPER, stateHelper.saveHelperState())
 

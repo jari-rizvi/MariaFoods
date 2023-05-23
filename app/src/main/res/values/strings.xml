@@ -6,6 +6,7 @@
     <string name="login">Login</string>
     <string name="book_your_slots">Book Your Slots</string>
     <string name="checkout">Checkout</string>
+    <string name="add_delivery_address">Add Delivery Address</string>
 
 
 </resources>

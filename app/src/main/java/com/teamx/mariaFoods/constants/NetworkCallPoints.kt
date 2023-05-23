@@ -4,6 +4,8 @@ class NetworkCallPoints {
     companion object {
         const val LOGIN = "users/signin";
         const val SIGN_UP = "users/singup";
+        const val SOCIAL_LOGIN = "/users/socials";
+
 
         // Register Otp Verify
 
@@ -21,6 +23,8 @@ class NetworkCallPoints {
 
         //Get Countries
         const val COUNTRIES  = "users/address/get-country-city-states";
+        const val BANNERS  = "app/slides";
+        const val PRODUCTS  = "products/latest";
 
 
         var TOKENER = ""

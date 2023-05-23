@@ -54,11 +54,8 @@ class LogInFragment :
             subscribeToNetworkLiveData()
         }
 
-
         bottomSheetBehavior =
             BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
-
-
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -84,11 +81,6 @@ class LogInFragment :
                     BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
         }
-
-
-
-
-
 
 //        bottomSheetBehavior.addBottomSheetCallback(object :
 //            BottomSheetBehavior.BottomSheetCallback() {

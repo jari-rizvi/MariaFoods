@@ -1,0 +1,81 @@
+package com.teamx.mariaFoods.ui.fragments.Dashboard.home
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.teamx.mariaFoods.data.dataclasses.products.Data
+import com.teamx.mariaFoods.databinding.ItemProductsBinding
+
+
+class ProductAdapter(
+    val arrayList: ArrayList<Data>, private val onTopProductListener: OnProductListener
+) : RecyclerView.Adapter<ProductAdapter.TopProductViewHolder>() {
+
+    lateinit var ProductBannerAdapter: ProductBannersAdapter
+    private var tabLayoutMediator: TabLayoutMediator? = null
+
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopProductViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val itemTopProductBinding = ItemProductsBinding.inflate(inflater, parent, false)
+        return TopProductViewHolder(itemTopProductBinding)
+
+    }
+
+    override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
+
+        val productBannner: Data = arrayList[position]
+
+        val product: Data = arrayList[position]
+
+        holder.binding.productName.text = product.name
+
+        holder.binding.price.text = "${product.max_price}%"
+
+
+        holder.binding.productDescription.text = product.description
+
+
+        holder.binding.screenViewpager
+
+        val productBannerArrayList: List<String> = productBannner.product_images
+
+        val arrayList = ArrayList<String>()
+
+        arrayList.addAll(productBannerArrayList)
+
+        ProductBannerAdapter = ProductBannersAdapter(arrayList)
+        holder.binding.screenViewpager.adapter = ProductBannerAdapter
+
+        TabLayoutMediator(holder.binding.tabIndicator, holder.binding.screenViewpager) { tab, position ->
+            tab.text = productBannerArrayList[position].toString()
+        }.attach()
+
+
+        tabLayoutMediator = TabLayoutMediator(
+            holder.binding.tabIndicator,
+            holder.binding.screenViewpager
+        ) { tab: TabLayout.Tab, position: Int ->
+            holder.binding.screenViewpager.setCurrentItem(tab.position, true)
+        }
+        tabLayoutMediator!!.attach()
+
+        holder.itemView.setOnClickListener {
+            onTopProductListener.onproductClick(position)
+        }
+
+    }
+
+    override fun getItemCount(): Int {
+        return arrayList.size
+    }
+
+    class TopProductViewHolder(itemProductBinding: ItemProductsBinding) :
+        RecyclerView.ViewHolder(itemProductBinding.root) {
+        val binding = itemProductBinding
+
+    }
+}

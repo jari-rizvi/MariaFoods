@@ -4,23 +4,23 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/account"
+        android:icon="@drawable/home"
         android:enabled="true"
         android:title="Dashboard" />
 
     <item
         android:id="@+id/order"
-        android:icon="@drawable/account"
-        android:title="Cart" />
+        android:icon="@drawable/order_history"
+        android:title="Order" />
 
     <item
         android:id="@+id/cart"
-        android:icon="@drawable/account"
-        android:title="Notification" />
+        android:icon="@drawable/shopping_cart"
+        android:title="Cart" />
 
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/account"
-        android:title="Notification" />
+        android:icon="@drawable/user_profile"
+        android:title="Profile" />
 
 </menu>

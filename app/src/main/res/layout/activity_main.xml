@@ -60,6 +60,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             android:background="@drawable/bottom_nav_background"
             app:layout_constraintStart_toStartOf="parent"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
             android:layout_alignParentBottom="true"
             android:elevation="@dimen/_2sdp"
             app:menu="@menu/bottom_navigation_menu"/>
