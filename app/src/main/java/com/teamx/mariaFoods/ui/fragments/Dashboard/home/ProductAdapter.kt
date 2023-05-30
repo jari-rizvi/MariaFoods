@@ -67,6 +67,10 @@ class ProductAdapter(
             onTopProductListener.onproductClick(position)
         }
 
+        holder.binding.btnSchedule.setOnClickListener {
+            onTopProductListener.onScheduleClick(position)
+        }
+
     }
 
     override fun getItemCount(): Int {

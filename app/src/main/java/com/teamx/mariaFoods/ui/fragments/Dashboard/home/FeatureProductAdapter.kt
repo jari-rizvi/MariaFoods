@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
 import com.teamx.mariaFoods.databinding.ItemFeatureProductBinding
 
-class FeatureProductAdapter(private val arrayList : ArrayList<Data>, private  val  onFeatureProductListener: OnFeatureProductListener):RecyclerView.Adapter<FeatureProductViewHolder>() {
+class FeatureProductAdapter(private val arrayList : ArrayList<Data>):RecyclerView.Adapter<FeatureProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeatureProductViewHolder {
        val inflater = LayoutInflater.from(parent.context)
@@ -23,7 +23,6 @@ class FeatureProductAdapter(private val arrayList : ArrayList<Data>, private  va
 
         holder.itemView.setOnClickListener {
 
-            onFeatureProductListener.OnFeatureProductClickListener(position)
 
         }
     }

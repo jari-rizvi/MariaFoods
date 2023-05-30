@@ -199,6 +199,10 @@ dependencies {
     //shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.4.0@aar'
 
+    implementation 'com.hbb20:ccp:2.6.0'
+
+
+
 }
 
 protobuf {

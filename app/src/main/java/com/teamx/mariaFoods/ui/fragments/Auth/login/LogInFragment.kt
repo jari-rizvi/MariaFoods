@@ -1,21 +1,15 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
-import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginBinding
-import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONException
 
 @AndroidEntryPoint
 class LogInFragment :
@@ -34,9 +28,6 @@ class LogInFragment :
     private var password: String? = null
 
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -50,37 +41,27 @@ class LogInFragment :
             }
         }
 
-        mViewDataBinding.btn.setOnClickListener {
-            subscribeToNetworkLiveData()
+        mViewDataBinding.btnPhone.setOnClickListener {
+            navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.logInPhoneFragment, null, options)
         }
 
-        bottomSheetBehavior =
-            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
-
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-               when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> "Close Persistent Bottom Sheet"
-                    BottomSheetBehavior.STATE_COLLAPSED -> "Open Persistent Bottom Sheet"
-                    else -> "Persistent Bottom Sheet"
-                }
-            }
-        })
-
-
-        //#4 Changing the BottomSheet State on ButtonClick
-        mViewDataBinding.btn.setOnClickListener {
-            val state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                    BottomSheetBehavior.STATE_COLLAPSED
-                else
-                    BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = state
+        mViewDataBinding.btnEmail.setOnClickListener {
+            navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.logInEmailFragment, null, options)
         }
+
+//        mViewDataBinding.btn.setOnClickListener {
+//            subscribeToNetworkLiveData()
+//        }
+//
+//
+//        //#4 Changing the BottomSheet State on ButtonClick
+//        mViewDataBinding.btn.setOnClickListener {
+//
+//        }
 
 //        bottomSheetBehavior.addBottomSheetCallback(object :
 //            BottomSheetBehavior.BottomSheetCallback() {
@@ -109,61 +90,61 @@ class LogInFragment :
 
     }
 
-    private fun initialization() {
-        userEmail = mViewDataBinding.email.text.toString().trim()
-        password = mViewDataBinding.pass.text.toString().trim()
-    }
-
-    override fun subscribeToNetworkLiveData() {
-        super.subscribeToNetworkLiveData()
-
-        initialization()
-
-        if (!userEmail!!.isEmpty() || !password!!.isEmpty()) {
-
-            val params = JsonObject()
-            try {
-                params.addProperty("phone", userEmail)
-                params.addProperty("password", password)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-
-            Log.e("UserData", params.toString())
-
-            mViewModel.loginPhone(params)
-
-            if (!mViewModel.loginResponse.hasActiveObservers()) {
-                mViewModel.loginResponse.observe(requireActivity()) {
-                    when (it.status) {
-                        Resource.Status.LOADING -> {
-                            loadingDialog.show()
-                        }
-                        Resource.Status.SUCCESS -> {
-                            loadingDialog.dismiss()
-                            it.data?.let { data ->
-                                if (data.Flag == 1) {
-                                    showToast("agaaydata")
-                                } else {
-                                    showToast(data.Message)
-                                }
-
-
-                            }
-                        }
-                        Resource.Status.ERROR -> {
-                            loadingDialog.dismiss()
-                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                        }
-                    }
-                    if (isAdded) {
-                        mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
-                    }
-                }
-            }
-
-        }
-    }
+//    private fun initialization() {
+//        userEmail = mViewDataBinding.email.text.toString().trim()
+//        password = mViewDataBinding.pass.text.toString().trim()
+//    }
+//
+//    override fun subscribeToNetworkLiveData() {
+//        super.subscribeToNetworkLiveData()
+//
+//        initialization()
+//
+//        if (!userEmail!!.isEmpty() || !password!!.isEmpty()) {
+//
+//            val params = JsonObject()
+//            try {
+//                params.addProperty("phone", userEmail)
+//                params.addProperty("password", password)
+//            } catch (e: JSONException) {
+//                e.printStackTrace()
+//            }
+//
+//            Log.e("UserData", params.toString())
+//
+//            mViewModel.loginPhone(params)
+//
+//            if (!mViewModel.loginResponse.hasActiveObservers()) {
+//                mViewModel.loginResponse.observe(requireActivity()) {
+//                    when (it.status) {
+//                        Resource.Status.LOADING -> {
+//                            loadingDialog.show()
+//                        }
+//                        Resource.Status.SUCCESS -> {
+//                            loadingDialog.dismiss()
+//                            it.data?.let { data ->
+//                                if (data.Flag == 1) {
+//                                    showToast("agaaydata")
+//                                } else {
+//                                    showToast(data.Message)
+//                                }
+//
+//
+//                            }
+//                        }
+//                        Resource.Status.ERROR -> {
+//                            loadingDialog.dismiss()
+//                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+//                        }
+//                    }
+//                    if (isAdded) {
+//                        mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
 
 
 }

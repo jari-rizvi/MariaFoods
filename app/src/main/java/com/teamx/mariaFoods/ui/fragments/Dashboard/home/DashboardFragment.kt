@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.teamx.mariaFoods.BR
@@ -20,13 +22,14 @@ import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
+import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Math.abs
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
-    OnFeatureProductListener, OnProductListener {
+   OnProductListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_dashboard
@@ -43,6 +46,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
 
     lateinit var productAdapter: ProductAdapter
     lateinit var productArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var handler: Handler
 
@@ -125,7 +130,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
 
         featureProductArrayList = ArrayList()
 
-        featureProductAdapter = FeatureProductAdapter(featureProductArrayList, this)
+        featureProductAdapter = FeatureProductAdapter(featureProductArrayList)
         mViewDataBinding.screenViewpager.adapter = featureProductAdapter
 
         TabLayoutMediator(
@@ -172,14 +177,35 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
 
     }
 
-    override fun OnFeatureProductClickListener(position: Int) {
-        TODO("Not yet implemented")
-    }
 
     override fun onproductClick(position: Int) {
-        TODO("Not yet implemented")
 
     }
+
+    override fun onScheduleClick(position: Int) {
+        bottomSheetBehavior =
+            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED ->       MainActivity.bottomNav?.visibility = View.GONE
+                    BottomSheetBehavior.STATE_COLLAPSED ->       MainActivity.bottomNav?.visibility = View.VISIBLE
+                    else -> "Persistent Bottom Sheet"
+                }
+            }
+        })
+
+        val state =
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                BottomSheetBehavior.STATE_COLLAPSED
+            else
+                BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior.state = state    }
 
     override fun onPause() {
         super.onPause()

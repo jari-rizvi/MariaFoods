@@ -2,8 +2,11 @@ package com.teamx.mariaFoods.ui.fragments.Auth.temp
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -36,6 +39,15 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
             }
         }
 
+        Handler(Looper.getMainLooper()).postDelayed({
+            navController =
+                Navigation.findNavController(
+                    requireActivity(),
+                    R.id.nav_host_fragment
+                )
+            navController.navigate(R.id.dashboardFragment, null, options)
+
+        }, 2000)
 
 
     }

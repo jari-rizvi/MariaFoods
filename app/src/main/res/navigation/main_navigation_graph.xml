@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation_graph"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/logInFragment">
 
 
     <fragment
@@ -12,10 +13,11 @@
     <fragment
         android:id="@+id/tempFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.temp.TempFragment"
-        android:label="TempFragment" />
+        android:label="TempFragment"
+        tools:layout="@layout/fragment_temp"/>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.teamx.mariaFoods.ui.fragments.Auth.signup.SignupFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.signup.SignupemailFragment"
         android:label="SignupFragment" />
     <fragment
         android:id="@+id/dashboardFragment"
@@ -25,4 +27,52 @@
         android:id="@+id/checkoutFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Checkout.CheckoutFragment"
         android:label="CheckoutFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Addresses.AddressFragment"
+        android:label="AddressFragment" />
+    <fragment
+        android:id="@+id/orderHistoryFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.order.OrderHistoryFragment"
+        android:label="OrderHistoryFragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.payment.PaymentFragment"
+        android:label="PaymentFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.notification.NotificationFragment"
+        android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.changePassword.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
+    <fragment
+        android:id="@+id/logInEmailFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.login.LogInEmailFragment"
+        android:label="LogInEmailFragment" />
+    <fragment
+        android:id="@+id/otpRegisterFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.otp.OtpRegisterFragment"
+        android:label="OtpRegisterFragment" />
+    <fragment
+        android:id="@+id/passwordChangeFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.passwordChange.PasswordChangeFragment"
+        android:label="PasswordChangeFragment" />
+    <fragment
+        android:id="@+id/resetEmailFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.resetemail.ResetEmailFragment"
+        android:label="ResetEmailFragment" />
+    <fragment
+        android:id="@+id/logInPhoneFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.login.LogInPhoneFragment"
+        android:label="LogInPhoneFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.profile.EditProfileFragment"
+        android:label="EditProfileFragment" />
 </navigation>

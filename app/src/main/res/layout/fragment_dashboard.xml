@@ -11,6 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <include
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_place_order" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -402,7 +418,7 @@ Chicken"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
             app:layout_constraintVertical_bias="0.05"
-            android:layout_marginBottom="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
             tools:listitem="@layout/item_products" />
 
 

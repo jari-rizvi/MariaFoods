@@ -7,6 +7,19 @@
     <string name="book_your_slots">Book Your Slots</string>
     <string name="checkout">Checkout</string>
     <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="profile">Profile</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="addresses">Addresses</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="track_order">Track Order</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="notifications">Notifications</string>
+    <string name="order_history">Order History</string>
+    <string name="your_order_has_been_placed_successfully_n_you_can_see_the_status_of_your_order">Your order has been placed successfully.\n You can see the status of your order.</string>
+    <string name="continue_shopping">Continue Shopping</string>
+    <string name="agree_to_the_terms_conditions">Agree to the <b>Terms &amp; Conditions</b></string>
+
 
 
 </resources>

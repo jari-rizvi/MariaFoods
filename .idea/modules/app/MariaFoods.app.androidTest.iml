@@ -133,6 +133,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/af82dfd702b2d6b5af72020a43259214/transformed/jetified-EasyPrefs-1.10.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/9105333a5583578e79ea575867a32da0/transformed/jetified-android-maps-utils-2.2.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b24776e570c79b572da53408e286c05d/transformed/jetified-shimmer-0.5.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/5ab63696f325a53d5d25f5e55884d89a/transformed/jetified-ccp-2.6.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e3527ac8f2a21f7b72bab9444c26746e/transformed/runner-1.5.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/4d45030573be8a924fde04130c4746f7/transformed/jetified-junit-4.13.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/a17fa50ffd301a1ccacaf91fa229b42e/transformed/jetified-hamcrest-integration-1.3.jar</arg>
@@ -485,6 +486,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: io.card:android-sdk:5.5.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: pub.devrel:easypermissions:3.0.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.facebook.shimmer:shimmer:0.5.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.hbb20:ccp:2.6.0@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="MariaFoods.app.main" />
 </module>

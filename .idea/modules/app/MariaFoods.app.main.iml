@@ -131,13 +131,14 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/af82dfd702b2d6b5af72020a43259214/transformed/jetified-EasyPrefs-1.10.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/9105333a5583578e79ea575867a32da0/transformed/jetified-android-maps-utils-2.2.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b24776e570c79b572da53408e286c05d/transformed/jetified-shimmer-0.5.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/5ab63696f325a53d5d25f5e55884d89a/transformed/jetified-ccp-2.6.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/99dc8062ad9de46327ce49fefb77899a/transformed/coordinatorlayout-1.1.0-api.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/4184d2f7a8ce704692e3925f03b6bf98/transformed/recyclerview-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/8dd463ac724c526aa202dee69ada8b52/transformed/transition-1.3.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e92ced77f09621571cfb6f31c6bb7f4f/transformed/jetified-appcompat-resources-1.5.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b47ef2e0c7c6934cf9a5deba0b2a306f/transformed/vectordrawable-animated-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/6a10b4dd9cb5756a6f6e277eff60e31a/transformed/vectordrawable-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/faa4cacb689a76a66ab76aef0c1fe21e/transformed/drawerlayout-1.1.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/b80d470e11cdfb69e63f4f666291ece7/transformed/recyclerview-1.2.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b015a738902187638ce64b2abbfa818b/transformed/media-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/f0518bdf2f318cd34e1591c6a79616dd/transformed/browser-1.4.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/815ee7e43671a6e871d92ddf786db0cc/transformed/viewpager-1.0.0-api.jar</arg>
@@ -244,6 +245,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../app/build/generated/aidl_source_output_dir/localDebug/out" />
     <content url="file://$MODULE_DIR$/../../../app/build/generated/ap_generated_sources/localDebug/out">
+      <sourceFolder url="file://$MODULE_DIR$/../../../app/build/generated/ap_generated_sources/localDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../app/build/generated/ap_generated_sources/localDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../app/build/generated/ap_generated_sources/localDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../app/build/generated/ap_generated_sources/localDebug/out" isTestSource="false" generated="true" />
@@ -364,7 +366,7 @@
     <orderEntry type="library" name="Gradle: androidx.documentfile:documentfile:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.localbroadcastmanager:localbroadcastmanager:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.print:print:1.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.recyclerview:recyclerview:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.recyclerview:recyclerview:1.2.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.transition:transition:1.3.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.viewpager2:viewpager2:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-v4:1.0.0@aar" level="project" />
@@ -466,5 +468,6 @@
     <orderEntry type="library" name="Gradle: io.card:android-sdk:5.5.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: pub.devrel:easypermissions:3.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.facebook.shimmer:shimmer:0.5.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.hbb20:ccp:2.6.0@aar" level="project" />
   </component>
 </module>

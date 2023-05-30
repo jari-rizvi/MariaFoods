@@ -23,48 +23,25 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/bottomnavigationbar"
+            android:layout_marginBottom="-5dp"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_navigation_graph" />
 
-        <!--        <androidx.fragment.app.FragmentContainerView-->
-        <!--            android:id="@+id/nav_host_fragment"-->
-        <!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            app:defaultNavHost="true"-->
-        <!--            app:navGraph="@navigation/main_navigation_graph" />-->
-
-        <!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-        <!--            android:id="@+id/coordinator"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
-
-        <!--            <com.google.android.material.bottomnavigation.BottomNavigationView-->
-        <!--                android:id="@+id/bottomappbar"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="bottom">-->
-
-
-        <!--            </com.google.android.material.bottomnavigation.BottomNavigationView>-->
-
-        <!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
+            android:id="@+id/bottomnavigationbar"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:background="@drawable/bottom_nav_background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:itemIconTint="@color/bottom_nav_color"
-            app:itemTextColor="@color/bottom_nav_color"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:elevation="@dimen/_2sdp"
-            app:menu="@menu/bottom_navigation_menu"/>
+            android:background="@drawable/bottom_nav_background"
+            app:itemIconTint="@color/bottom_nav_color"
+            android:elevation="@dimen/_1sdp"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/bottom_navigation_menu"
+            app:popUpToInclusive="true" />
 
 
         <ProgressBar

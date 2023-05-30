@@ -93,11 +93,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
 
         Log.d("321321", "onCreate: ")
+
 //        bottomNav = findViewById(R.id.bottomnavigationbar)
 
+
+        bottomNav = findViewById(R.id.bottomnavigationbar)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
+
         val navState = navController!!.saveState()!!
+
         mViewModel.bundleB.postValue(navState)
 
 
@@ -106,7 +111,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         navController!!.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
 
-                R.id.home -> {
+                R.id.dashboardFragment -> {
+                    bottomNav?.visibility = View.VISIBLE
+                }
+                R.id.checkoutFragment -> {
+                    bottomNav?.visibility = View.VISIBLE
+                }
+                R.id.checkoutFragment -> {
                     bottomNav?.visibility = View.VISIBLE
                 }
                 else -> {
@@ -141,24 +152,23 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.attachBaseContext(MainApplication.localeManager!!.setLocale(newBase!!))
 
 
-    var bottomNav: BottomNavigationView? = null
 
     private fun setupBottomNavMenu(navController: NavController) {
         bottomNav?.setupWithNavController(navController)
         bottomNav?.setOnItemSelectedListener {
             when (it.itemId) {
 
-                R.id.home -> {
+                R.id.dashboard -> {
                     navController.navigate(R.id.dashboardFragment, null)
                 }
                 R.id.order -> {
-                    navController.navigate(R.id.dashboardFragment, null)
+                    navController.navigate(R.id.checkoutFragment, null)
                 }
                 R.id.cart -> {
-                    navController.navigate(R.id.dashboardFragment, null)
+                    navController.navigate(R.id.signupFragment, null)
                 }
                 R.id.profile -> {
-                    navController.navigate(R.id.dashboardFragment, null)
+                    navController.navigate(R.id.profileFragment, null)
                 }
             }
             /* val newFragment = if (true) {
@@ -190,6 +200,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         private const val STATE_SAVE_STATE = "save_state"
         private const val STATE_KEEP_FRAGS = "keep_frags"
         private const val STATE_HELPER = "helper"
+        var bottomNav: BottomNavigationView? = null
+
     }
 
     private lateinit var stateHelper: FragHelper

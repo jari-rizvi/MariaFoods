@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_55sdp"
+        android:elevation="@dimen/_1sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/card_background"
+        >
+
+
+        <TextView
+            android:id="@+id/textView54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order in Preparation"
+            style="@style/montserrat"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintHorizontal_bias="0.1"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@+id/textView55"
+            app:layout_constraintEnd_toStartOf="@+id/textView56"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/textView55"
+            style="@style/open_sans_regular_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:maxLines="1"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintHorizontal_bias="0"
+            android:text="We are preparing your order #2525."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView56"
+            app:layout_constraintStart_toStartOf="@+id/textView54"
+            app:layout_constraintTop_toBottomOf="@+id/textView54" />
+
+        <TextView
+            android:id="@+id/textView56"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 min"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView54"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView54" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
