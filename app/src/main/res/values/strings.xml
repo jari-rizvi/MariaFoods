@@ -22,8 +22,7 @@
     <string name="password_8_character">Password must have atleast 8 character</string>
     <string name="enter_Password">Enter Password</string>
     <string name="password_does_not_match">Password does not match</string>
-
-
+    <string name="re_order">Re-Order</string>
 
 
 </resources>

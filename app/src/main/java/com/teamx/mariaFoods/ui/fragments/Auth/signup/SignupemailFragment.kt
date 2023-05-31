@@ -118,8 +118,16 @@ class SignupemailFragment :
             mViewDataBinding.root.snackbar(getString(R.string.password_does_not_match))
             return false
         }
-        subscribeToNetworkLiveData()
+
+        if (mViewDataBinding.cbPolicy.isChecked) {
+            subscribeToNetworkLiveData()
+
+        } else {
+            mViewDataBinding.root.snackbar("Please Agree to continue")
+        }
+
         return true
+
     }
 
 
@@ -134,6 +142,7 @@ class SignupemailFragment :
             try {
                 params.addProperty("email", userEmail)
                 params.addProperty("password", password)
+                params.addProperty("through", "email")
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
