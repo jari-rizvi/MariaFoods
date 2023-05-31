@@ -44,28 +44,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-  private val _socialLoginResponse = MutableLiveData<Resource<LoginData>>()
-    val socialLoginResponse: LiveData<Resource<LoginData>>
-        get() = _socialLoginResponse
-    fun socialLogin(param: JsonObject/*, unAuthorizedCallback: UnAuthorizedCallback*/) {
-        viewModelScope.launch {
-            _socialLoginResponse.postValue(Resource.loading(null))
-            if (networkHelper.isNetworkConnected()) {
-                try {
-                    mainRepository.socialLogins(param).let {
-                        if (it.isSuccessful) {
-                            _socialLoginResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _socialLoginResponse.postValue(Resource.error(it.message(), null))
-                        } else {
-                            _socialLoginResponse.postValue(Resource.error("Some thing went wrong", null))
-                        }
-                    }
-                } catch (e: Exception) {
-                    _socialLoginResponse.postValue(Resource.error("${e.message}", null))
-                }
-            } else _socialLoginResponse.postValue(Resource.error("No internet connection", null))
-        }
-    }
+
+
 
 }

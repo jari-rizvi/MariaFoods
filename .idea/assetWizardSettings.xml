@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="fa6109" />
-                            <entry key="outputName" value="show_password" />
-                            <entry key="sourceFile" value="D:\MariaIcons\Icons\show_password.svg" />
+                            <entry key="outputName" value="logout" />
+                            <entry key="sourceFile" value="D:\MariaIcons\Icons\logout.svg" />
                           </map>
                         </option>
                       </PersistentState>

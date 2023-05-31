@@ -19,6 +19,10 @@
     <string name="your_order_has_been_placed_successfully_n_you_can_see_the_status_of_your_order">Your order has been placed successfully.\n You can see the status of your order.</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="agree_to_the_terms_conditions">Agree to the <b>Terms &amp; Conditions</b></string>
+    <string name="password_8_character">Password must have atleast 8 character</string>
+    <string name="enter_Password">Enter Password</string>
+    <string name="password_does_not_match">Password does not match</string>
+
 
 
 

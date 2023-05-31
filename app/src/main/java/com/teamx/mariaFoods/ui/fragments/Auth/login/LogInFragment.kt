@@ -44,13 +44,17 @@ class LogInFragment :
         mViewDataBinding.btnPhone.setOnClickListener {
             navController =
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            navController.navigate(R.id.logInPhoneFragment, null, options)
+            navController.navigate(R.id.signupPhoneFragment, null, options)
         }
 
         mViewDataBinding.btnEmail.setOnClickListener {
             navController =
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            navController.navigate(R.id.logInEmailFragment, null, options)
+            navController.navigate(R.id.signupFragment, null, options)
+        }
+
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
         }
 
 //        mViewDataBinding.btn.setOnClickListener {

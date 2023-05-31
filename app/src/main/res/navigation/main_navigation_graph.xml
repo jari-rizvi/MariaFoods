@@ -68,11 +68,15 @@
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.resetemail.ResetEmailFragment"
         android:label="ResetEmailFragment" />
     <fragment
-        android:id="@+id/logInPhoneFragment"
-        android:name="com.teamx.mariaFoods.ui.fragments.Auth.login.LogInPhoneFragment"
-        android:label="LogInPhoneFragment" />
-    <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.profile.EditProfileFragment"
         android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/otpRegisterEmailFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.otp.OtpRegisterEmailFragment"
+        android:label="OtpRegisterEmailFragment" />
+    <fragment
+        android:id="@+id/signupPhoneFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.signup.SignupPhoneFragment"
+        android:label="SignupPhoneFragment" />
 </navigation>

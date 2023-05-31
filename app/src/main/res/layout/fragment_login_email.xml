@@ -59,7 +59,7 @@
                 app:layout_constraintVertical_bias="0.1" />
 
             <ImageView
-                android:id="@+id/imageView25"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/textView65"
@@ -123,7 +123,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView59" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/email"
                 style="@style/open_sans_regular_small"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -157,7 +157,7 @@
                 app:layout_constraintVertical_bias="0.05" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/password"
                 style="@style/open_sans_regular_small"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -182,11 +182,11 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/show_password"
-                app:layout_constraintBottom_toBottomOf="@+id/editText4"
-                app:layout_constraintEnd_toEndOf="@+id/editText4"
+                app:layout_constraintBottom_toBottomOf="@+id/password"
+                app:layout_constraintEnd_toEndOf="@+id/password"
                 app:layout_constraintHorizontal_bias="0.95"
-                app:layout_constraintStart_toStartOf="@+id/editText4"
-                app:layout_constraintTop_toTopOf="@+id/editText4" />
+                app:layout_constraintStart_toStartOf="@+id/password"
+                app:layout_constraintTop_toTopOf="@+id/password" />
 
             <TextView
                 android:id="@+id/textView24"
@@ -202,7 +202,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText5" />
+                app:layout_constraintTop_toBottomOf="@+id/email" />
 
             <TextView
                 android:id="@+id/btnForgot"
@@ -215,11 +215,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText4"
+                app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.06" />
 
             <TextView
-                android:id="@+id/textView64"
+                android:id="@+id/btnLogin"
                 style="@style/montserrat_bold"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"

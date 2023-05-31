@@ -1,15 +1,20 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginEmailBinding
+import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONException
 
 @AndroidEntryPoint
 class LogInEmailFragment :
@@ -24,6 +29,8 @@ class LogInEmailFragment :
 
 
     private lateinit var options: NavOptions
+    private lateinit var userEmail: String
+    private lateinit var password: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,9 +51,14 @@ class LogInEmailFragment :
             navController.navigate(R.id.resetEmailFragment, null, options)
         }
 
-//        mViewDataBinding.btn.setOnClickListener {
-//            subscribeToNetworkLiveData()
-//        }
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
+
+        mViewDataBinding.btnLogin.setOnClickListener {
+            subscribeToNetworkLiveData()
+        }
+
 //
 //
 //        //#4 Changing the BottomSheet State on ButtonClick
@@ -81,61 +93,62 @@ class LogInEmailFragment :
 
     }
 
-//    private fun initialization() {
-//        userEmail = mViewDataBinding.email.text.toString().trim()
-//        password = mViewDataBinding.pass.text.toString().trim()
-//    }
-//
-//    override fun subscribeToNetworkLiveData() {
-//        super.subscribeToNetworkLiveData()
-//
-//        initialization()
-//
-//        if (!userEmail!!.isEmpty() || !password!!.isEmpty()) {
-//
-//            val params = JsonObject()
-//            try {
-//                params.addProperty("phone", userEmail)
-//                params.addProperty("password", password)
-//            } catch (e: JSONException) {
-//                e.printStackTrace()
-//            }
-//
-//            Log.e("UserData", params.toString())
-//
-//            mViewModel.loginPhone(params)
-//
-//            if (!mViewModel.loginResponse.hasActiveObservers()) {
-//                mViewModel.loginResponse.observe(requireActivity()) {
-//                    when (it.status) {
-//                        Resource.Status.LOADING -> {
-//                            loadingDialog.show()
-//                        }
-//                        Resource.Status.SUCCESS -> {
-//                            loadingDialog.dismiss()
-//                            it.data?.let { data ->
-//                                if (data.Flag == 1) {
-//                                    showToast("agaaydata")
-//                                } else {
-//                                    showToast(data.Message)
-//                                }
-//
-//
-//                            }
-//                        }
-//                        Resource.Status.ERROR -> {
-//                            loadingDialog.dismiss()
-//                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
-//                        }
-//                    }
-//                    if (isAdded) {
-//                        mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
+    private fun initialization() {
+        userEmail = mViewDataBinding.email.text.toString().trim()
+        password = mViewDataBinding.password.text.toString().trim()
+    }
+
+    override fun subscribeToNetworkLiveData() {
+        super.subscribeToNetworkLiveData()
+
+        initialization()
+
+        if (!userEmail!!.isEmpty() || !password!!.isEmpty()) {
+
+            val params = JsonObject()
+            try {
+                params.addProperty("email", userEmail)
+                params.addProperty("password", password)
+                params.addProperty("through", "email")
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            Log.e("UserData", params.toString())
+
+            mViewModel.loginPhone(params)
+
+            if (!mViewModel.loginResponse.hasActiveObservers()) {
+                mViewModel.loginResponse.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                if (data.Flag == 1) {
+                                    showToast("agaaydata")
+                                } else {
+                                    showToast(data.Message)
+                                }
+
+
+                            }
+                        }
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                        }
+                    }
+                    if (isAdded) {
+                        mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
+                    }
+                }
+            }
+
+        }
+    }
 
 
 }
