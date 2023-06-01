@@ -113,7 +113,7 @@ to verify your account"
                 app:layout_constraintTop_toBottomOf="@+id/textView59" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/email"
                 style="@style/open_sans_regular_small"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
@@ -163,7 +163,7 @@ to verify your account"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText5"
+                app:layout_constraintTop_toBottomOf="@+id/email"
                 app:layout_constraintVertical_bias="0.172" />
 
 

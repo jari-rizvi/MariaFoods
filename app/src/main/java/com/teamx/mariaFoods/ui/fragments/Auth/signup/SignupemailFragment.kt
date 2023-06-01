@@ -70,7 +70,10 @@ class SignupemailFragment :
             mViewDataBinding.showPassword.visibility = View.VISIBLE
         }
 
-
+        mViewDataBinding.btnAlreadyRegister.setOnClickListener {
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.logInEmailFragment, null, options)
+        }
 
         mViewDataBinding.showPasswordConfirm.setOnClickListener {
             mViewDataBinding.cnfrmPass.transformationMethod = HideReturnsTransformationMethod.getInstance()
@@ -163,9 +166,8 @@ class SignupemailFragment :
                                 if (data.Flag == 1) {
 
                                     val bundle = Bundle()
-                                    bundle.putString("phone", data.phone)
+                                    bundle.putString("email", data.User.email)
 
-                                    showToast("agaaydata")
                                     navController =
                                         Navigation.findNavController(
                                             requireActivity(),

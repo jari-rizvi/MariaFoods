@@ -1,8 +1,11 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.login
 
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -14,6 +17,8 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 
 @AndroidEntryPoint
@@ -59,6 +64,19 @@ class LogInEmailFragment :
             subscribeToNetworkLiveData()
         }
 
+        mViewDataBinding.showPassword.setOnClickListener {
+            mViewDataBinding.password.transformationMethod =
+                HideReturnsTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.VISIBLE
+            mViewDataBinding.showPassword.visibility = View.GONE
+        }
+
+        mViewDataBinding.hidePassword.setOnClickListener {
+            mViewDataBinding.password.transformationMethod =
+                PasswordTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.GONE
+            mViewDataBinding.showPassword.visibility = View.VISIBLE
+        }
 //
 //
 //        //#4 Changing the BottomSheet State on ButtonClick
@@ -109,14 +127,14 @@ class LogInEmailFragment :
             try {
                 params.addProperty("email", userEmail)
                 params.addProperty("password", password)
-                params.addProperty("through", "email")
+                params.addProperty("through", "email&pass")
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
 
             Log.e("UserData", params.toString())
 
-            mViewModel.loginPhone(params)
+            mViewModel.loginEmail(params)
 
             if (!mViewModel.loginResponse.hasActiveObservers()) {
                 mViewModel.loginResponse.observe(requireActivity()) {
@@ -128,7 +146,17 @@ class LogInEmailFragment :
                             loadingDialog.dismiss()
                             it.data?.let { data ->
                                 if (data.Flag == 1) {
-                                    showToast("agaaydata")
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        dataStoreProvider.saveUserToken(data.AccessToken)
+
+                                    }
+
+                                    navController =
+                                        Navigation.findNavController(
+                                            requireActivity(),
+                                            R.id.nav_host_fragment
+                                        )
+                                    navController.navigate(R.id.dashboardFragment, null, options)
                                 } else {
                                     showToast(data.Message)
                                 }

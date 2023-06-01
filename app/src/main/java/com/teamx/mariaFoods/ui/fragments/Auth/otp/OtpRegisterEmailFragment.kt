@@ -27,9 +27,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    private var phoneNumber: String? = null
-    private var sid: String? = null
-    private var otpid: String? = null
+    private var email: String? = null
 
     private lateinit var options: NavOptions
 
@@ -60,26 +58,25 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
     private fun initialization() {
         val bundle = arguments
         if (bundle != null) {
-            phoneNumber = bundle.getString("phone").toString()
+            email = bundle.getString("email").toString()
 
         }
     }
 
     private fun verifyotp() {
         val code = mViewDataBinding.pinView.text.toString()
-        if (sid!!.isNotEmpty() || otpid!!.isNotEmpty() || phoneNumber!!.isNotEmpty()) {
+        if (email!!.isNotEmpty()) {
             val params = JsonObject()
             try {
-                params.addProperty("phone_number", phoneNumber.toString())
+                params.addProperty("email", email.toString())
                 params.addProperty("otp", code)
-                params.addProperty("through", "signup")
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
 
-            mViewModel.otpVerify(params,this)
+            mViewModel.otpVerifyForgotEmail(params,this)
 
-            mViewModel.otpVerifyResponse.observe(requireActivity(), Observer {
+            mViewModel.otpVerifyForgotEmailResponse.observe(requireActivity(), Observer {
                 when (it.status) {
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
@@ -95,7 +92,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
                                         requireActivity(),
                                         R.id.nav_host_fragment
                                     )
-                                navController.navigate(R.id.home, null, options)
+                                navController.navigate(R.id.dashboardFragment, null, options)
                             } else {
                                 showToast(data.Message)
                             }

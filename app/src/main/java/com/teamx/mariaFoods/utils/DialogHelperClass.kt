@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.teamx.mariaFoods.R
@@ -23,6 +24,7 @@ class DialogHelperClass {
         fun errorDialog(context: Context, errorMessage: String) {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.dialog_layout_error)
+            Log.d("TAG", "errorDialog: eoorrr")
             val errorTextMessage = dialog.findViewById<TextView>(R.id.tv_error_message)
             val tv_title_text = dialog.findViewById<TextView>(R.id.tv_title_text)
             tv_title_text.visibility = View.GONE
@@ -30,7 +32,6 @@ class DialogHelperClass {
                 return
             }
             errorTextMessage.text = errorMessage
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
         }
 

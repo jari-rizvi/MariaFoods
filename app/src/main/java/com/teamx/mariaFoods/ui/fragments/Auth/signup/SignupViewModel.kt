@@ -1,6 +1,7 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.signup
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -29,16 +30,21 @@ class SignupViewModel @Inject constructor(
         viewModelScope.launch {
 
             _signupResponse.postValue(Resource.loading(null))
-
+            Log.d("TAG", "loginPhone: first")
             if (networkHelper.isNetworkConnected()) {
                 try {
                     mainRepository.signup(param).let {
                         if (it.isSuccessful) {
                             _signupResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422) {
+                            Log.d("TAG", "loginPhone: sucess")
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
-                            _signupResponse.postValue(Resource.error(jsonObj.getString("message")))
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _signupResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+                            Log.d("TAG", "loginPhone: ${it.code()}")
                         } else {
+                            Log.d("TAG", "loginPhone: else")
                             _signupResponse.postValue(Resource.error("Some thing went wrong", null))
                         }
                     }

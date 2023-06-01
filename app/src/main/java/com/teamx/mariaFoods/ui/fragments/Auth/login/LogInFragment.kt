@@ -12,8 +12,7 @@ import com.teamx.mariaFoods.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LogInFragment :
-    BaseFragment<FragmentLoginBinding, LoginViewModel>() {
+class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_login
@@ -42,14 +41,12 @@ class LogInFragment :
         }
 
         mViewDataBinding.btnPhone.setOnClickListener {
-            navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             navController.navigate(R.id.signupPhoneFragment, null, options)
         }
 
         mViewDataBinding.btnEmail.setOnClickListener {
-            navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             navController.navigate(R.id.signupFragment, null, options)
         }
 

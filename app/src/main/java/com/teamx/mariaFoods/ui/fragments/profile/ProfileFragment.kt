@@ -3,22 +3,25 @@ package com.teamx.mariaFoods.ui.fragments.profile
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentProfileBinding
-import com.teamx.mariaFoods.ui.fragments.Auth.login.LoginViewModel
+import com.teamx.mariaFoods.ui.fragments.Auth.temp.TempViewModel
+import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment :
-    BaseFragment<FragmentProfileBinding, LoginViewModel>() {
+    BaseFragment<FragmentProfileBinding, TempViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_profile
-    override val viewModel: Class<LoginViewModel>
-        get() = LoginViewModel::class.java
+    override val viewModel: Class<TempViewModel>
+        get() = TempViewModel::class.java
     override val bindingVariable: Int
         get() = BR.viewModel
 
@@ -39,9 +42,46 @@ class ProfileFragment :
         }
 
 
+        mViewDataBinding.btnLogput.setOnClickListener {
+            mViewModel.logout()
+
+            if (!mViewModel.logoutResponse.hasActiveObservers()) {
+                mViewModel.logoutResponse.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                if (data.Flag == 1) {
+                                    navController =
+                                        Navigation.findNavController(
+                                            requireActivity(),
+                                            R.id.nav_host_fragment
+                                        )
+                                    navController.navigate(R.id.tempFragment, null, options)
+                                } else {
+                                    showToast(data.Message)
+                                }
+
+
+                            }
+                        }
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                        }
+                    }
+                    if (isAdded) {
+                        mViewModel.logoutResponse.removeObservers(viewLifecycleOwner)
+                    }
+                }
+            }
+        }
+
 
     }
-
 
 
 }

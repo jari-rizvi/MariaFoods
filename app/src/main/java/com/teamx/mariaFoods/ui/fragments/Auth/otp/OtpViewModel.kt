@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
+import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -35,7 +36,7 @@ class OtpViewModel @Inject constructor(
                             _otpVerifyResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
-                            _otpVerifyResponse.postValue(Resource.error(jsonObj.getString("message")))
+                            _otpVerifyResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                         } else {
                             _otpVerifyResponse.postValue(Resource.error("Some thing went wrong", null))
                         }
@@ -47,31 +48,61 @@ class OtpViewModel @Inject constructor(
         }
     }
 
-    private val _resendOtpResponse = MutableLiveData<Resource<SignupData>>()
-    val resendOtpResponse: LiveData<Resource<SignupData>>
-        get() = _resendOtpResponse
 
-    fun resendOtp(param : JsonObject,unAuthorizedCallback: UnAuthorizedCallback) {
+    private val _otpVerifyForgotEmailResponse = MutableLiveData<Resource<SuccessData>>()
+    val otpVerifyForgotEmailResponse: LiveData<Resource<SuccessData>>
+        get() = _otpVerifyForgotEmailResponse
+
+    fun otpVerifyForgotEmail(param : JsonObject,unAuthorizedCallback: UnAuthorizedCallback) {
         viewModelScope.launch {
-            _resendOtpResponse.postValue(Resource.loading(null))
+            _otpVerifyForgotEmailResponse.postValue(Resource.loading(null))
             if (networkHelper.isNetworkConnected()) {
                 try {
-                    mainRepository.resendOtp(param) .let {
+                    mainRepository.otpVerifForgotEmail(param) .let {
                         if (it.isSuccessful) {
-                            _resendOtpResponse.postValue(Resource.success(it.body()!!))
+                            _otpVerifyForgotEmailResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
-                            _resendOtpResponse.postValue(Resource.error(jsonObj.getString("message")))
+                            _otpVerifyForgotEmailResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                         } else {
-                            _resendOtpResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _otpVerifyForgotEmailResponse.postValue(Resource.error("Some thing went wrong", null))
                         }
                     }
                 } catch (e: Exception) {
-                    _resendOtpResponse.postValue(Resource.error("${e.message}", null))
+                    _otpVerifyForgotEmailResponse.postValue(Resource.error("${e.message}", null))
                 }
-            } else _resendOtpResponse.postValue(Resource.error("No internet connection", null))
+            } else _otpVerifyForgotEmailResponse.postValue(Resource.error("No internet connection", null))
         }
     }
+
+
+
+
+//    private val _resendOtpResponse = MutableLiveData<Resource<SignupData>>()
+//    val resendOtpResponse: LiveData<Resource<SignupData>>
+//        get() = _resendOtpResponse
+//
+//    fun resendOtp(param : JsonObject,unAuthorizedCallback: UnAuthorizedCallback) {
+//        viewModelScope.launch {
+//            _resendOtpResponse.postValue(Resource.loading(null))
+//            if (networkHelper.isNetworkConnected()) {
+//                try {
+//                    mainRepository.resendOtp(param) .let {
+//                        if (it.isSuccessful) {
+//                            _resendOtpResponse.postValue(Resource.success(it.body()!!))
+//                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422) {
+//                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+//                            _resendOtpResponse.postValue(Resource.error(jsonObj.getString("message")))
+//                        } else {
+//                            _resendOtpResponse.postValue(Resource.error("Some thing went wrong", null))
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                    _resendOtpResponse.postValue(Resource.error("${e.message}", null))
+//                }
+//            } else _resendOtpResponse.postValue(Resource.error("No internet connection", null))
+//        }
+//    }
 
 
 }

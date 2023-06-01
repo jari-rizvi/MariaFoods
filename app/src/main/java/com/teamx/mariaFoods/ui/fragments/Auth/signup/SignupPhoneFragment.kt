@@ -13,19 +13,20 @@ import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentSignupPhoneBinding
+import com.teamx.mariaFoods.ui.fragments.Auth.login.LoginViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 
 @AndroidEntryPoint
 class SignupPhoneFragment :
-    BaseFragment<FragmentSignupPhoneBinding, SignupViewModel>(),
+    BaseFragment<FragmentSignupPhoneBinding, LoginViewModel>(),
     CountryCodePicker.OnCountryChangeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_signup_phone
-    override val viewModel: Class<SignupViewModel>
-        get() = SignupViewModel::class.java
+    override val viewModel: Class<LoginViewModel>
+        get() = LoginViewModel::class.java
     override val bindingVariable: Int
         get() = BR.viewModel
 
@@ -124,10 +125,10 @@ class SignupPhoneFragment :
 
             Log.e("UserData", params.toString())
 
-            mViewModel.signup(params)
+            mViewModel.loginPhone(params)
 
-            if (!mViewModel.signupResponse.hasActiveObservers()) {
-                mViewModel.signupResponse.observe(requireActivity()) {
+            if (!mViewModel.loginPhoneResponse.hasActiveObservers()) {
+                mViewModel.loginPhoneResponse.observe(requireActivity()) {
                     when (it.status) {
                         Resource.Status.LOADING -> {
                             loadingDialog.show()
@@ -136,18 +137,16 @@ class SignupPhoneFragment :
                             loadingDialog.dismiss()
                             it.data?.let { data ->
                                 if (data.Flag == 1) {
-
                                     val bundle = Bundle()
                                     bundle.putString("phone", data.phone)
-
-                                    showToast("agaaydata")
                                     navController =
                                         Navigation.findNavController(
                                             requireActivity(),
                                             R.id.nav_host_fragment
                                         )
                                     navController.navigate(R.id.otpRegisterFragment, bundle, options)
-                                } else {
+                                }
+                                else{
                                     showToast(data.Message)
                                 }
 
@@ -160,7 +159,7 @@ class SignupPhoneFragment :
                         }
                     }
                     if (isAdded) {
-                        mViewModel.signupResponse.removeObservers(viewLifecycleOwner)
+                        mViewModel.loginPhoneResponse.removeObservers(viewLifecycleOwner)
                     }
                 }
             }

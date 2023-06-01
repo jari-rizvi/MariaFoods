@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView65"
+                android:id="@+id/btnAlreadyRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already Registered?"
@@ -53,10 +53,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintBottom_toBottomOf="@+id/textView65"
-                app:layout_constraintEnd_toStartOf="@+id/textView65"
+                app:layout_constraintBottom_toBottomOf="@+id/btnAlreadyRegister"
+                app:layout_constraintEnd_toStartOf="@+id/btnAlreadyRegister"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView65"
+                app:layout_constraintTop_toTopOf="@+id/btnAlreadyRegister"
                 app:srcCompat="@drawable/back_arrow" />
 
 

@@ -28,8 +28,6 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
         get() = BR.viewModel
 
     private var phoneNumber: String? = null
-    private var sid: String? = null
-    private var otpid: String? = null
 
     private lateinit var options: NavOptions
 
@@ -67,12 +65,12 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
 
     private fun verifyotp() {
         val code = mViewDataBinding.pinView.text.toString()
-        if (sid!!.isNotEmpty() || otpid!!.isNotEmpty() || phoneNumber!!.isNotEmpty()) {
+        if (phoneNumber!!.isNotEmpty()) {
             val params = JsonObject()
             try {
-                params.addProperty("phone_number", phoneNumber.toString())
+                params.addProperty("phone", phoneNumber.toString())
                 params.addProperty("otp", code)
-                params.addProperty("through", "signup")
+                params.addProperty("through", "signin")
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -95,7 +93,7 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                                         requireActivity(),
                                         R.id.nav_host_fragment
                                     )
-                                navController.navigate(R.id.home, null, options)
+                                navController.navigate(R.id.dashboardFragment, null, options)
                             } else {
                                 showToast(data.Message)
                             }

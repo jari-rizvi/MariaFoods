@@ -166,6 +166,7 @@
                 android:layout_marginBottom="@dimen/_7sdp"
                 android:background="@drawable/contact_input_background"
                 android:minHeight="@dimen/_35sdp"
+                android:inputType="textPassword"
                 android:paddingStart="@dimen/_10sdp"
                 android:singleLine="true"
                 android:textColor="#666666"
@@ -176,12 +177,26 @@
 
 
             <ImageView
-                android:id="@+id/showHidePassword"
+                android:id="@+id/showPassword"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/show_password"
+                app:layout_constraintBottom_toBottomOf="@+id/password"
+                app:layout_constraintEnd_toEndOf="@+id/password"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="@+id/password"
+                app:layout_constraintTop_toTopOf="@+id/password" />
+
+            <ImageView
+                android:id="@+id/hidePassword"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/hide_password"
                 app:layout_constraintBottom_toBottomOf="@+id/password"
                 app:layout_constraintEnd_toEndOf="@+id/password"
                 app:layout_constraintHorizontal_bias="0.95"

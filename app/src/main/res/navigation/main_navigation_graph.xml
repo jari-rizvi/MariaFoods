@@ -79,4 +79,8 @@
         android:id="@+id/signupPhoneFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.signup.SignupPhoneFragment"
         android:label="SignupPhoneFragment" />
+    <fragment
+        android:id="@+id/otpForgotEmailFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.otp.OtpForgotEmailFragment"
+        android:label="OtpForgotEmailFragment" />
 </navigation>
