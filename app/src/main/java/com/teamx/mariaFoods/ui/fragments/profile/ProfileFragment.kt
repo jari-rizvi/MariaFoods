@@ -2,6 +2,7 @@ package com.teamx.mariaFoods.ui.fragments.profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -13,6 +14,8 @@ import com.teamx.mariaFoods.databinding.FragmentProfileBinding
 import com.teamx.mariaFoods.ui.fragments.Auth.temp.TempViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment :
@@ -43,6 +46,7 @@ class ProfileFragment :
 
 
         mViewDataBinding.btnLogput.setOnClickListener {
+
             mViewModel.logout()
 
             if (!mViewModel.logoutResponse.hasActiveObservers()) {
@@ -55,6 +59,11 @@ class ProfileFragment :
                             loadingDialog.dismiss()
                             it.data?.let { data ->
                                 if (data.Flag == 1) {
+
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        dataStoreProvider.removeAll()
+
+                                    }
                                     navController =
                                         Navigation.findNavController(
                                             requireActivity(),

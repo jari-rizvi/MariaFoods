@@ -26,7 +26,7 @@ interface ApiService {
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.SOCIAL_LOGIN)
-    suspend fun socialLogins(@Body params: JsonObject?): Response<LoginData>
+    suspend fun socialLogins(@Body params: JsonObject?): Response<SignupData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.SIGN_UP)

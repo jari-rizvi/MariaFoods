@@ -148,7 +148,6 @@ class LogInEmailFragment :
                                 if (data.Flag == 1) {
                                     lifecycleScope.launch(Dispatchers.IO) {
                                         dataStoreProvider.saveUserToken(data.AccessToken)
-
                                     }
 
                                     navController =

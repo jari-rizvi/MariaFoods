@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.pixplicity.easyprefs:EasyPrefs:1.10.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/418b1818aab06c67086512c6bedd7083/transformed/jetified-EasyPrefs-1.10.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/418b1818aab06c67086512c6bedd7083/transformed/jetified-EasyPrefs-1.10.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/418b1818aab06c67086512c6bedd7083/transformed/jetified-EasyPrefs-1.10.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/68adc74f05a92aa8c752cccfda635ddc/transformed/jetified-EasyPrefs-1.10.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/68adc74f05a92aa8c752cccfda635ddc/transformed/jetified-EasyPrefs-1.10.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/68adc74f05a92aa8c752cccfda635ddc/transformed/jetified-EasyPrefs-1.10.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

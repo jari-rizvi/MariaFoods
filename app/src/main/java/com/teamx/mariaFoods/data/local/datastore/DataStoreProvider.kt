@@ -41,6 +41,11 @@ class DataStoreProvider(context: Context) {
         it[TOKEN]
     }
 
+    suspend fun saveUserToken(token: String){
+        context.dataStore.edit {
+            it[TOKEN] = token
+        }
+    }
     suspend fun removeAll() {
         context.dataStore.edit {
             it.remove(TOKEN)
@@ -48,11 +53,6 @@ class DataStoreProvider(context: Context) {
 
     }
 
-    suspend fun saveUserToken(token: String){
-        context.dataStore.edit {
-            it[TOKEN] = token
-        }
-    }
 
 
 }

@@ -6,7 +6,7 @@ class NetworkCallPoints {
         const val LOGIN_PHONE = "users/signin"
         const val SIGN_UP = "users/singup"
         const val LOGOUT = "users/signout"
-        const val SOCIAL_LOGIN = "/users/socials"
+        const val SOCIAL_LOGIN = "users/socials"
 
 
         // Register Otp Verify

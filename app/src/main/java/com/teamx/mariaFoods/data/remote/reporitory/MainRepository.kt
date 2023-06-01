@@ -10,6 +10,7 @@ class MainRepository @Inject constructor(
 
     suspend fun loginEmail(@Body param: JsonObject) = apiService.loginEmail(param)
     suspend fun loginPhone(@Body param: JsonObject) = apiService.loginPhone(param)
+    suspend fun socialLogins(@Body param: JsonObject) = apiService.socialLogins(param)
     suspend fun signup(@Body param: JsonObject) = apiService.signup(param)
     suspend fun logout() = apiService.logout()
     suspend fun resetPassEmail(@Body param: JsonObject) = apiService.resetPassEmail(param)

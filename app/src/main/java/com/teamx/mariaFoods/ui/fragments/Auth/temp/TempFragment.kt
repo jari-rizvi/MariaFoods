@@ -88,15 +88,6 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
 
 
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            navController =
-                Navigation.findNavController(
-                    requireActivity(),
-                    R.id.nav_host_fragment
-                )
-            navController.navigate(R.id.dashboardFragment, null, options)
-
-        }, 2000)
 
 
     }

@@ -16,12 +16,15 @@ import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseActivity
 import com.teamx.mariaFoods.databinding.ActivityMainBinding
+import com.teamx.mariaFoods.facebooklogin.FacebookResponse
+import com.teamx.mariaFoods.facebooklogin.FacebookUser
 import com.teamx.mariaFoods.utils.FragHelper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
+    FacebookResponse {
 
 
     override val viewModel: Class<MainViewModel>
@@ -223,6 +226,22 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         fragments[navController!!.currentDestination!!.id]?.let { oldFragment ->
             stateHelper.saveState(oldFragment, navController!!.currentDestination!!.id)
         }
+    }
+
+    override fun onFbSignInFail() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFbSignInSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFbProfileReceived(facebookUser: FacebookUser?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFBSignOut() {
+        TODO("Not yet implemented")
     }
 
 }

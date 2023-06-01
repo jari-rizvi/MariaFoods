@@ -9,6 +9,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
+import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -87,6 +88,37 @@ class LoginViewModel @Inject constructor(
             } else _loginPhoneResponse.postValue(Resource.error("No internet connection", null))
         }
     }
+
+
+ private val _socialLoginResponse = MutableLiveData<Resource<SignupData>>()
+    val socialLoginResponse: LiveData<Resource<SignupData>>
+        get() = _socialLoginResponse
+    fun socialLogins(param: JsonObject) {
+        viewModelScope.launch {
+            _socialLoginResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.socialLogins(param).let {
+                        if (it.isSuccessful) {
+                            _socialLoginResponse.postValue(Resource.success(it.body()!!))
+
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _socialLoginResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+
+                        } else {
+                            _socialLoginResponse.postValue(Resource.error("Some thing went wrong", null))
+
+                        }
+                    }
+                } catch (e: Exception) {
+                    _socialLoginResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _socialLoginResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
 
 
 
