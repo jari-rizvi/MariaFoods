@@ -86,13 +86,18 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                         it.data?.let { data ->
 
                             if (data.Flag == 1) {
+
+                                val bundle = Bundle()
+                                bundle.putString("email", email)
+                                bundle.putString("otp", code)
+
                                 showToast("agaaydata")
                                 navController =
                                     Navigation.findNavController(
                                         requireActivity(),
                                         R.id.nav_host_fragment
                                     )
-                                navController.navigate(R.id.changePasswordFragment, null, options)
+                                navController.navigate(R.id.resetPasswordFragment, bundle, options)
                             } else {
                                 showToast(data.Message)
                             }

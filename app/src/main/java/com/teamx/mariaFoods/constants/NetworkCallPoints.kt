@@ -19,6 +19,7 @@ class NetworkCallPoints {
 
         // Create new password
         const val RESET_PASS_EMAIL = "users/email/reset/password"
+        const val RESET_PASS = "users/email/reset/password/update"
         const val CHANGE_PASSWORD = "change-password"
         const val FORGOT_PASS_PHONE = "forget-password-phone"
 

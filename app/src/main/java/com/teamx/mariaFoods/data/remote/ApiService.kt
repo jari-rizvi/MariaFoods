@@ -40,6 +40,9 @@ interface ApiService {
     @Headers("secret: dev")
     @POST(NetworkCallPoints.RESET_PASS_EMAIL)
     suspend fun resetPassEmail(@Body params: JsonObject?): Response<ResetPassData>
+ @Headers("secret: dev")
+    @POST(NetworkCallPoints.RESET_PASS)
+    suspend fun resetPass(@Body params: JsonObject?): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.OTP_VERIFY)

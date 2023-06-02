@@ -47,9 +47,6 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
 
        mViewDataBinding.btnVerify.setOnClickListener {
            validate()
-//           navController =
-//               Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-//           navController.navigate(R.id.changePasswordFragment, null, options)
        }
 
 
@@ -103,7 +100,6 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                                     val bundle = Bundle()
                                     bundle.putString("email", data.email)
 
-                                    showToast("agaaydata")
                                     navController =
                                         Navigation.findNavController(
                                             requireActivity(),

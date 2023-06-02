@@ -83,4 +83,8 @@
         android:id="@+id/otpForgotEmailFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.otp.OtpForgotEmailFragment"
         android:label="OtpForgotEmailFragment" />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.Auth.resetPass.ResetPasswordFragment"
+        android:label="ResetPasswordFragment" />
 </navigation>
