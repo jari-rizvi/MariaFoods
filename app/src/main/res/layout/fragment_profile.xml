@@ -11,6 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="@dimen/_7sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <include
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_address" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
         <ImageView
             android:id="@+id/imageView11"
             android:layout_width="wrap_content"
@@ -50,7 +68,7 @@
 
 
             <TextView
-                android:id="@+id/textView41"
+                android:id="@+id/btnEditProfile"
                 style="@style/montserrat_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,9 +92,9 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="emilyjackson@hotmail.com"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView41"
-                app:layout_constraintStart_toStartOf="@+id/textView41"
-                app:layout_constraintTop_toBottomOf="@+id/textView41"
+                app:layout_constraintEnd_toEndOf="@+id/btnEditProfile"
+                app:layout_constraintStart_toStartOf="@+id/btnEditProfile"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditProfile"
                 app:layout_constraintVertical_bias="0" />
 
             <TextView

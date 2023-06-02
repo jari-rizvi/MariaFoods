@@ -237,7 +237,10 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun onFbProfileReceived(facebookUser: FacebookUser?) {
-        TODO("Not yet implemented")
+
+
+
+
     }
 
     override fun onFBSignOut() {

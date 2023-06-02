@@ -24,10 +24,12 @@ class NetworkCallPoints {
 
 
         //Get Countries
-        const val COUNTRIES  = "users/address/get-country-city-states"
-        const val BANNERS  = "app/slides"
-        const val PRODUCTS  = "products/latest"
+        const val COUNTRIES = "users/address/get-country-city-states"
+        const val BANNERS = "app/slides"
+        const val PRODUCTS = "products/latest"
 
+        //Get OrderHistory
+        const val GET_ORDER_HISTORY = "products/order/history"
 
         var TOKENER = ""
     }

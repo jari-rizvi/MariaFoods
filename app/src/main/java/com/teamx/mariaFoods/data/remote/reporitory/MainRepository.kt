@@ -21,6 +21,7 @@ class MainRepository @Inject constructor(
     suspend fun getCountries(@Body param: JsonObject) = apiService.getCountries(param)
     suspend fun getBanners() = apiService.getBanners()
     suspend fun getProducts() = apiService.getProducts()
+    suspend fun getOrder() = apiService.getOrder()
 
 
 

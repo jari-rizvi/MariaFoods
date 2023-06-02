@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/productName" />
 
         <TextView
-            android:id="@+id/btnReset"
+            android:id="@+id/btnReOrder"
             style="@style/montserrat_bold"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
