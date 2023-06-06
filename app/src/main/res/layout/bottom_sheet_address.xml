@@ -32,21 +32,22 @@
 
         <TextView
             android:id="@+id/months"
+            style="@style/montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/montserrat"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16ssp"
             android:text="@string/add_delivery_address"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintVertical_bias="0.03" />
 
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/email"
+            style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -55,7 +56,6 @@
             android:background="@drawable/contact_input_background"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
-            style="@style/open_sans_regular_small"
             android:singleLine="true"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,21 +66,22 @@
 
         <TextView
             android:id="@+id/textView24"
+            style="@style/montserrat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="Email"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+            app:layout_constraintTop_toBottomOf="@+id/lName" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/fName"
+            style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -90,7 +91,6 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            style="@style/open_sans_regular_small"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,22 +98,58 @@
 
         <TextView
             android:id="@+id/textView25"
+            style="@style/montserrat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="Full Name"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/months"
             app:layout_constraintVertical_bias="0.05" />
 
+
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/lName"
+            style="@style/open_sans_regular_small"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:background="@drawable/contact_input_background"
+            android:minHeight="@dimen/_35sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:singleLine="true"
+            android:textColor="#666666"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView255" />
+
+        <TextView
+            android:id="@+id/textView255"
+            style="@style/montserrat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:text="Last Name"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fName"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/phone"
+            style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -122,7 +158,6 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            style="@style/open_sans_regular_small"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,61 +165,88 @@
 
         <TextView
             android:id="@+id/etaTxt"
+            style="@style/montserrat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="Mobile Number"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText4" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <TextView
             android:id="@+id/textView36"
+            style="@style/montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="Country"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3"
+            app:layout_constraintTop_toBottomOf="@+id/phone"
             app:layout_constraintVertical_bias="0." />
 
-        <Spinner
+
+        <com.hbb20.CountryCodePicker
             android:id="@+id/country"
-            android:layout_width="@dimen/_130sdp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/contact_input_background"
+            android:clickable="true"
+            android:dropDownSelector="@color/orange"
+            android:focusable="true"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
-            android:dropDownSelector="@color/orange"
             android:textColor="#666666"
+            app:ccp_arrowColor="@color/orange"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_defaultNameCode="PK"
+            app:ccp_showNameCode="true"
+            app:ccp_showPhoneCode="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView36" />
+            app:layout_constraintTop_toBottomOf="@+id/textView36"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginHorizontal="@dimen/_15sdp" />
+
+
+        <!--        <Spinner-->
+        <!--                    android:id="@+id/country"-->
+        <!--                    android:layout_width="@dimen/_130sdp"-->
+        <!--                    android:layout_height="@dimen/_30sdp"-->
+        <!--                    android:layout_marginHorizontal="@dimen/_15sdp"-->
+        <!--                    android:layout_marginTop="@dimen/_5sdp"-->
+        <!--                    android:background="@drawable/contact_input_background"-->
+        <!--                    android:minHeight="@dimen/_35sdp"-->
+        <!--                    android:paddingStart="@dimen/_10sdp"-->
+        <!--                    android:dropDownSelector="@color/orange"-->
+        <!--                    android:textColor="#666666"-->
+        <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                    app:layout_constraintHorizontal_bias="0.0"-->
+        <!--                    app:layout_constraintStart_toStartOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/textView36" />-->
 
         <TextView
             android:id="@+id/textView37"
+            style="@style/montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="City"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView36"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -193,6 +255,7 @@
 
         <EditText
             android:id="@+id/city"
+            style="@style/open_sans_regular_small"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -201,7 +264,6 @@
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
             android:textColor="#666666"
-            style="@style/open_sans_regular_small"
             app:layout_constraintBottom_toBottomOf="@+id/country"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
@@ -212,6 +274,7 @@
 
         <EditText
             android:id="@+id/editAddress1"
+            style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -221,13 +284,13 @@
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
             android:textColor="#666666"
-            style="@style/open_sans_regular_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Address" />
 
         <EditText
             android:id="@+id/editAddress2"
+            style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -236,7 +299,6 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            style="@style/open_sans_regular_small"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -244,15 +306,15 @@
 
         <TextView
             android:id="@+id/Address"
+            style="@style/montserrat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Address"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            style="@style/montserrat"
-            android:textStyle="bold"
+            android:text="Address"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/country" />
@@ -260,15 +322,15 @@
 
         <TextView
             android:id="@+id/textView38"
+            style="@style/montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="Postal Code"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -277,15 +339,14 @@
             app:layout_constraintVertical_bias="0" />
 
 
-
         <TextView
             android:id="@+id/textView39"
+            style="@style/montserrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="State (optional)"
-            style="@style/montserrat"
-            android:textStyle="bold"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView38"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -295,6 +356,7 @@
 
         <EditText
             android:id="@+id/etPostal"
+            style="@style/open_sans_regular_small"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -303,7 +365,6 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            style="@style/open_sans_regular_small"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -313,6 +374,7 @@
 
         <EditText
             android:id="@+id/etState"
+            style="@style/open_sans_regular_small"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -320,7 +382,6 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            style="@style/open_sans_regular_small"
             android:textColor="#666666"
             app:layout_constraintBottom_toBottomOf="@+id/etPostal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -331,22 +392,33 @@
 
 
         <TextView
-            android:id="@+id/textView40"
+            android:id="@+id/btnAdd"
             style="@style/montserrat"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:background="@drawable/button_gredient"
             android:gravity="center"
             android:text="Add"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPostal" />
+
+        <ImageView
+            android:id="@+id/btnLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/editAddress1"
+            app:layout_constraintEnd_toEndOf="@+id/editAddress1"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/editAddress1"
+            app:layout_constraintTop_toTopOf="@+id/editAddress1"
+            app:srcCompat="@drawable/current_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

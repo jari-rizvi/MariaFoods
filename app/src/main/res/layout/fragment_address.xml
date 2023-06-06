@@ -11,6 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <include
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_address" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
@@ -38,7 +55,7 @@
             app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
         <TextView
-            android:id="@+id/textView50"
+            android:id="@+id/btnAddAddress"
             style="@style/open_sans_regular_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +79,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/_15sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView50"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddAddress"
             app:layout_constraintVertical_bias="0.05" />
 
 

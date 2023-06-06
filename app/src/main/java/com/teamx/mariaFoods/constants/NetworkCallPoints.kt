@@ -35,6 +35,7 @@ class NetworkCallPoints {
         //Ger Addresses
         const val GET_ADDRESS = "users/address/get-addresses"
         const val DELETE_ADDRESS = "users/address/delete-address"
+        const val ADD_ADDRESS = "users/address/address-add-update"
 
         var TOKENER = ""
     }
