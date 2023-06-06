@@ -20,6 +20,7 @@ import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
+import com.teamx.mariaFoods.data.dataclasses.products.TimeSlot
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
@@ -28,8 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Math.abs
 
 @AndroidEntryPoint
-class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
-   OnProductListener {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener, OnCartListener,OnTimeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_dashboard
@@ -46,6 +46,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
 
     lateinit var productAdapter: ProductAdapter
     lateinit var productArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>
+
+    lateinit var timeAdapter: TimeAdapter
+    lateinit var timeArrayList: ArrayList<TimeSlot>
+
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
@@ -110,6 +114,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
                         productArrayList.addAll(data.data)
                         productAdapter.notifyDataSetChanged()
 
+                        timeArrayList.addAll(data.shedule.time_slots)
+                        timeAdapter.notifyDataSetChanged()
+
 
                     }
                 }
@@ -123,6 +130,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
             }
         }
         setUpTransformer()
+        timeRecyclerview()
 
     }
 
@@ -172,8 +180,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.productRecycler.layoutManager = linearLayoutManager
 
-        productAdapter = ProductAdapter(productArrayList, this)
+        productAdapter = ProductAdapter(productArrayList, this,this)
         mViewDataBinding.productRecycler.adapter = productAdapter
+
+    }
+
+    private fun timeRecyclerview() {
+        timeArrayList = ArrayList()
+
+        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        mViewDataBinding.bottomSheetLayout.recyclerTime.layoutManager = linearLayoutManager
+
+        timeAdapter = TimeAdapter(timeArrayList,this)
+        mViewDataBinding.bottomSheetLayout.recyclerTime.adapter = timeAdapter
 
     }
 
@@ -189,23 +208,25 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED ->       MainActivity.bottomNav?.visibility = View.GONE
-                    BottomSheetBehavior.STATE_COLLAPSED ->       MainActivity.bottomNav?.visibility = View.VISIBLE
+                    BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                        View.GONE
+                    BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                        View.VISIBLE
                     else -> "Persistent Bottom Sheet"
                 }
             }
         })
 
         val state =
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                BottomSheetBehavior.STATE_COLLAPSED
-            else
-                BottomSheetBehavior.STATE_EXPANDED
-        bottomSheetBehavior.state = state    }
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+            else BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior.state = state
+    }
 
     override fun onPause() {
         super.onPause()
@@ -233,5 +254,21 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(),
         }
 
         mViewDataBinding.screenViewpager.setPageTransformer(transformer)
+    }
+
+    override fun onAddClickListener(position: Int) {
+
+    }
+
+    override fun onSubClickListener(position: Int) {
+
+    }
+
+    override fun ontimeClick(position: Int) {
+        for (cat in timeArrayList) {
+            cat.isChecked = false
+        }
+        timeArrayList[position].isChecked = true
+        timeAdapter.notifyDataSetChanged()
     }
 }

@@ -22,7 +22,7 @@
 
             <include
                 android:id="@+id/bottomSheetLayout"
-                layout="@layout/bottom_sheet_place_order" />
+                layout="@layout/bottom_sheet_slots" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,16 +8,28 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
         android:backgroundTint="@color/light_pink"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/card_background">
 
+        <CheckedTextView
+            android:id="@+id/checkedTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/checked_item"
+            android:checked="false"
+            android:textColor="@color/tab_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout9"
-            android:layout_width="@dimen/_20sdp"
+            android:layout_width="@dimen/_30sdp"
             android:layout_height="match_parent"
             android:background="@drawable/shape_slots_fill"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,18 +42,24 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11:00 Am \n - 12:00 Pm "
+            android:text="11:00 Am - 12:00 Pm "
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.1"
+            style="@style/montserrat_bold"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.235" />
 
         <TextView
             android:id="@+id/textView15"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Lunch Time"
+            android:gravity="start"
+            android:textSize="@dimen/_11ssp"
+            style="@style/open_sans_secondary_medium_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/time"
             app:layout_constraintStart_toStartOf="@+id/time"

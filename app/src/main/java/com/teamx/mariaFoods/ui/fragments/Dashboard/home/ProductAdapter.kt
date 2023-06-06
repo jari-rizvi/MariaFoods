@@ -10,7 +10,7 @@ import com.teamx.mariaFoods.databinding.ItemProductsBinding
 
 
 class ProductAdapter(
-    val arrayList: ArrayList<Data>, private val onTopProductListener: OnProductListener
+    val arrayList: ArrayList<Data>, private val onTopProductListener: OnProductListener,  val onCartListener: OnCartListener
 ) : RecyclerView.Adapter<ProductAdapter.TopProductViewHolder>() {
 
     lateinit var ProductBannerAdapter: ProductBannersAdapter
@@ -69,6 +69,17 @@ class ProductAdapter(
 
         holder.binding.btnSchedule.setOnClickListener {
             onTopProductListener.onScheduleClick(position)
+        }
+
+
+        holder.binding.btnAdd.setOnClickListener {
+            onCartListener?.onAddClickListener(position)
+        }
+
+        holder.binding.btnSub.setOnClickListener {
+            onCartListener?.onSubClickListener(position)
+
+
         }
 
     }

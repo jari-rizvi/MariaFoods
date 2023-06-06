@@ -5,6 +5,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -17,6 +18,8 @@ import com.teamx.mariaFoods.databinding.FragmentSignupEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 
 
@@ -165,6 +168,9 @@ class SignupemailFragment :
                             it.data?.let { data ->
                                 if (data.Flag == 1) {
 
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        dataStoreProvider.saveUserToken(data.AccessToken)
+                                    }
                                     val bundle = Bundle()
                                     bundle.putString("email", data.User.email)
 

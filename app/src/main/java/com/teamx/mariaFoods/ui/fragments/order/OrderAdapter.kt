@@ -48,7 +48,7 @@ class OrderListAdapter(
 
 
         holder.bind.btnReOrder.setOnClickListener {
-            onOrderListener.onreOrderClick(position)
+            onOrderListener.oneOrderClick(position)
         }
 
     }

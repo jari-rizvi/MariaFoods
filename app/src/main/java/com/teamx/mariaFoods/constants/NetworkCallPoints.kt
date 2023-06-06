@@ -32,6 +32,10 @@ class NetworkCallPoints {
         //Get OrderHistory
         const val GET_ORDER_HISTORY = "products/order/history"
 
+        //Ger Addresses
+        const val GET_ADDRESS = "users/address/get-addresses"
+        const val DELETE_ADDRESS = "users/address/delete-address"
+
         var TOKENER = ""
     }
 }

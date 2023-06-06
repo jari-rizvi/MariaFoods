@@ -32,7 +32,7 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
     private lateinit var options: NavOptions
     private lateinit var userEmail: String
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
 
@@ -45,12 +45,17 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
             }
         }
 
-       mViewDataBinding.btnVerify.setOnClickListener {
-           validate()
-       }
+        mViewDataBinding.btnVerify.setOnClickListener {
+            validate()
+        }
+
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
 
 
     }
+
     private fun initialization() {
         userEmail = mViewDataBinding.email.text.toString().trim()
 
@@ -60,8 +65,7 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
         if (mViewDataBinding.email.text.toString().trim().isEmpty()) {
             mViewDataBinding.root.snackbar("Enter Email")
             return false
-        }
-        else{
+        } else {
             subscribeToNetworkLiveData()
             return true
         }
@@ -105,7 +109,11 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                                             requireActivity(),
                                             R.id.nav_host_fragment
                                         )
-                                    navController.navigate(R.id.otpForgotEmailFragment, bundle, options)
+                                    navController.navigate(
+                                        R.id.otpForgotEmailFragment,
+                                        bundle,
+                                        options
+                                    )
                                 } else {
                                     showToast(data.Message)
                                 }

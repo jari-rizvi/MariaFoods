@@ -2,6 +2,6 @@ package com.teamx.mariaFoods.ui.fragments.order
 
 interface OnOrderListener {
 
-    fun onreOrderClick(position : Int)
+    fun oneOrderClick(position : Int)
 
 }

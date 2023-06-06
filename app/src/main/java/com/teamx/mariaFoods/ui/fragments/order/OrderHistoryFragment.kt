@@ -85,7 +85,9 @@ class OrderHistoryFragment :
 
     }
 
-    override fun onreOrderClick(position: Int) {
+
+    override fun oneOrderClick(position: Int) {
+
     }
 
 

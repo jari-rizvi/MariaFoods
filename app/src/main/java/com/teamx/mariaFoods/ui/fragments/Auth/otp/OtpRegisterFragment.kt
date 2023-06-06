@@ -3,6 +3,7 @@ package com.teamx.mariaFoods.ui.fragments.Auth.otp
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -14,6 +15,8 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentOtpRegisterBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 
 
@@ -31,7 +34,7 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
 
     private lateinit var options: NavOptions
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
 
@@ -43,9 +46,9 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
-       mViewDataBinding.btnBack.setOnClickListener {
-           popUpStack()
-       }
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
 
         mViewDataBinding.btnVerify.setOnClickListener {
 
@@ -75,7 +78,7 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                 e.printStackTrace()
             }
 
-            mViewModel.otpVerify(params,this)
+            mViewModel.otpVerify(params, this)
 
             mViewModel.otpVerifyResponse.observe(requireActivity(), Observer {
                 when (it.status) {
@@ -87,7 +90,10 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                         it.data?.let { data ->
 
                             if (data.Flag == 1) {
-                                showToast("agaaydata")
+
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    dataStoreProvider.saveUserToken(data.AccessToken)
+                                }
                                 navController =
                                     Navigation.findNavController(
                                         requireActivity(),

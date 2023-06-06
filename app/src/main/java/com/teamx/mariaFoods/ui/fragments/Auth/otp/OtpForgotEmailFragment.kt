@@ -31,7 +31,7 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
 
     private lateinit var options: NavOptions
 
-   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
 
@@ -48,9 +48,20 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
 
             verifyotp()
         }
-       mViewDataBinding.btnBack.setOnClickListener {
-           popUpStack()
-       }
+
+        mViewDataBinding.textView65.setOnClickListener {
+            navController =
+                Navigation.findNavController(
+                    requireActivity(),
+                    R.id.nav_host_fragment
+                )
+            navController.navigate(R.id.logInFragment, null, options)
+        }
+
+
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
 
         initialization()
     }
@@ -74,7 +85,7 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                 e.printStackTrace()
             }
 
-            mViewModel.otpVerifyForgotEmail(params,this)
+            mViewModel.otpVerifyForgotEmail(params, this)
 
             mViewModel.otpVerifyForgotEmailResponse.observe(requireActivity(), Observer {
                 when (it.status) {

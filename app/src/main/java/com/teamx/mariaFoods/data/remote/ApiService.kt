@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
+import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
 import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderHistoryData
@@ -71,5 +72,19 @@ interface ApiService {
      @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<OrderHistoryData>
 
+ @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_ADDRESS)
+    suspend fun getAddress(
+     @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<GetAddressdData>
+
+
+    //how to delete through retro
+    @Headers("secret: dev")
+    @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_ADDRESS)
+    suspend fun deleteAddress(
+        @Query("id") id: Int,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
 }

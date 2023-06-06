@@ -3,6 +3,7 @@ package com.teamx.mariaFoods.data.remote.reporitory
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.data.remote.ApiService
 import retrofit2.http.Body
+import retrofit2.http.Query
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -23,6 +24,9 @@ class MainRepository @Inject constructor(
     suspend fun getBanners() = apiService.getBanners()
     suspend fun getProducts() = apiService.getProducts()
     suspend fun getOrder() = apiService.getOrder()
+
+    suspend fun getAddress() = apiService.getAddress()
+    suspend fun deleteAddress(@Query("id") id: Int) = apiService.deleteAddress(id)
 
 
 

@@ -168,6 +168,7 @@
                 android:background="@drawable/contact_input_background"
                 android:minHeight="@dimen/_35sdp"
                 android:paddingStart="@dimen/_10sdp"
+                android:inputType="phone"
                 android:singleLine="true"
                 android:textColor="#666666"
                 app:layout_constraintBottom_toBottomOf="@+id/country_code"

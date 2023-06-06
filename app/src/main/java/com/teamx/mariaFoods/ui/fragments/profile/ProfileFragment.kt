@@ -13,7 +13,6 @@ import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentProfileBinding
-import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.ui.fragments.Auth.temp.TempViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,31 +49,39 @@ class ProfileFragment :
         }
 
         mViewDataBinding.btnAddress.setOnClickListener {
-            bottomSheetBehavior =
-                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
 
-            bottomSheetBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
+            navController =
+                Navigation.findNavController(
+                    requireActivity(),
+                    R.id.nav_host_fragment
+                )
+            navController.navigate(R.id.addressFragment, null, options)
 
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                            View.GONE
-                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                            View.VISIBLE
-                        else -> "Persistent Bottom Sheet"
-                    }
-                }
-            })
-
-            val state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                    BottomSheetBehavior.STATE_COLLAPSED
-                else
-                    BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = state
+//            bottomSheetBehavior =
+//                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+//
+//            bottomSheetBehavior.addBottomSheetCallback(object :
+//                BottomSheetBehavior.BottomSheetCallback() {
+//                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//                }
+//
+//                override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                    when (newState) {
+//                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+//                            View.GONE
+//                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+//                            View.VISIBLE
+//                        else -> "Persistent Bottom Sheet"
+//                    }
+//                }
+//            })
+//
+//            val state =
+//                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+//                    BottomSheetBehavior.STATE_COLLAPSED
+//                else
+//                    BottomSheetBehavior.STATE_EXPANDED
+//            bottomSheetBehavior.state = state
         }
 
         mViewDataBinding.btnEditProfile.setOnClickListener {

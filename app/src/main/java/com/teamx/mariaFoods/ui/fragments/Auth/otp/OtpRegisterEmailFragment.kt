@@ -86,7 +86,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
                         it.data?.let { data ->
 
                             if (data.Flag == 1) {
-                                showToast("agaaydata")
+
                                 navController =
                                     Navigation.findNavController(
                                         requireActivity(),
