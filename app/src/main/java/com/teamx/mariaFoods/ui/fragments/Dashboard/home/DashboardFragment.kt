@@ -1,10 +1,12 @@
 package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
@@ -20,6 +22,7 @@ import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
+import com.teamx.mariaFoods.data.dataclasses.products.OrderDay
 import com.teamx.mariaFoods.data.dataclasses.products.TimeSlot
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
@@ -27,9 +30,12 @@ import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Math.abs
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener, OnCartListener,OnTimeListener {
+class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener,
+    OnCartListener, OnTimeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_dashboard
@@ -50,11 +56,15 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     lateinit var timeAdapter: TimeAdapter
     lateinit var timeArrayList: ArrayList<TimeSlot>
 
+    lateinit var dayAdapter: DateAdapter
+    lateinit var dayArrayList: ArrayList<OrderDay>
+
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var handler: Handler
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,6 +76,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
+      mViewDataBinding.bottomSheetLayout.months.text = currentMonth
 
         initializeFeatureProducts()
         productRecyclerview()
@@ -117,6 +130,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         timeArrayList.addAll(data.shedule.time_slots)
                         timeAdapter.notifyDataSetChanged()
 
+                        dayArrayList.addAll(data.shedule.order_days)
+                        dayAdapter.notifyDataSetChanged()
+
 
                     }
                 }
@@ -131,6 +147,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
         setUpTransformer()
         timeRecyclerview()
+        daysRecyclerview()
 
     }
 
@@ -180,7 +197,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.productRecycler.layoutManager = linearLayoutManager
 
-        productAdapter = ProductAdapter(productArrayList, this,this)
+        productAdapter = ProductAdapter(productArrayList, this, this)
         mViewDataBinding.productRecycler.adapter = productAdapter
 
     }
@@ -191,8 +208,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.bottomSheetLayout.recyclerTime.layoutManager = linearLayoutManager
 
-        timeAdapter = TimeAdapter(timeArrayList,this)
+        timeAdapter = TimeAdapter(timeArrayList, this)
         mViewDataBinding.bottomSheetLayout.recyclerTime.adapter = timeAdapter
+
+    }
+
+    private fun daysRecyclerview() {
+        dayArrayList = ArrayList()
+
+        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        mViewDataBinding.bottomSheetLayout.recyclerDates.layoutManager = linearLayoutManager
+
+        dayAdapter = DateAdapter(dayArrayList, this)
+        mViewDataBinding.bottomSheetLayout.recyclerDates.adapter = dayAdapter
 
     }
 
@@ -270,5 +298,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
         timeArrayList[position].isChecked = true
         timeAdapter.notifyDataSetChanged()
+    }
+
+    override fun ondaysClick(position: Int) {
+        for (cat in dayArrayList) {
+            cat.isChecked = false
+        }
+        dayArrayList[position].isChecked = true
+        dayAdapter.notifyDataSetChanged()
     }
 }

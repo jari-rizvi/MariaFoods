@@ -8,8 +8,8 @@ import com.teamx.mariaFoods.databinding.ItemTimeSlotsBinding
 
 
 class TimeAdapter(
-    val arrayList: ArrayList<TimeSlot>,  val onTimeListener: OnTimeListener) : RecyclerView.Adapter<TimeAdapter.TimeSlotViewHolder>() {
-
+    val arrayList: ArrayList<TimeSlot>, val onTimeListener: OnTimeListener
+) : RecyclerView.Adapter<TimeAdapter.TimeSlotViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeSlotViewHolder {
@@ -34,8 +34,6 @@ class TimeAdapter(
         holder.itemView.setOnClickListener {
             onTimeListener.ontimeClick(position)
         }
-
-
 
 
     }
