@@ -10,12 +10,13 @@ import com.teamx.mariaFoods.databinding.ItemProductsBinding
 
 
 class ProductAdapter(
-    val arrayList: ArrayList<Data>, private val onTopProductListener: OnProductListener, val onCartListener: OnCartListener
+    val arrayList: ArrayList<Data>,
+    private val onTopProductListener: OnProductListener,
+    val onCartListener: OnCartListener
 ) : RecyclerView.Adapter<ProductAdapter.TopProductViewHolder>() {
 
     lateinit var ProductBannerAdapter: ProductBannersAdapter
     private var tabLayoutMediator: TabLayoutMediator? = null
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopProductViewHolder {
@@ -33,7 +34,10 @@ class ProductAdapter(
 
         holder.binding.productName.text = product.name
 
-        holder.binding.price.text = "${product.max_price}%"
+        holder.binding.price.text = "${product.max_price}"
+
+        holder.binding.textView19.text = "${product.qty}"
+
 
 
         holder.binding.productDescription.text = product.description
@@ -50,7 +54,10 @@ class ProductAdapter(
         ProductBannerAdapter = ProductBannersAdapter(arrayList)
         holder.binding.screenViewpager.adapter = ProductBannerAdapter
 
-        TabLayoutMediator(holder.binding.tabIndicator, holder.binding.screenViewpager) { tab, position ->
+        TabLayoutMediator(
+            holder.binding.tabIndicator,
+            holder.binding.screenViewpager
+        ) { tab, position ->
             tab.text = productBannerArrayList[position].toString()
         }.attach()
 
@@ -78,8 +85,9 @@ class ProductAdapter(
 
         holder.binding.btnSub.setOnClickListener {
             onCartListener?.onSubClickListener(position)
-
-
+        }
+        holder.binding.btnBuy.setOnClickListener {
+            onCartListener?.onAddToCartListener(product.variation.id)
         }
 
     }

@@ -3,8 +3,10 @@ package com.teamx.mariaFoods.data.remote
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
+import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
+import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
 import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderHistoryData
@@ -98,6 +100,12 @@ interface ApiService {
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<GetAddressdData>
 
+    @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_CART)
+    suspend fun getCart(
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<GetCartData>
+
 
     //how to delete through retro
     @Headers("secret: dev")
@@ -113,5 +121,12 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.ADD_CART)
+    suspend fun addCart(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<AddToCartData>
 
 }

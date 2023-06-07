@@ -15,5 +15,6 @@ data class Data(
     val short_description: String,
     val slug: String,
     val stock_qty: Int,
-    val variation: Variation
+    val variation: Variation,
+    val qty : Int =  1
 )

@@ -3,7 +3,9 @@ package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
+import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.remote.Resource
@@ -66,6 +68,31 @@ class Dashboard @Inject constructor(
                     _productsResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _productsResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+    private val _addtocartResponse = MutableLiveData<Resource<AddToCartData>>()
+    val addtocart: LiveData<Resource<AddToCartData>>
+        get() = _addtocartResponse
+    fun addCart(param: JsonObject) {
+        viewModelScope.launch {
+            _addtocartResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.addCart(param).let {
+                        if (it.isSuccessful) {
+                            _addtocartResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                            _addtocartResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _addtocartResponse.postValue(Resource.error("Some thing went wrong", null))
+                        }
+                    }
+                } catch (e: Exception) {
+                    _addtocartResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _addtocartResponse.postValue(Resource.error("No internet connection", null))
         }
     }
 }

@@ -208,7 +208,7 @@
             app:srcCompat="@drawable/less_quantity" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/btnBuy"
             style="@style/montserrat"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_30sdp"

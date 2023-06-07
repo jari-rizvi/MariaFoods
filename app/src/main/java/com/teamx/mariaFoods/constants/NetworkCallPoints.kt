@@ -38,6 +38,10 @@ class NetworkCallPoints {
         const val DELETE_ADDRESS = "users/address/delete-address"
         const val ADD_ADDRESS = "users/address/address-add-update"
 
+        //Add to cart
+        const val ADD_CART = "products/add-to-cart"
+        const val GET_CART = "products/get-cart"
+
         var TOKENER = ""
     }
 }

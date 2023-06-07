@@ -31,11 +31,8 @@ class DateAdapter(
         holder.binding.checkedTextView.isChecked = days.isChecked
 
         holder.itemView.setOnClickListener {
-            onTimeListener.ondaysClick(position)
+            onTimeListener?.ondaysClick(position)
         }
-
-
-
 
     }
 

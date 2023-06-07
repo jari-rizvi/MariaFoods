@@ -94,6 +94,10 @@ class ProfileFragment :
         }
 
 
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
+
         mViewDataBinding.btnLogput.setOnClickListener {
 
             mViewModel.logout()

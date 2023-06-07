@@ -5,10 +5,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -29,9 +32,11 @@ import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONException
 import java.lang.Math.abs
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener,
@@ -59,10 +64,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     lateinit var dayAdapter: DateAdapter
     lateinit var dayArrayList: ArrayList<OrderDay>
 
+    var days by Delegates.notNull<Int>()
+    var time by Delegates.notNull<Int>()
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var handler: Handler
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +86,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
 
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
-      mViewDataBinding.bottomSheetLayout.months.text = currentMonth
+        mViewDataBinding.bottomSheetLayout.months.text = currentMonth
 
         initializeFeatureProducts()
         productRecyclerview()
@@ -124,6 +132,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     loadingDialog.dismiss()
                     it.data?.let { data ->
 
+                        data.data.forEach {
+
+                        Log.d("textView19", "onBindViewHolder: ${it.qty}")
+                        }
+
+
                         productArrayList.addAll(data.data)
                         productAdapter.notifyDataSetChanged()
 
@@ -148,6 +162,33 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         setUpTransformer()
         timeRecyclerview()
         daysRecyclerview()
+
+        mViewDataBinding.bottomSheetLayout.btnBook.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
+
+            bottomSheetBehavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                            View.GONE
+                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                            View.VISIBLE
+                        else -> "Persistent Bottom Sheet"
+                    }
+                }
+            })
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
 
     }
 
@@ -284,11 +325,29 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         mViewDataBinding.screenViewpager.setPageTransformer(transformer)
     }
 
+//    var qty = 1
     override fun onAddClickListener(position: Int) {
+
+        val sum = productArrayList[position]
+
+
+//        val Pqty = productArrayList[position]
+//        qty = Pqty.qty
+//        qty += 1
+//        Log.d("qyuuu", "onAddClickListener: $qty")
+
+
 
     }
 
     override fun onSubClickListener(position: Int) {
+
+
+//        if (qty > 1) {
+//            qty -= 1
+//        }
+//
+//        Log.d("qyuuu", "onAddClickListener: $qty")
 
     }
 
@@ -296,7 +355,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         for (cat in timeArrayList) {
             cat.isChecked = false
         }
-        timeArrayList[position].isChecked = true
+
+        val timeSlicl = timeArrayList[position]
+
+        time = timeSlicl.id
+        timeSlicl.isChecked = true
+//        timeArrayList[position].isChecked = true
         timeAdapter.notifyDataSetChanged()
     }
 
@@ -304,8 +368,68 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         for (cat in dayArrayList) {
             cat.isChecked = false
         }
-        dayArrayList[position].isChecked = true
+
+        val daysSlicl = dayArrayList[position]
+
+        days = daysSlicl.day
+        daysSlicl.isChecked = true
+
+//        days = position
+//        dayArrayList[position].isChecked = true
+        Log.d("ondaysClick", "ondaysClick: ${days}")
         dayAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAddToCartListener(id: Int) {
+
+
+        val params = JsonObject()
+        try {
+            params.addProperty("product_variation_id", id)
+            params.addProperty("quantity", "5")
+            params.addProperty("order_day", days)
+            params.addProperty("time_slot", time)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        Log.e("UserData", params.toString())
+
+        mViewModel.addCart(params)
+
+        if (!mViewModel.addtocart.hasActiveObservers()) {
+            mViewModel.addtocart.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+                                navController = Navigation.findNavController(
+                                    requireActivity(), R.id.nav_host_fragment
+                                )
+                                navController.navigate(R.id.checkoutFragment, null, options)
+
+
+                            } else {
+                                showToast(data.Message)
+                            }
+
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.addtocart.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
     }
 
 
