@@ -42,6 +42,10 @@ class LoginViewModel @Inject constructor(
 
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             _loginResponse.postValue(Resource.error(it.message(), null))
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _loginResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                             Log.d("TAG", "loginPhone: first2")
                             Log.e("TAG", "loginPhone: 1111111", )
 

@@ -7,6 +7,7 @@ class NetworkCallPoints {
         const val SIGN_UP = "users/singup"
         const val LOGOUT = "users/signout"
         const val SOCIAL_LOGIN = "users/socials"
+        const val EDIT_PROFILE = "settings/profile"
 
 
         // Register Otp Verify
@@ -20,7 +21,7 @@ class NetworkCallPoints {
         // Create new password
         const val RESET_PASS_EMAIL = "users/email/reset/password"
         const val RESET_PASS = "users/email/reset/password/update"
-        const val CHANGE_PASSWORD = "change-password"
+        const val CHANGE_PASSWORD = "settings/change-password"
         const val FORGOT_PASS_PHONE = "forget-password-phone"
 
 

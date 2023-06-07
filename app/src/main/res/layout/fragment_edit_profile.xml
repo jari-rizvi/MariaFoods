@@ -11,8 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <include
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_change_password" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,14 +47,14 @@
             android:layout_height="wrap_content"
             android:text="@string/profile"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+            app:layout_constraintBottom_toBottomOf="@+id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toEndOf="@+id/imageView11"
-            app:layout_constraintTop_toTopOf="@+id/imageView11" />
+            app:layout_constraintStart_toEndOf="@+id/btnBack"
+            app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/lName"
             style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -69,10 +86,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText5" />
+            app:layout_constraintTop_toBottomOf="@+id/fName" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/fName"
             style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -106,7 +123,7 @@
             app:layout_constraintVertical_bias="0.1" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/email"
             style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -129,16 +146,16 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:text="Mobile Number"
+            android:text="Email"
             android:textSize="@dimen/_10ssp"
             android:textColor="#343434"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText4" />
+            app:layout_constraintTop_toBottomOf="@+id/lName" />
 
         <EditText
-            android:id="@+id/editAddress2"
+            android:id="@+id/phone"
             style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -167,11 +184,11 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
         <EditText
-            android:id="@+id/editText49"
+            android:id="@+id/password"
             style="@style/open_sans_regular_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -182,7 +199,7 @@
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
-            android:drawableEnd="@drawable/edit"
+
             android:padding="@dimen/_5sdp"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
@@ -202,12 +219,12 @@
             android:textSize="@dimen/_10ssp"
             android:textColor="#343434"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView57"
+            app:layout_constraintEnd_toStartOf="@+id/btnChangePass"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editAddress2" />
+            app:layout_constraintTop_toBottomOf="@+id/phone" />
 
         <TextView
-            android:id="@+id/textView57"
+            android:id="@+id/btnChangePass"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="Change Password"
@@ -220,7 +237,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView244" />
 
         <TextView
-            android:id="@+id/textView58"
+            android:id="@+id/btnEditProfile"
             style="@style/montserrat"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_30sdp"
@@ -233,7 +250,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText49" />
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

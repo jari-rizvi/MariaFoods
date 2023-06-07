@@ -22,8 +22,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONException
 
 @AndroidEntryPoint
-class LogInEmailFragment :
-    BaseFragment<FragmentLoginEmailBinding, LoginViewModel>() {
+class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_login_email
@@ -51,9 +50,13 @@ class LogInEmailFragment :
         }
 
         mViewDataBinding.btnForgot.setOnClickListener {
-            navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             navController.navigate(R.id.resetEmailFragment, null, options)
+        }
+
+        mViewDataBinding.textView65.setOnClickListener {
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.signupFragment, null, options)
         }
 
         mViewDataBinding.btnBack.setOnClickListener {
@@ -77,6 +80,8 @@ class LogInEmailFragment :
             mViewDataBinding.hidePassword.visibility = View.GONE
             mViewDataBinding.showPassword.visibility = View.VISIBLE
         }
+
+
 //
 //
 //        //#4 Changing the BottomSheet State on ButtonClick
@@ -148,14 +153,25 @@ class LogInEmailFragment :
                                 if (data.Flag == 1) {
                                     lifecycleScope.launch(Dispatchers.IO) {
                                         dataStoreProvider.saveUserToken(data.AccessToken)
+
+
+                                        val firstname = data.User.first_name
+                                        val lastname = data.User.last_name
+                                        val email = data.User.email
+                                        val number = data.User.phone
+
+                                        dataStoreProvider.saveUserDetails(
+                                            firstname, lastname, email, number
+                                        )
+
                                     }
 
-                                    navController =
-                                        Navigation.findNavController(
-                                            requireActivity(),
-                                            R.id.nav_host_fragment
-                                        )
+                                    navController = Navigation.findNavController(
+                                        requireActivity(), R.id.nav_host_fragment
+                                    )
                                     navController.navigate(R.id.dashboardFragment, null, options)
+
+
                                 } else {
                                     showToast(data.Message)
                                 }

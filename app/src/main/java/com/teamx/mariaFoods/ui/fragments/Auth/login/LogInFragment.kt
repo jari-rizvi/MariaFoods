@@ -102,7 +102,19 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                         lifecycleScope.launch(Dispatchers.IO) {
                             dataStoreProvider.saveUserToken(data.AccessToken)
 
+                            val firstname = data.User.first_name
+                            val lastname = data.User.last_name
+                            val email = data.User.email
+                            val number = data.User.phone
+
+                            dataStoreProvider.saveUserDetails(
+                                firstname, lastname, email, number
+                            )
+
+
                         }
+
+
 
                         navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)

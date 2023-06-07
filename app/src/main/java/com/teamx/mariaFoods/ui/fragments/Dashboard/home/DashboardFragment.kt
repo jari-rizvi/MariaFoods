@@ -231,7 +231,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     override fun onScheduleClick(position: Int) {
         bottomSheetBehavior =
-            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -307,4 +307,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         dayArrayList[position].isChecked = true
         dayAdapter.notifyDataSetChanged()
     }
+
+
 }

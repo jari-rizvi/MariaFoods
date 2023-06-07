@@ -31,6 +31,13 @@ interface ApiService {
     suspend fun socialLogins(@Body params: JsonObject?): Response<SignupData>
 
     @Headers("secret: dev")
+    @POST(NetworkCallPoints.EDIT_PROFILE)
+    suspend fun editProfile(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SignupData>
+
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.SIGN_UP)
     suspend fun signup(@Body params: JsonObject?): Response<SignupData>
 
@@ -47,6 +54,13 @@ interface ApiService {
     @Headers("secret: dev")
     @POST(NetworkCallPoints.RESET_PASS)
     suspend fun resetPass(@Body params: JsonObject?): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.CHANGE_PASSWORD)
+    suspend fun changePass(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.OTP_VERIFY)

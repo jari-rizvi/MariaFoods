@@ -48,6 +48,10 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
         mViewDataBinding.btnVerify.setOnClickListener {
             validate()
         }
+        mViewDataBinding.textView65.setOnClickListener {
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.signupFragment, null, options)
+        }
 
         mViewDataBinding.btnBack.setOnClickListener {
             popUpStack()
