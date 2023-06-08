@@ -77,6 +77,33 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             bottomSheetBehavior.state = state
         }
 
+        mViewDataBinding.textView25.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
+
+            bottomSheetBehavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                            View.GONE
+                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                            View.VISIBLE
+                        else -> "Persistent Bottom Sheet"
+                    }
+                }
+            })
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
+
 
         mViewModel.getCart()
 

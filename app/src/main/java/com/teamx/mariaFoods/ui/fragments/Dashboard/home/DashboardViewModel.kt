@@ -1,5 +1,6 @@
 package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -34,8 +36,12 @@ class Dashboard @Inject constructor(
                     mainRepository.getBanners().let {
                         if (it.isSuccessful) {
                             _bannerListResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _bannerListResponse.postValue(Resource.error(it.message(), null))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _bannerListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+//                            _bannerListResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _bannerListResponse.postValue(Resource.error("Some thing went wrong", null))
                         }
@@ -83,8 +89,12 @@ class Dashboard @Inject constructor(
                     mainRepository.addCart(param).let {
                         if (it.isSuccessful) {
                             _addtocartResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _addtocartResponse.postValue(Resource.error(it.message(), null))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _addtocartResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+//                            _addtocartResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _addtocartResponse.postValue(Resource.error("Some thing went wrong", null))
                         }

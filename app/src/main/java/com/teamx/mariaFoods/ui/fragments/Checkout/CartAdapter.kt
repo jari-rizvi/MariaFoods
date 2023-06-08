@@ -3,6 +3,7 @@ package com.teamx.mariaFoods.ui.fragments.Checkout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.data.dataclasses.getCart.Cart
 import com.teamx.mariaFoods.databinding.ItemCheckoutBinding
 
@@ -22,7 +23,6 @@ class CartAdapter(
     override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
 
 
-
         val cart: Cart = arrayList[position]
 
         holder.binding.productName.text = cart.product.name
@@ -31,9 +31,9 @@ class CartAdapter(
 
         holder.binding.ProductQuantity.text = "${cart.qty}"
 
+        Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
 
-        holder.itemView.setOnClickListener {
-        }
+        holder.itemView.setOnClickListener {}
 
 
     }

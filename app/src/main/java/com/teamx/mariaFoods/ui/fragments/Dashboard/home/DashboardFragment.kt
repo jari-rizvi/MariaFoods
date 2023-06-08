@@ -36,7 +36,6 @@ import org.json.JSONException
 import java.lang.Math.abs
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener,
@@ -64,8 +63,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     lateinit var dayAdapter: DateAdapter
     lateinit var dayArrayList: ArrayList<OrderDay>
 
-    var days by Delegates.notNull<Int>()
-    var time by Delegates.notNull<Int>()
+    var days : Int? = 0
+    var time : Int? = 0
+
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 

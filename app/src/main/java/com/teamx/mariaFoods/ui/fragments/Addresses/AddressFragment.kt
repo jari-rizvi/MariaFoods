@@ -82,7 +82,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         }
         mViewDataBinding.btnAddAddress.setOnClickListener {
             bottomSheetBehavior =
-                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
 
             bottomSheetBehavior.addBottomSheetCallback(object :
                 BottomSheetBehavior.BottomSheetCallback() {
@@ -219,7 +219,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     override fun oneditClick(position: Int) {
 
         bottomSheetBehavior =
-            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheet)
+            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
