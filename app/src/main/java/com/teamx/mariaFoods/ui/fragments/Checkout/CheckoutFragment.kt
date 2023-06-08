@@ -77,6 +77,33 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             bottomSheetBehavior.state = state
         }
 
+        mViewDataBinding.btnPlaceOrder.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
+
+            bottomSheetBehavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                            View.GONE
+                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                            View.VISIBLE
+                        else -> "Persistent Bottom Sheet"
+                    }
+                }
+            })
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
+
         mViewDataBinding.textView25.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
@@ -118,6 +145,12 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                         cartArrayList.addAll(data.data.carts)
                         cartAdapter.notifyDataSetChanged()
+
+                        mViewDataBinding.subtotal.text = data.data.subTotal + "AED"
+                        mViewDataBinding.discount.text = "0.00" + "AED"
+                        mViewDataBinding.vat.text = "25.00" + "AED"
+                        mViewDataBinding.deliveryfee.text = "100.00" + "AED"
+                        mViewDataBinding.total.text = "300.00" + "AED"
 
                     }
                 }
