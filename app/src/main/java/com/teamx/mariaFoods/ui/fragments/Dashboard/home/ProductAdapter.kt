@@ -36,6 +36,10 @@ class ProductAdapter(
 
         holder.binding.price.text = "${product.max_price}"
 
+
+        if (product.qty < 1) {
+            product.qty = 1
+        }
         holder.binding.textView19.text = "${product.qty}"
 
 

@@ -59,8 +59,9 @@
             style="@style/open_sans_regular_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/add_quantity"
+            android:drawableStart="@drawable/add"
             android:drawablePadding="@dimen/_5sdp"
+            android:gravity="center"
             android:text="Add New Address"
             android:textColor="@color/orange"
             android:textSize="@dimen/_10ssp"
@@ -81,6 +82,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnAddAddress"
             app:layout_constraintVertical_bias="0.05" />
+
+        <TextView
+            android:id="@+id/emptyTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/card_background"
+            android:gravity="center"
+            android:text="No Address Added"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddAddress"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

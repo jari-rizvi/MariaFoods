@@ -120,7 +120,6 @@
                     android:id="@+id/containerAddress"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
-                    android:visibility="gone"
                     android:background="@drawable/card_background"
                     android:elevation="@dimen/_1sdp"
                     app:layout_constraintVertical_bias="0.01"
@@ -130,7 +129,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView17">
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/address"
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -138,7 +137,7 @@
                         android:text="TextView"
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toTopOf="@+id/textView22"
+                        app:layout_constraintBottom_toTopOf="@+id/postal"
                         app:layout_constraintEnd_toStartOf="@+id/imageView13"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -147,33 +146,33 @@
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/postal"
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="TextView"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toTopOf="@+id/textView23"
-                        app:layout_constraintEnd_toEndOf="@+id/textView21"
-                        app:layout_constraintStart_toStartOf="@+id/textView21"
-                        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                        app:layout_constraintBottom_toTopOf="@+id/email"
+                        app:layout_constraintEnd_toEndOf="@+id/address"
+                        app:layout_constraintStart_toStartOf="@+id/address"
+                        app:layout_constraintTop_toBottomOf="@+id/address" />
 
                     <TextView
-                        android:id="@+id/textView23"
+                        android:id="@+id/email"
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="TextView"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toTopOf="@+id/textView24"
-                        app:layout_constraintEnd_toEndOf="@+id/textView22"
-                        app:layout_constraintStart_toStartOf="@+id/textView22"
-                        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                        app:layout_constraintBottom_toTopOf="@+id/phone"
+                        app:layout_constraintEnd_toEndOf="@+id/postal"
+                        app:layout_constraintStart_toStartOf="@+id/postal"
+                        app:layout_constraintTop_toBottomOf="@+id/postal" />
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/phone"
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -181,9 +180,9 @@
                         android:text="TextView"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/textView23"
-                        app:layout_constraintStart_toStartOf="@+id/textView23"
-                        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                        app:layout_constraintEnd_toEndOf="@+id/email"
+                        app:layout_constraintStart_toStartOf="@+id/email"
+                        app:layout_constraintTop_toBottomOf="@+id/email" />
 
                     <TextView
                         android:id="@+id/textView25"
@@ -193,11 +192,11 @@
                         android:text="Edit"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/_12ssp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                        app:layout_constraintBottom_toBottomOf="@+id/address"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.9"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView21" />
+                        app:layout_constraintTop_toTopOf="@+id/address" />
 
                     <ImageView
                         android:id="@+id/imageView13"
@@ -251,6 +250,7 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_5sdp"
                         android:layout_marginHorizontal="@dimen/_15sdp"
                         android:text="Sub Total"
                         android:textSize="@dimen/_12ssp"
@@ -268,6 +268,7 @@
                         android:text="VAT"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:textSize="@dimen/_12ssp"
+                        android:paddingStart="@dimen/_5sdp"
                         app:layout_constraintBottom_toTopOf="@+id/textView29"
                         app:layout_constraintEnd_toEndOf="@+id/textView28"
                         app:layout_constraintStart_toStartOf="@+id/textView28"
@@ -280,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:text="Shipment Code"
                         android:layout_marginTop="@dimen/_5sdp"
-
+                        android:paddingStart="@dimen/_5sdp"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView33"
                         app:layout_constraintEnd_toEndOf="@+id/textView6"
@@ -293,6 +294,7 @@
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:text="Discount"
+                        android:paddingStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView6"
@@ -350,6 +352,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/_14ssp"
+                        android:paddingStart="@dimen/_5sdp"
                         android:textStyle="bold"
                         android:layout_marginBottom="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="parent"

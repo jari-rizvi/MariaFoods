@@ -23,15 +23,24 @@ class AddressAdapter(
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
 
 
-        val addressList: Data = addressArrayList[position]
+        val addressList: Data? = addressArrayList[position]
 
-        holder.bind.txtdeliveryAddressHouse.text = "P.O Box, ${addressList.address_1}"
-        holder.bind.postal.text = "Postal code ${addressList.postal}"
+        holder.bind.txtdeliveryAddressHouse.text =try {
+            "P.O Box, ${addressList?.address_1}"
+        } catch (e: Exception) {
+            ""
+        }
 
+
+        holder.bind.postal.text =try {
+            "Postal code ${addressList?.postal}"
+        } catch (e: Exception) {
+            ""
+        }
 
 
         holder.bind.addressDelete.setOnClickListener {
-            onAddressListener.ondeleteClick(addressList.id)
+            addressList?.id?.let { it1 -> onAddressListener.ondeleteClick(it1) }
         }
         holder.bind.addressEditIcon.setOnClickListener {
             onAddressListener.oneditClick(position)

@@ -1,6 +1,7 @@
 package com.teamx.mariaFoods.ui.fragments.Addresses
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +35,11 @@ class AddressViewModel @Inject constructor(
                     mainRepository.getAddress().let {
                         if (it.isSuccessful) {
                             _addressListResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _addressListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                             _addressListResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _addressListResponse.postValue(
@@ -63,7 +69,11 @@ class AddressViewModel @Inject constructor(
                     mainRepository.deleteAddress(id).let {
                         if (it.isSuccessful) {
                             _deleteaddressResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _deleteaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                             _deleteaddressResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _deleteaddressResponse.postValue(
@@ -94,8 +104,12 @@ class AddressViewModel @Inject constructor(
                     mainRepository.addAddress(param).let {
                         if (it.isSuccessful) {
                             _addaddressResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _addaddressResponse.postValue(Resource.error(it.message(), null))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _addaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+//                            _addaddressResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _addaddressResponse.postValue(
                                 Resource.error(

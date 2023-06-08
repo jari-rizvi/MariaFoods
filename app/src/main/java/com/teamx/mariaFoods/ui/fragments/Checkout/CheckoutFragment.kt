@@ -1,6 +1,7 @@
 package com.teamx.mariaFoods.ui.fragments.Checkout
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavOptions
@@ -8,6 +9,7 @@ import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -17,6 +19,7 @@ import com.teamx.mariaFoods.databinding.FragmentCheckoutBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONException
 
 @AndroidEntryPoint
 class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>() {
@@ -36,6 +39,15 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    private lateinit var fName: String
+    private lateinit var lName: String
+    private lateinit var email: String
+    private lateinit var phone: String
+    private lateinit var country: String
+    private lateinit var city: String
+    private lateinit var address: String
+    private lateinit var state: String
+    private lateinit var postal: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +61,62 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
+            initialization()
+
+            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !state!!.isEmpty()) {
+
+                val params = JsonObject()
+                try {
+                    params.addProperty("country", country)
+                    params.addProperty("city", city)
+                    params.addProperty("address_1", address)
+                    params.addProperty("address_2", address)
+                    params.addProperty("postal", postal)
+                    params.addProperty("state", state)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                Log.e("UserData", params.toString())
+
+                mViewModel.addAddress(params)
+
+                if (!mViewModel.addaddress.hasActiveObservers()) {
+                    mViewModel.addaddress.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
+                            Resource.Status.SUCCESS -> {
+                                loadingDialog.dismiss()
+                                it.data?.let { data ->
+                                    if (data.Flag == 1) {
+
+                                    } else {
+                                        showToast(data.Message)
+                                    }
+
+
+                                }
+                            }
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                            }
+                        }
+                        if (isAdded) {
+                            mViewModel.addaddress.removeObservers(viewLifecycleOwner)
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+
 
         mViewDataBinding.btnAddAdrress.setOnClickListener {
             bottomSheetBehavior =
@@ -132,6 +200,35 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
+        mViewModel.getAddress()
+
+        mViewModel.addressList.observe(requireActivity()) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    loadingDialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+
+
+                        mViewDataBinding.containerAddress.visibility = View.VISIBLE
+                        mViewDataBinding.address.text = data.data.address_1.toString()
+                        mViewDataBinding.postal.text = "Postal Code " + data.data.postal
+
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                }
+            }
+            if (isAdded) {
+                mViewModel.addressList.removeObservers(viewLifecycleOwner)
+            }
+        }
+
+
         mViewModel.getCart()
 
         mViewModel.getCartList.observe(requireActivity()) {
@@ -164,6 +261,19 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             }
         }
         cartRecyclerview()
+
+    }
+
+    fun initialization() {
+        fName = mViewDataBinding.bottomSheetLayout.fName.text.toString()
+        email = mViewDataBinding.bottomSheetLayout.email.text.toString()
+        lName = mViewDataBinding.bottomSheetLayout.lName.text.toString()
+        phone = mViewDataBinding.bottomSheetLayout.phone.text.toString()
+        address = ""
+        postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
+        state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
+        city = mViewDataBinding.bottomSheetLayout.city.text.toString()
+        country = mViewDataBinding.bottomSheetLayout.country.selectedCountryName
 
     }
 

@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/delete/baseline_delete_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/add/baseline_add_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,9 +33,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="150801" />
-                            <entry key="outputName" value="delete" />
-                            <entry key="sourceFile" value="D:\MariaIcons\Icons\logout.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="ea5b0b" />
+                            <entry key="outputName" value="add" />
+                            <entry key="sourceFile" value="D:\MariaIcons\Icons\add.svg" />
                           </map>
                         </option>
                       </PersistentState>

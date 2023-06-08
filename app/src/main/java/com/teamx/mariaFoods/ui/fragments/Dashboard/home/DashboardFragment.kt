@@ -31,6 +31,7 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import java.lang.Math.abs
@@ -63,8 +64,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     lateinit var dayAdapter: DateAdapter
     lateinit var dayArrayList: ArrayList<OrderDay>
 
-    var days : Int? = 0
-    var time : Int? = 0
+    var days: Int? = 0
+    var time: Int? = 0
 
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -131,12 +132,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
-
-                        data.data.forEach {
-
-                        Log.d("textView19", "onBindViewHolder: ${it.qty}")
-                        }
-
 
                         productArrayList.addAll(data.data)
                         productAdapter.notifyDataSetChanged()
@@ -325,29 +320,36 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         mViewDataBinding.screenViewpager.setPageTransformer(transformer)
     }
 
-//    var qty = 1
+    var qty = 1
     override fun onAddClickListener(position: Int) {
 
-        val sum = productArrayList[position]
 
+        val Pqty = productArrayList[position]
+        qty = Pqty.qty
+        if (qty < 1) {
+            qty = 1
+        }
+        qty += 1
+        productArrayList[position].qty = qty
+        productAdapter.notifyDataSetChanged()
 
-//        val Pqty = productArrayList[position]
-//        qty = Pqty.qty
-//        qty += 1
-//        Log.d("qyuuu", "onAddClickListener: $qty")
-
+        Log.d("qyuuu", "onAddClickListener: $qty")
 
 
     }
 
     override fun onSubClickListener(position: Int) {
+        val Pqty = productArrayList[position]
+        qty = Pqty.qty
+        if (qty <= 1) {
+            mViewDataBinding.root.snackbar("atleast select one item")
+            return
+        }
+        qty -= 1
+        productArrayList[position].qty = qty
+        productAdapter.notifyDataSetChanged()
 
-
-//        if (qty > 1) {
-//            qty -= 1
-//        }
-//
-//        Log.d("qyuuu", "onAddClickListener: $qty")
+        Log.d("qyuuu", "onAddClickListener: $qty")
 
     }
 

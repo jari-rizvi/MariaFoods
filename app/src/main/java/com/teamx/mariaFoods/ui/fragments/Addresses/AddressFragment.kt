@@ -138,6 +138,15 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
                                     if (data.Flag == 1) {
+                                        mViewDataBinding.emptyTV.visibility = View.GONE
+                                        mViewDataBinding.addressRecycler.visibility = View.VISIBLE
+                                        val state =
+                                            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                            else BottomSheetBehavior.STATE_EXPANDED
+                                        bottomSheetBehavior.state = state
+
+                                        addressAdapter.notifyDataSetChanged()
+
 
                                     } else {
                                         showToast(data.Message)
@@ -208,13 +217,27 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         email = mViewDataBinding.bottomSheetLayout.email.text.toString()
         lName = mViewDataBinding.bottomSheetLayout.lName.text.toString()
         phone = mViewDataBinding.bottomSheetLayout.phone.text.toString()
-        address =""
+        address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
         country = mViewDataBinding.bottomSheetLayout.country.selectedCountryName
 
     }
+
+
+//    private fun visibilityOnDelete() {
+//
+//        if (addressArrayList!!.isNullOrEmpty()) {
+//            mViewDataBinding.emptyTV.visibility = View.VISIBLE
+//
+//        } else {
+//            mViewDataBinding.emptyTV.visibility = View.GONE
+//            mViewDataBinding.addressRecycler.visibility = View.VISIBLE
+//
+//        }
+//
+//    }
 
     override fun oneditClick(position: Int) {
 
@@ -258,6 +281,8 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
+                        mViewDataBinding.emptyTV.visibility = View.VISIBLE
+                        mViewDataBinding.addressRecycler.visibility = View.GONE
                         addressAdapter.notifyDataSetChanged()
                         mViewDataBinding.root.snackbar(data.Message)
 
