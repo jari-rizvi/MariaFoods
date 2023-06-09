@@ -29,6 +29,7 @@ class MainRepository @Inject constructor(
 
     suspend fun getAddress() = apiService.getAddress()
     suspend fun getCart() = apiService.getCart()
+    suspend fun checkout(@Body param: JsonObject) = apiService.checkout(param)
     suspend fun deleteAddress(@Query("id") id: Int) = apiService.deleteAddress(id)
     suspend fun addAddress(@Body param: JsonObject) = apiService.addAddress(param)
     suspend fun addCart(@Body param: JsonObject) = apiService.addCart(param)

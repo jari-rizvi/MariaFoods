@@ -9,7 +9,11 @@ import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -20,6 +24,7 @@ import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import timber.log.Timber
 
 @AndroidEntryPoint
 class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>() {
@@ -49,6 +54,82 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var state: String
     private lateinit var postal: String
 
+
+
+
+    lateinit var paymentSheet: PaymentSheet
+    var paymentIntentClientSecret: String = ""
+    lateinit var customerConfig: PaymentSheet.CustomerConfiguration
+     var stripPublicKey: String = "pk_test_51HWpLoH5a96j3Kt2rdV31pdGaiLEmPeIgoNBBSbCy79FaDdhOEuXnIiNWi6pT4mzmVxmBuZ5x60WpDUg7pfeln7i00v22JRQsM"
+
+    fun presentPaymentSheet() {
+        paymentSheet.presentWithPaymentIntent(
+            paymentIntentClientSecret,
+            PaymentSheet.Configuration(
+                merchantDisplayName = "Maria Foods",
+//                customer = customerConfig,
+                // Set `allowsDelayedPaymentMethods` to true if your business
+                // can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
+                allowsDelayedPaymentMethods = true
+            )
+        )
+    }
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+        when (paymentSheetResult) {
+            is PaymentSheetResult.Canceled -> {
+                Timber.tag("Cancel").d("helllo there")
+                print("Canceled")
+                showSnackBar("Cancel")
+            }
+            is PaymentSheetResult.Failed -> {
+                print("Error: ${paymentSheetResult.error}")
+                Log.d("ErrroAaaTAG", "onPaymentSheetResult: ${paymentSheetResult.error}")
+                Timber.tag("Error").d("helllo there")
+                showSnackBar("Error")
+            }
+            is PaymentSheetResult.Completed -> {
+                // Display for example, an order confirmation screen
+                print("Completed")
+                Timber.tag("Completed").d("helllo there")
+                /* verifyPaymentSheet(paymentSheetResult.error)*/
+                showSnackBar("Completed")
+
+                bottomSheetBehavior =
+                    BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
+
+                bottomSheetBehavior.addBottomSheetCallback(object :
+                    BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                    }
+
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        when (newState) {
+                            BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                                View.GONE
+                            BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                                View.VISIBLE
+                            else -> "Persistent Bottom Sheet"
+                        }
+                    }
+                })
+
+                val state =
+                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                    else BottomSheetBehavior.STATE_EXPANDED
+                bottomSheetBehavior.state = state
+
+            }
+        }
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(
+            mViewDataBinding.root, message, Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -61,6 +142,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
 
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
@@ -116,8 +198,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             }
         }
 
-
-
         mViewDataBinding.btnAddAdrress.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
@@ -145,32 +225,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             bottomSheetBehavior.state = state
         }
 
-        mViewDataBinding.btnPlaceOrder.setOnClickListener {
-            bottomSheetBehavior =
-                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
-
-            bottomSheetBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-                }
-
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                            View.GONE
-                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                            View.VISIBLE
-                        else -> "Persistent Bottom Sheet"
-                    }
-                }
-            })
-
-            val state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
-                else BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = state
-        }
 
         mViewDataBinding.textView25.setOnClickListener {
             bottomSheetBehavior =
@@ -197,6 +251,48 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
+        }
+
+        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
+        PaymentConfiguration.init(
+            requireActivity().applicationContext, stripPublicKey
+        )
+        mViewDataBinding.btnPlaceOrder.setOnClickListener {
+
+            val params = JsonObject()
+            try {
+                params.addProperty("payment_method", "STRIPE")
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            mViewModel.checkout(params)
+            mViewModel.checkout.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            paymentIntentClientSecret = data.client_secreat
+
+
+                            presentPaymentSheet()
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
+                }
+            }
+
+
         }
 
 

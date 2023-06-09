@@ -388,7 +388,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         val params = JsonObject()
         try {
             params.addProperty("product_variation_id", id)
-            params.addProperty("quantity", "5")
+            params.addProperty("quantity", qty)
             params.addProperty("order_day", days)
             params.addProperty("time_slot", time)
         } catch (e: JSONException) {

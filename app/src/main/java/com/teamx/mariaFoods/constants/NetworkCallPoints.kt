@@ -42,6 +42,11 @@ class NetworkCallPoints {
         const val ADD_CART = "products/add-to-cart"
         const val GET_CART = "products/get-cart"
 
+
+        //Checkout
+        const val CHECKOUT = "products/order/checkout"
+
+
         var TOKENER = ""
     }
 }

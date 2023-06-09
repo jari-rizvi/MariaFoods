@@ -93,6 +93,7 @@
             android:background="@drawable/card_background"
             android:gravity="center"
             android:text="No Address Added"
+            android:visibility="gone"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

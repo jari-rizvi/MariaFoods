@@ -59,16 +59,14 @@ class ProductAdapter(
         holder.binding.screenViewpager.adapter = ProductBannerAdapter
 
         TabLayoutMediator(
-            holder.binding.tabIndicator,
-            holder.binding.screenViewpager
+            holder.binding.tabIndicator, holder.binding.screenViewpager
         ) { tab, position ->
             tab.text = productBannerArrayList[position].toString()
         }.attach()
 
 
         tabLayoutMediator = TabLayoutMediator(
-            holder.binding.tabIndicator,
-            holder.binding.screenViewpager
+            holder.binding.tabIndicator, holder.binding.screenViewpager
         ) { tab: TabLayout.Tab, position: Int ->
             holder.binding.screenViewpager.setCurrentItem(tab.position, true)
         }

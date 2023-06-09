@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
+import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
@@ -49,6 +50,37 @@ class CheckoutViewModel @Inject constructor(
                     _getCartListResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _getCartListResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+    private val _checkoutResponse = MutableLiveData<Resource<CheckoutData>>()
+    val checkout: LiveData<Resource<CheckoutData>>
+        get() = _checkoutResponse
+
+    fun checkout(param: JsonObject) {
+        viewModelScope.launch {
+            _checkoutResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.checkout(param).let {
+                        if (it.isSuccessful) {
+                            _checkoutResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                            _checkoutResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _checkoutResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _checkoutResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _checkoutResponse.postValue(Resource.error("No internet connection", null))
         }
     }
 

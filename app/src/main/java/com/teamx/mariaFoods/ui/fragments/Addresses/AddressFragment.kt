@@ -26,8 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 
 @AndroidEntryPoint
-class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>(),
-    OnAddressListener ,CountryCodePicker.OnCountryChangeListener{
+class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>(), OnAddressListener,
+    CountryCodePicker.OnCountryChangeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_address
@@ -110,7 +110,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
-            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty()||!address!!.isEmpty()||!postal!!.isEmpty()||!state!!.isEmpty() ) {
+            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !state!!.isEmpty()) {
 
                 val params = JsonObject()
                 try {
@@ -152,7 +152,6 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                         showToast(data.Message)
                                     }
 
-
                                 }
                             }
                             Resource.Status.ERROR -> {
@@ -169,8 +168,6 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 }
             }
         }
-
-
 
         mViewModel.getAddress()
 
@@ -212,7 +209,8 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         mViewDataBinding.addressRecycler.adapter = addressAdapter
 
     }
-    fun initialization(){
+
+    fun initialization() {
         fName = mViewDataBinding.bottomSheetLayout.fName.text.toString()
         email = mViewDataBinding.bottomSheetLayout.email.text.toString()
         lName = mViewDataBinding.bottomSheetLayout.lName.text.toString()
