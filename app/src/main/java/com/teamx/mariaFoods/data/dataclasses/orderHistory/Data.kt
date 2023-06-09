@@ -7,6 +7,7 @@ data class Data(
     val delivery_status: String,
     val id: Int,
     val payment_status: String,
+    val product: Product,
     val scheduled_delivery_info: ScheduledDeliveryInfo,
     val shipping_cost: Int,
     val updated_at: String

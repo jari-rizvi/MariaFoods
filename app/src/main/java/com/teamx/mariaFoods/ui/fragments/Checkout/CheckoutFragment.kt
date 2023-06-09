@@ -144,6 +144,21 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
+        mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
+
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+
+            popUpStack()
+
+
+        }
+
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 

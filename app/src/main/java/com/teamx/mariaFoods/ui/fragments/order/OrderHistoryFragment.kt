@@ -27,7 +27,7 @@ class OrderHistoryFragment :
 
 
     private lateinit var options: NavOptions
-    lateinit var orderAdapter: OrderListAdapter
+    lateinit var orderAdapter: OrderAdapter
     lateinit var orderArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.orderHistory.Data>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,10 +55,6 @@ class OrderHistoryFragment :
 
                         orderArrayList.addAll(data.data)
                         orderAdapter.notifyDataSetChanged()
-//                        it.let {
-//                            orderArrayList.clear()
-//                            orderArrayList.addAll(it.data.get(0).path)
-//                            orderAdapter.notifyDataSetChanged()                        }
 
                     }
                 }
@@ -80,7 +76,7 @@ class OrderHistoryFragment :
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.orderRecycler.layoutManager = linearLayoutManager
 
-        orderAdapter = OrderListAdapter(orderArrayList, this)
+        orderAdapter = OrderAdapter(orderArrayList, this)
         mViewDataBinding.orderRecycler.adapter = orderAdapter
 
     }

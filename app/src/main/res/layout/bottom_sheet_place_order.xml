@@ -71,7 +71,7 @@
             app:layout_constraintVertical_bias="0" />
 
         <TextView
-            android:id="@+id/textView53"
+            android:id="@+id/btnShopping"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="@dimen/_25sdp"
             android:layout_height="@dimen/_30sdp"

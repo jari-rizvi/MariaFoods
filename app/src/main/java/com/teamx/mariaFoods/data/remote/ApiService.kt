@@ -10,7 +10,7 @@ import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
-import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderHistoryData
+import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.dataclasses.resetPass.ResetPassData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
@@ -93,7 +93,7 @@ interface ApiService {
     @GET(NetworkCallPoints.GET_ORDER_HISTORY)
     suspend fun getOrder(
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
-    ): Response<OrderHistoryData>
+    ): Response<OrderData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_ADDRESS)

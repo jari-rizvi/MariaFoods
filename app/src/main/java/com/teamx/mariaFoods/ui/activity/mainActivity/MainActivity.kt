@@ -165,10 +165,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
                     navController.navigate(R.id.dashboardFragment, null)
                 }
                 R.id.order -> {
-                    navController.navigate(R.id.checkoutFragment, null)
-                }
-                R.id.cart -> {
-                    navController.navigate(R.id.signupFragment, null)
+                    navController.navigate(R.id.orderHistoryFragment, null)
                 }
                 R.id.profile -> {
                     navController.navigate(R.id.profileFragment, null)
