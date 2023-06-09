@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import com.teamx.mariaFoods.databinding.ItemFeatureProductBinding
+import com.teamx.mariaFoods.databinding.ItemProductsImagesBinding
 
 
 class ProductBannersAdapter(
@@ -14,7 +14,7 @@ class ProductBannersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val itemTopProductBinding = ItemFeatureProductBinding.inflate(inflater, parent, false)
+        val itemTopProductBinding = ItemProductsImagesBinding.inflate(inflater, parent, false)
         return TopProductViewHolder(itemTopProductBinding)
 
     }
@@ -31,7 +31,7 @@ class ProductBannersAdapter(
         return arrayList.size
     }
 
-    class TopProductViewHolder(itemProductBannerBinding: ItemFeatureProductBinding) :
+    class TopProductViewHolder(itemProductBannerBinding: ItemProductsImagesBinding) :
         RecyclerView.ViewHolder(itemProductBannerBinding.root) {
         val binding = itemProductBannerBinding
 

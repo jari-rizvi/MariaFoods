@@ -97,7 +97,7 @@
 
             <TextView
                 android:id="@+id/textView3"
-                style="@style/montserrat"
+                style="@style/montserrat_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hello Emily"
@@ -124,10 +124,11 @@
 
             <TextView
                 android:id="@+id/textView4"
-                style="@style/open_sans_regular_small"
+                style="@style/open_sans_regular_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dubai Silicon Oasis"
+                android:textSize="@dimen/_12ssp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -137,14 +138,12 @@
 
             <TextView
                 android:id="@+id/textView5"
-                style="@style/montserrat"
+                style="@style/montserrat_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Unbelievably\n
-Delicious\n
-Chicken"
+                android:text="Unbelievably\nDelicious Chicken"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView4"
                 app:layout_constraintHorizontal_bias="0.0"
