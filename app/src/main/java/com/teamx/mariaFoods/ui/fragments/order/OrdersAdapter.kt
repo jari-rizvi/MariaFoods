@@ -31,7 +31,7 @@ class OrderAdapter(
             ""
         }
         holder.bind.ProductQuantity.text =try {
-            "P.O Box, ${orderList.product.stock_qty}"
+            orderList.order_quantity.toString()
         } catch (e: Exception) {
             ""
         }
@@ -43,7 +43,7 @@ class OrderAdapter(
         }
 
         holder.bind.date.text =try {
-            orderList.created_at.drop(18)
+            orderList.created_at.dropLast(17)
         } catch (e: Exception) {
             ""
         }

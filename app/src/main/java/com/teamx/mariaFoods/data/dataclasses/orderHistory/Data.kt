@@ -10,5 +10,6 @@ data class Data(
     val product: Product,
     val scheduled_delivery_info: ScheduledDeliveryInfo,
     val shipping_cost: Int,
+    val order_quantity: Int,
     val updated_at: String
 )

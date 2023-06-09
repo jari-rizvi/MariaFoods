@@ -120,7 +120,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
                 R.id.checkoutFragment -> {
                     bottomNav?.visibility = View.VISIBLE
                 }
-                R.id.checkoutFragment -> {
+                R.id.orderHistoryFragment -> {
                     bottomNav?.visibility = View.VISIBLE
                 }
                 else -> {

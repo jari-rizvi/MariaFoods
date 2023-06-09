@@ -41,30 +41,35 @@ class OrderHistoryFragment :
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
 
         mViewModel.getOrder()
 
-        mViewModel.orderList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
+        if (!mViewModel.orderList.hasActiveObservers()) {
+            mViewModel.orderList.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
 
-                        orderArrayList.addAll(data.data)
-                        orderAdapter.notifyDataSetChanged()
+                            orderArrayList.addAll(data.data)
+                            orderAdapter.notifyDataSetChanged()
 
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                if (isAdded) {
+                    mViewModel.orderList.removeObservers(viewLifecycleOwner)
                 }
-            }
-            if (isAdded) {
-                mViewModel.orderList.removeObservers(viewLifecycleOwner)
             }
         }
         orderRecyclerview()
