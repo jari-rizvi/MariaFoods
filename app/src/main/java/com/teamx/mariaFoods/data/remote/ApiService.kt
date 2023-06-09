@@ -6,7 +6,7 @@ import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
+import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
@@ -99,7 +99,7 @@ interface ApiService {
     @GET(NetworkCallPoints.GET_ADDRESS)
     suspend fun getAddress(
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
-    ): Response<GetAddressdData>
+    ): Response<GetAddressData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CART)

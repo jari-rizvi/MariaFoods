@@ -94,64 +94,65 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
         mViewModel.bannerList()
 
-        mViewModel.bannerList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
+        if (!mViewModel.bannerList.hasActiveObservers()) {
+            mViewModel.bannerList.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
 
-                        featureProductArrayList.addAll(data.data)
-                        featureProductAdapter.notifyDataSetChanged()
-//                        it.let {
-//                            featureProductArrayList.clear()
-//                            featureProductArrayList.addAll(it.data.get(0).path)
-//                            featureProductAdapter.notifyDataSetChanged()                        }
+                            featureProductArrayList.addAll(data.data)
+                            featureProductAdapter.notifyDataSetChanged()
 
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                if (isAdded) {
+                    mViewModel.bannerList.removeObservers(viewLifecycleOwner)
                 }
-            }
-            if (isAdded) {
-                mViewModel.bannerList.removeObservers(viewLifecycleOwner)
             }
         }
 
         mViewModel.getProducts()
 
-        mViewModel.products.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
+        if (!mViewModel.products.hasActiveObservers()) {
+            mViewModel.products.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
 
-                        productArrayList.addAll(data.data)
-                        productAdapter.notifyDataSetChanged()
+                            productArrayList.addAll(data.data)
+                            productAdapter.notifyDataSetChanged()
 
-                        timeArrayList.addAll(data.shedule.time_slots)
-                        timeAdapter.notifyDataSetChanged()
+                            timeArrayList.addAll(data.shedule.time_slots)
+                            timeAdapter.notifyDataSetChanged()
 
-                        dayArrayList.addAll(data.shedule.order_days)
-                        dayAdapter.notifyDataSetChanged()
+                            dayArrayList.addAll(data.shedule.order_days)
+                            dayAdapter.notifyDataSetChanged()
 
 
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                if (isAdded) {
+                    mViewModel.products.removeObservers(viewLifecycleOwner)
                 }
-            }
-            if (isAdded) {
-                mViewModel.bannerList.removeObservers(viewLifecycleOwner)
             }
         }
         setUpTransformer()

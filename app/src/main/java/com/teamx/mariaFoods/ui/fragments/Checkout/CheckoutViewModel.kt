@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
+import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
@@ -116,8 +116,8 @@ class CheckoutViewModel @Inject constructor(
     }
 
 
-    private val _addressListResponse = MutableLiveData<Resource<GetAddressdData>>()
-    val addressList: LiveData<Resource<GetAddressdData>>
+    private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
+    val addressList: LiveData<Resource<GetAddressData>>
         get() = _addressListResponse
 
     fun getAddress() {

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressdData
+import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
@@ -23,8 +23,8 @@ class AddressViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _addressListResponse = MutableLiveData<Resource<GetAddressdData>>()
-    val addressList: LiveData<Resource<GetAddressdData>>
+    private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
+    val addressList: LiveData<Resource<GetAddressData>>
         get() = _addressListResponse
 
     fun getAddress() {

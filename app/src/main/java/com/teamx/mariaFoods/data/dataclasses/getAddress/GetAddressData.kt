@@ -1,6 +1,6 @@
 package com.teamx.mariaFoods.data.dataclasses.getAddress
 
-data class GetAddressdData(
+data class GetAddressData(
     val Flag: Int,
-    val data: Data
+    val `data`: Data
 )

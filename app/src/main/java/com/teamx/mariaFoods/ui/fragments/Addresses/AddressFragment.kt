@@ -180,6 +180,13 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     loadingDialog.dismiss()
                     it.data?.let { data ->
 
+                        if (addressArrayList.isEmpty()) {
+                            mViewDataBinding.emptyTV.visibility = View.VISIBLE
+                            mViewDataBinding.addressRecycler.visibility = View.GONE
+                        }
+                        mViewDataBinding.emptyTV.visibility = View.GONE
+                        mViewDataBinding.addressRecycler.visibility = View.VISIBLE
+
                         addressArrayList.addAll(listOf(data.data))
                         addressAdapter.notifyDataSetChanged()
 
@@ -223,19 +230,6 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
     }
 
-
-//    private fun visibilityOnDelete() {
-//
-//        if (addressArrayList!!.isNullOrEmpty()) {
-//            mViewDataBinding.emptyTV.visibility = View.VISIBLE
-//
-//        } else {
-//            mViewDataBinding.emptyTV.visibility = View.GONE
-//            mViewDataBinding.addressRecycler.visibility = View.VISIBLE
-//
-//        }
-//
-//    }
 
     override fun oneditClick(position: Int) {
 
