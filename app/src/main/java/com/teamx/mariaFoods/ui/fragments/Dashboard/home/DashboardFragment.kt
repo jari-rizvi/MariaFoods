@@ -85,6 +85,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+        mViewDataBinding.imageView.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.notificationFragment, null, options)
+        }
 
 
 
