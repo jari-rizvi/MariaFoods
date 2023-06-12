@@ -67,6 +67,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
 
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
+
+                mViewDataBinding.email.setText(user.email.toString())
+                mViewDataBinding.fName.setText(user.first_name.toString())
+                mViewDataBinding.lName.setText(user.last_name.toString())
+                mViewDataBinding.phone.setText(user.phone.toString())
+
+
                 // Do something with the user
                 Log.d("editer", "onViewCreated: ${user.first_name}")
                 Log.d("editer", "onViewCreated: ${user.last_name}")
