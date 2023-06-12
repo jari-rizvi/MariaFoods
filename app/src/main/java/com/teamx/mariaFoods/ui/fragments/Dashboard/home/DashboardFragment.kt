@@ -86,6 +86,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             }
         }
 
+
+
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
         mViewDataBinding.bottomSheetLayout.months.text = currentMonth
 

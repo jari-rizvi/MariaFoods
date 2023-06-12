@@ -204,6 +204,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
 
     }
 
+
     private lateinit var stateHelper: FragHelper
 
     private val fragments = mutableMapOf<Int, Fragment>()

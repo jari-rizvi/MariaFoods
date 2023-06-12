@@ -236,5 +236,4 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
         return true
     }
 
-
 }
