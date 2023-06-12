@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
+import com.hbb20.CountryCodePicker
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -26,7 +27,8 @@ import org.json.JSONException
 import timber.log.Timber
 
 @AndroidEntryPoint
-class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>() {
+class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>(),
+    CountryCodePicker.OnCountryChangeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_edit_profile
@@ -44,6 +46,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
 
     var strImg = ""
 
+    private var ccp: CountryCodePicker? = null
+    private var countryCode: String? = null
+    private var countryName: String? = null
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
@@ -70,7 +75,9 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             }
         }
 
-
+        mViewDataBinding.bottomSheetLayout1.countryCode.registerCarrierNumberEditText(
+            mViewDataBinding.bottomSheetLayout1.etPhone
+        )
 
 
         mViewDataBinding.btnEditProfile.setOnClickListener {
@@ -81,6 +88,44 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
 
             validate()
 
+        }
+        mViewDataBinding.bottomSheetLayout1.btnNext.setOnClickListener {
+            changePhone()
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
+        mViewDataBinding.bottomSheetLayout2.btnVerify.setOnClickListener {
+            changePhoneVerify()
+        }
+
+
+        mViewDataBinding.btnChangePhone.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetChangeMobile)
+
+            bottomSheetBehavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                            View.GONE
+                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                            View.VISIBLE
+                        else -> "Persistent Bottom Sheet"
+                    }
+                }
+            })
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
         }
 
 
@@ -132,11 +177,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
     }
 
     private fun initialization() {
-        phone = mViewDataBinding.phone.text.toString().trim()
         email = mViewDataBinding.email.text.toString().trim()
         lastName = mViewDataBinding.lName.text.toString().trim()
         FirstName = mViewDataBinding.fName.text.toString().trim()
-
+        phone = mViewDataBinding.bottomSheetLayout1.etPhone.text.toString().trim()
+        ccp = mViewDataBinding.bottomSheetLayout1.countryCode
+        ccp!!.setOnCountryChangeListener(this)
 
     }
 
@@ -224,6 +270,111 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
         }
     }
 
+    fun changePhone() {
+
+        initialization()
+        val params = JsonObject()
+        try {
+            params.addProperty(
+                "phone", mViewDataBinding.bottomSheetLayout1.countryCode.fullNumberWithPlus
+            )
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        mViewModel.changePhone(params)
+
+        if (!mViewModel.changePhoneResponse.hasActiveObservers()) {
+            mViewModel.changePhoneResponse.observe(requireActivity(), Observer {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+                            bottomSheetBehavior =
+                                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout2.bottomSheetOtop)
+
+                            bottomSheetBehavior.addBottomSheetCallback(object :
+                                BottomSheetBehavior.BottomSheetCallback() {
+                                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                                }
+
+                                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                                    when (newState) {
+                                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                                            View.GONE
+                                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                                            View.VISIBLE
+                                        else -> "Persistent Bottom Sheet"
+                                    }
+                                }
+                            })
+
+                            val state =
+                                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                else BottomSheetBehavior.STATE_EXPANDED
+                            bottomSheetBehavior.state = state
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+            })
+        }
+    }
+
+    fun changePhoneVerify() {
+
+        val code = mViewDataBinding.bottomSheetLayout2.pinView.text.toString()
+
+        initialization()
+        val params = JsonObject()
+        try {
+            params.addProperty(
+                "phone", mViewDataBinding.bottomSheetLayout1.countryCode.fullNumberWithPlus
+            )
+            params.addProperty("through", "settings")
+            params.addProperty("otp", code)
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        mViewModel.changePhoneVerify(params)
+
+        if (!mViewModel.changePhoneVerifyResponse.hasActiveObservers()) {
+            mViewModel.changePhoneVerifyResponse.observe(requireActivity(), Observer {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            val state =
+                                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                else BottomSheetBehavior.STATE_EXPANDED
+                            bottomSheetBehavior.state = state
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+            })
+        }
+    }
+
     private fun validate(): Boolean {
         if (mViewDataBinding.bottomSheetLayout.currentPass.text.toString().trim().isEmpty()) {
             mViewDataBinding.root.snackbar(getString(R.string.enter_Password))
@@ -251,4 +402,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
         return true
     }
 
+
+    override fun onCountrySelected() {
+        countryCode = ccp!!.selectedCountryCode
+        countryName = ccp!!.selectedCountryName
+
+    }
 }

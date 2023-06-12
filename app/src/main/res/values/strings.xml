@@ -51,5 +51,8 @@
     <string name="time_slots">Time Slots</string>
     <string name="coupon_code">Coupon Code</string>
     <string name="apply">Apply</string>
+    <string name="change_mobile_number">Change Mobile Number</string>
+    <string name="next">NEXT</string>
+    <string name="verify">Verify</string>
 
 </resources>

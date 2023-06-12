@@ -66,6 +66,19 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<SuccessData>
+@Headers("secret: dev")
+    @POST(NetworkCallPoints.CHANGE_PHONE)
+    suspend fun changePhone(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<LoginPhoneData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.CHANGE_PHONE_VERIFY)
+    suspend fun changePhoneVerify(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.OTP_VERIFY)

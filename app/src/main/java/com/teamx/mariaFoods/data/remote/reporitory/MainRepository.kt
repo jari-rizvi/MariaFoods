@@ -18,11 +18,11 @@ class MainRepository @Inject constructor(
     suspend fun resetPassEmail(@Body param: JsonObject) = apiService.resetPassEmail(param)
     suspend fun resetPass(@Body param: JsonObject) = apiService.resetPass(param)
     suspend fun changePass(@Body param: JsonObject) = apiService.changePass(param)
+    suspend fun changePhone(@Body param: JsonObject) = apiService.changePhone(param)
+    suspend fun changePhoneVerify(@Body param: JsonObject) = apiService.changePhoneVerify(param)
     suspend fun otpVerify(@Body param: JsonObject) = apiService.otpVerify(param)
     suspend fun otpVerifForgotEmail(@Body param: JsonObject) = apiService.otpVerifForgotEmail(param)
-    suspend fun resendOtp(@Body param: JsonObject) = apiService.resendOtp(param)
 
-    suspend fun getCountries(@Body param: JsonObject) = apiService.getCountries(param)
     suspend fun getBanners() = apiService.getBanners()
     suspend fun getProducts() = apiService.getProducts()
     suspend fun getOrder() = apiService.getOrder()
