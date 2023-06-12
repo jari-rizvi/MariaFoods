@@ -59,7 +59,7 @@ class ProfileFragment :
 
                 mViewDataBinding.btnEditProfile.text = user.first_name.toString()
                 mViewDataBinding.textView42.text = user.email.toString()
-                Picasso.get().load(user.avatar.toString()).into(mViewDataBinding.profilePicture)
+//                Picasso.get().load(user.avatar.toString()).into(mViewDataBinding.profilePicture)
             }
         }
 

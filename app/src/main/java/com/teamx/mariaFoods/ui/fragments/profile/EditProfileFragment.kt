@@ -19,12 +19,11 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentEditProfileBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
-import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
-import timber.log.Timber
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>(),
@@ -168,19 +167,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             popUpStack()
         }
 
-        PrefHelper.getInstance(requireContext()).saveProfile(
-            mViewDataBinding.fName.text.toString(),
-            mViewDataBinding.lName.text.toString(),
-            mViewDataBinding.email.text.toString(),
-            strImg,
-            mViewDataBinding.phone.text.toString()
-        )
-
-        PrefHelper.getInstance(requireContext()).firstname?.let { Timber.tag("TAG").d(it) }
-        PrefHelper.getInstance(requireContext()).lastname?.let { Timber.tag("TAG").d(it) }
-        PrefHelper.getInstance(requireContext()).email?.let { Timber.tag("TAG").d(it) }
-        PrefHelper.getInstance(requireContext()).avatar?.let { Timber.tag("TAG").d(it) }
-        PrefHelper.getInstance(requireContext()).number?.let { Timber.tag("TAG").d(it) }
     }
 
     private fun initialization() {
@@ -218,6 +204,16 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
                         loadingDialog.dismiss()
 
                         it.data?.let { data ->
+                            lifecycleScope.launch(Dispatchers.IO) {
+
+                                dataStoreProvider.saveUserDetails(
+                                    data.User
+                                )
+
+                            }
+
+                            mViewDataBinding.root.snackbar("Profile Has Been Updated")
+
 
                         }
 

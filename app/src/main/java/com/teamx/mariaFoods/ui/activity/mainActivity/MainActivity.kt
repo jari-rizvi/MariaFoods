@@ -123,6 +123,9 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
                 R.id.orderHistoryFragment -> {
                     bottomNav?.visibility = View.VISIBLE
                 }
+                R.id.profileFragment -> {
+                    bottomNav?.visibility = View.VISIBLE
+                }
                 else -> {
                     bottomNav?.visibility = View.GONE
                 }
