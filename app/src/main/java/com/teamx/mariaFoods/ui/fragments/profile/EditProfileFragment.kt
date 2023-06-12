@@ -1,9 +1,11 @@
 package com.teamx.mariaFoods.ui.fragments.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -19,6 +21,7 @@ import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import timber.log.Timber
 
@@ -56,6 +59,18 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        lifecycleScope.launch {
+            dataStoreProvider.userFlow.collect { user ->
+                // Do something with the user
+                Log.d("editer", "onViewCreated: ${user.first_name}")
+                Log.d("editer", "onViewCreated: ${user.last_name}")
+                Log.d("editer", "onViewCreated: ${user.phone}")
+                Log.d("editer", "onViewCreated: ${user.email}")
+            }
+        }
+
+
 
 
         mViewDataBinding.btnEditProfile.setOnClickListener {

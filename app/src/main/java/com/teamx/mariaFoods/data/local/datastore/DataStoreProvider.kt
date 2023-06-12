@@ -2,13 +2,13 @@ package com.teamx.mariaFoods.data.local.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.facebook.appevents.codeless.internal.PathComponent
+import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.MainApplication.Companion.context
 import com.teamx.mariaFoods.constants.AppConstants
+import com.teamx.mariaFoods.data.dataclasses.login.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,6 +19,7 @@ class DataStoreProvider(context: Context) {
 
     //Create some keys
     companion object {
+//        private val Context.dataStore: AppConstants.DataStore<Preferences> by preferencesDataStore(name = AppConstants.DataStore.DATA_STORE_NAME)
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = AppConstants.DataStore.DATA_STORE_NAME)
         val IS_LOCALIZATION_KEY =
             booleanPreferencesKey(AppConstants.DataStore.LOCALIZATION_KEY_NAME)
@@ -30,14 +31,16 @@ class DataStoreProvider(context: Context) {
         val FIRSTNAME = stringPreferencesKey(AppConstants.DataStore.FIRSTNAME)
         val LASTNAME = stringPreferencesKey(AppConstants.DataStore.LASTNAME)
         val EMAIL = stringPreferencesKey(AppConstants.DataStore.EMAIL)
+        val VERIFIED = intPreferencesKey(AppConstants.DataStore.VERIFIED)
+        val ID = intPreferencesKey(AppConstants.DataStore.ID)
+        val NAME = stringPreferencesKey(AppConstants.DataStore.NAME)
+        val PROVIDER_ID = intPreferencesKey(AppConstants.DataStore.PROVIDER_ID)
 
 
     }
 
     //Store data
-    suspend fun storeData(
-        isLocalizationKey: Boolean, name: String, token: String, details: String
-    ) {
+    suspend fun storeData(isLocalizationKey: Boolean, name: String, token: String, details: String) {
         context.dataStore.edit {
             it[IS_LOCALIZATION_KEY] = isLocalizationKey
             it[USER_NAME_KEY] = name
@@ -67,15 +70,59 @@ class DataStoreProvider(context: Context) {
 
     }
 
+    val firstName: Flow<String?> = context.dataStore.data.map {
+        it[FIRSTNAME]
+    }
 
-    suspend fun saveUserDetails(
-        firstname: String, lastname: String, email: String, number: String
-    ) {
+    val lastName: Flow<String?> = context.dataStore.data.map {
+        it[LASTNAME]
+    }
+
+    val userEmail: Flow<String?> = context.dataStore.data.map {
+        it[EMAIL]
+    }
+    val userNumber: Flow<String?> = context.dataStore.data.map {
+        it[NUMBER]
+    }
+
+    val userFlow: Flow<User> = context.dataStore.data
+        .map { preferences ->
+            val first_name = preferences[FIRSTNAME] ?: ""
+            val last_name = preferences[LASTNAME] ?: ""
+            val email = preferences[EMAIL] ?: ""
+            val phone = preferences[NUMBER] ?: ""
+            val verified = preferences[VERIFIED] ?: 0
+            val _id = preferences[ID] ?: 0
+            val name = preferences[NAME] ?: ""
+            val avatar = preferences[AVATAR] ?: ""
+            val provider_id = preferences[PROVIDER_ID] ?: 0
+            User(
+                first_name = first_name,
+                email = email,
+                last_name = last_name,
+                phone = phone,
+                email_or_otp_verified = verified,
+                id = _id,
+                avatar = avatar,
+                name = name,
+                provider_id = provider_id
+
+            )
+        }
+
+
+
+    suspend fun saveUserDetails(user : User) {
         context.dataStore.edit {
-            it[FIRSTNAME] = firstname
-            it[LASTNAME] = lastname
-            it[EMAIL] = email
-            it[NUMBER] = number
+            it[FIRSTNAME] = user.first_name
+            it[LASTNAME] = user.last_name
+            it[EMAIL] = user.email
+            it[NUMBER] = user.phone
+            it[AVATAR] = user.avatar
+            it[VERIFIED] = user.email_or_otp_verified
+            it[ID] = user.id
+            it[NAME] = user.name
+            it[PROVIDER_ID] = user.provider_id
         }
     }
 

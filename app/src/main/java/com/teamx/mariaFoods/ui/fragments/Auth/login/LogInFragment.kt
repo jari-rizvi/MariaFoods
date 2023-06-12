@@ -107,9 +107,10 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                             val email = data.User.email
                             val number = data.User.phone
 
-                            dataStoreProvider.saveUserDetails(
-                                firstname, lastname, email, number
-                            )
+//                            dataStoreProvider.saveUserDetails(
+//                                data.User
+//                                /*firstname, lastname, email, number*/
+//                            )
 
 
                         }

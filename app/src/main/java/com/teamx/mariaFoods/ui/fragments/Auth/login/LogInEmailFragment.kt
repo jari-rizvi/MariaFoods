@@ -225,7 +225,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                                         val number = data.User.phone
 
                                         dataStoreProvider.saveUserDetails(
-                                            firstname, lastname, email, number
+                                            data.User
                                         )
 
                                     }
