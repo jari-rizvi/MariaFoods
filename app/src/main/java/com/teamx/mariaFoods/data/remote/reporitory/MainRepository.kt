@@ -26,7 +26,7 @@ class MainRepository @Inject constructor(
     suspend fun getBanners() = apiService.getBanners()
     suspend fun getProducts() = apiService.getProducts()
     suspend fun getOrder() = apiService.getOrder()
-
+    suspend fun getNotification() = apiService.getNotification()
     suspend fun getAddress() = apiService.getAddress()
     suspend fun getCart() = apiService.getCart()
     suspend fun checkout(@Body param: JsonObject) = apiService.checkout(param)

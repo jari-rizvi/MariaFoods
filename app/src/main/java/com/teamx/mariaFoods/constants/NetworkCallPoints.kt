@@ -33,6 +33,9 @@ class NetworkCallPoints {
         //Get OrderHistory
         const val GET_ORDER_HISTORY = "products/order/history"
 
+        //Get Notification
+        const val GET_NOTIFICATION = "users/get-notifications"
+
         //Ger Addresses
         const val GET_ADDRESS = "users/address/get-addresses"
         const val DELETE_ADDRESS = "users/address/delete-address"
