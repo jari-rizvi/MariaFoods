@@ -93,6 +93,10 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
 
                                 lifecycleScope.launch(Dispatchers.IO) {
                                     dataStoreProvider.saveUserToken(data.AccessToken)
+
+                                    dataStoreProvider.saveUserDetails(
+                                        data.User
+                                    )
                                 }
                                 navController =
                                     Navigation.findNavController(

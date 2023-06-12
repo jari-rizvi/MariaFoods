@@ -102,7 +102,6 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                                 bundle.putString("email", email)
                                 bundle.putString("otp", code)
 
-                                showToast("agaaydata")
                                 navController =
                                     Navigation.findNavController(
                                         requireActivity(),

@@ -170,7 +170,14 @@ class SignupemailFragment :
 
                                     lifecycleScope.launch(Dispatchers.IO) {
                                         dataStoreProvider.saveUserToken(data.AccessToken)
+
+                                        dataStoreProvider.saveUserDetails(
+                                            data.User
+                                        )
                                     }
+
+
+
                                     val bundle = Bundle()
                                     bundle.putString("email", data.User.email)
 
