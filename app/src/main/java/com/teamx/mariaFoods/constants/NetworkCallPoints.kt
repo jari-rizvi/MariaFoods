@@ -45,6 +45,7 @@ class NetworkCallPoints {
 
         //Checkout
         const val CHECKOUT = "products/order/checkout"
+        const val ADD_COUPON = "products/apply-coupon"
 
 
         var TOKENER = ""

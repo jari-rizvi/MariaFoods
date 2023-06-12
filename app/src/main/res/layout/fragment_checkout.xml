@@ -31,7 +31,6 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-
         <ImageView
             android:id="@+id/imageView11"
             android:layout_width="wrap_content"
@@ -46,10 +45,10 @@
 
         <TextView
             android:id="@+id/textView14"
+            style="@style/montserrat_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkout"
-            style="@style/montserrat_bold"
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageView11"
@@ -80,10 +79,41 @@
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/container"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@id/tvCoupon"
+                    style="@style/montserrat_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/coupon_code"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.03" />
+
+                <EditText
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@drawable/contact_input_background"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView20"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/containerAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCoupon"
+                    app:layout_constraintVertical_bias="0.02" />
+
 
                 <TextView
                     android:id="@+id/textView17"
@@ -97,7 +127,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView"
                     app:layout_constraintVertical_bias="0.03" />
 
                 <TextView
@@ -120,28 +150,28 @@
                     android:id="@+id/containerAddress"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/card_background"
                     android:elevation="@dimen/_1sdp"
-                    app:layout_constraintVertical_bias="0.01"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17">
+                    app:layout_constraintTop_toBottomOf="@+id/textView17"
+                    app:layout_constraintVertical_bias="0.01">
 
                     <TextView
                         android:id="@+id/address"
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:text="TextView"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/postal"
                         app:layout_constraintEnd_toStartOf="@+id/imageView13"
+                        app:layout_constraintHorizontal_bias="0.1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintHorizontal_bias="0.1"
                         app:layout_constraintVertical_bias="0.05"
                         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -202,9 +232,9 @@
                         android:id="@+id/imageView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintHorizontal_bias="0.98"
                         app:layout_constraintBottom_toBottomOf="@+id/textView25"
                         app:layout_constraintEnd_toStartOf="@+id/textView25"
+                        app:layout_constraintHorizontal_bias="0.98"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView25"
                         app:srcCompat="@drawable/edit" />
@@ -250,8 +280,8 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/_5sdp"
                         android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:paddingStart="@dimen/_5sdp"
                         android:text="Sub Total"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView28"
@@ -265,10 +295,10 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:text="VAT"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:textSize="@dimen/_12ssp"
                         android:paddingStart="@dimen/_5sdp"
+                        android:text="VAT"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView29"
                         app:layout_constraintEnd_toEndOf="@+id/textView28"
                         app:layout_constraintStart_toStartOf="@+id/textView28"
@@ -279,9 +309,9 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:text="Shipment Code"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:paddingStart="@dimen/_5sdp"
+                        android:text="Shipment Code"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView33"
                         app:layout_constraintEnd_toEndOf="@+id/textView6"
@@ -293,9 +323,9 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:text="Discount"
-                        android:paddingStart="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:text="Discount"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView6"
                         app:layout_constraintEnd_toEndOf="@+id/textView27"
@@ -309,10 +339,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TextView"
-                        app:layout_constraintHorizontal_bias="0.9"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/discount"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.9"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
@@ -335,9 +365,9 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:text="TextView"
                         android:textSize="@dimen/_12ssp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintBottom_toTopOf="@+id/vat"
                         app:layout_constraintEnd_toEndOf="@+id/subtotal"
                         app:layout_constraintStart_toStartOf="@+id/subtotal"
@@ -348,13 +378,13 @@
                         style="@style/montserrat_bold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Grand Total"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:text="Grand Total"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/_14ssp"
-                        android:paddingStart="@dimen/_5sdp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/textView29"
                         app:layout_constraintStart_toStartOf="@+id/textView29"
@@ -365,9 +395,9 @@
                         style="@style/open_sans_secondary_medium_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:text="TextView"
                         android:textSize="@dimen/_12ssp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintBottom_toTopOf="@+id/total"
                         app:layout_constraintEnd_toEndOf="@+id/vat"
                         app:layout_constraintStart_toStartOf="@+id/vat"
@@ -378,21 +408,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_marginHorizontal="@dimen/_15sdp"
-                        android:background="@color/gray"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/gray"
                         app:layout_constraintBottom_toTopOf="@+id/textView33"
-                        app:layout_constraintTop_toBottomOf="@+id/deliveryfee"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintTop_toBottomOf="@+id/deliveryfee" />
 
                     <TextView
                         android:id="@+id/vat"
+                        style="@style/open_sans_secondary_medium_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        style="@style/open_sans_secondary_medium_small"
-                        android:textSize="@dimen/_12ssp"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:text="TextView"
+                        android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/deliveryfee"
                         app:layout_constraintEnd_toEndOf="@+id/discount"
                         app:layout_constraintStart_toStartOf="@+id/discount"
@@ -409,21 +439,21 @@
                     android:text="Payment Method"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
-                    app:layout_constraintVertical_bias="0.05"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textView26"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@+id/textView26"
-                    app:layout_constraintTop_toBottomOf="@+id/containerPayment" />
+                    app:layout_constraintTop_toBottomOf="@+id/containerPayment"
+                    app:layout_constraintVertical_bias="0.05" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerPayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/containerPayment"
                     app:layout_constraintStart_toStartOf="@+id/containerPayment"
                     app:layout_constraintTop_toBottomOf="@+id/textView35"
@@ -447,6 +477,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/recyclerPayment"
                     app:layout_constraintVertical_bias="0.2" />
 
+                <TextView
+                    android:id="@+id/textView20"
+                    style="@style/montserrat_bold"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/card_background"
+                    android:backgroundTint="@color/orange"
+                    android:gravity="center"
+                    android:text="@string/apply"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/autoCompleteTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/autoCompleteTextView" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

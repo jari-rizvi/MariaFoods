@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
+import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
@@ -81,6 +82,36 @@ class CheckoutViewModel @Inject constructor(
                     _checkoutResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _checkoutResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+ private val _couponResponse = MutableLiveData<Resource<CouponData>>()
+    val coupon: LiveData<Resource<CouponData>>
+        get() = _couponResponse
+
+    fun Applycoupon(param: JsonObject) {
+        viewModelScope.launch {
+            _couponResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.coupon(param).let {
+                        if (it.isSuccessful) {
+                            _couponResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                            _couponResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _couponResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _couponResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _couponResponse.postValue(Resource.error("No internet connection", null))
         }
     }
 

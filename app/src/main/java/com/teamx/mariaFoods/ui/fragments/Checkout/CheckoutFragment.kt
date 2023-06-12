@@ -54,9 +54,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var state: String
     private lateinit var postal: String
 
-
-
-
     lateinit var paymentSheet: PaymentSheet
     var paymentIntentClientSecret: String = ""
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
@@ -142,6 +139,55 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        mViewDataBinding.textView20.setOnClickListener {
+            if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
+                showToast("Enter Voucher")
+            } else {
+
+                val params = JsonObject()
+                try {
+                    params.addProperty(
+                        "code", mViewDataBinding.autoCompleteTextView.text.toString())
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+                mViewModel.Applycoupon(params)
+            }
+
+        }
+
+        if (!mViewModel.coupon.hasActiveObservers()) {
+            mViewModel.coupon.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+                            mViewDataBinding.subtotal.text = data.data.subTotal + "AED"
+                            mViewDataBinding.discount.text = data.data.couponDiscount
+                            mViewDataBinding.vat.text = "25.00" + "AED"
+                            mViewDataBinding.deliveryfee.text = "100.00" + "AED"
+                            mViewDataBinding.total.text = "300.00" + "AED"
+
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+
+                if (isAdded) {
+                    mViewModel.coupon.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
+
 
 
         mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {

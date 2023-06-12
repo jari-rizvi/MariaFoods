@@ -49,5 +49,7 @@
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="save_changes">Save Changes</string>
     <string name="time_slots">Time Slots</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="apply">Apply</string>
 
 </resources>

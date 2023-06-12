@@ -7,7 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -18,6 +20,7 @@ import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileFragment :
@@ -46,6 +49,25 @@ class ProfileFragment :
                 popEnter = R.anim.nav_default_pop_enter_anim
                 popExit = R.anim.nav_default_pop_exit_anim
             }
+        }
+
+
+        val acct = GoogleSignIn.getLastSignedInAccount(requireContext())
+        if (acct != null) {
+            val personName = acct.displayName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto = acct.photoUrl
+            val token = acct.idToken
+
+
+            mViewDataBinding.btnEditProfile.text = personName
+            mViewDataBinding.textView42.text = personEmail
+
+            Picasso.get().load(personPhoto).into(mViewDataBinding.profilePicture)
+
+            Timber.tag("TAG").d( personPhoto.toString())
+
         }
 
         mViewDataBinding.btnAddress.setOnClickListener {

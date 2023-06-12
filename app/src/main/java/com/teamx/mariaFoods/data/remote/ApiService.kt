@@ -6,6 +6,7 @@ import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
+import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
@@ -113,6 +114,13 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<CheckoutData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.ADD_COUPON)
+    suspend fun coupon(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<CouponData>
 
 
     //how to delete through retro
