@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.squareup.picasso.Picasso
@@ -50,6 +52,37 @@ class ProfileFragment :
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val isLoggedIn = accessToken != null && !accessToken.isExpired
+
+        if (isLoggedIn) {
+            val request = GraphRequest.newMeRequest(
+                accessToken
+            ) { jsonObject, response ->
+                if (response?.error != null) {
+                    // Handle error
+                } else {
+                    val email = jsonObject?.getString("email")
+                    val name = jsonObject?.getString("name")
+                    val profilePicUrl = jsonObject?.getJSONObject("picture")
+                        ?.getJSONObject("data")
+                        ?.getString("url")
+
+                    // Use the retrieved data
+                    mViewDataBinding.btnEditProfile.text = name
+                    Picasso.get().load(profilePicUrl).into(mViewDataBinding.profilePicture)
+                    mViewDataBinding.textView42.text = email
+
+                }
+            }
+
+            val parameters = Bundle()
+            parameters.putString("fields", "email,name,picture.type(large)")
+            request.parameters = parameters
+            request.executeAsync()
+        }
+
 
 
         val acct = GoogleSignIn.getLastSignedInAccount(requireContext())
