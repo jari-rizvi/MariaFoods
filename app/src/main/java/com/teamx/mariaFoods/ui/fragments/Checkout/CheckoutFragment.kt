@@ -57,7 +57,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     lateinit var paymentSheet: PaymentSheet
     var paymentIntentClientSecret: String = ""
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
-     var stripPublicKey: String = "pk_test_51HWpLoH5a96j3Kt2rdV31pdGaiLEmPeIgoNBBSbCy79FaDdhOEuXnIiNWi6pT4mzmVxmBuZ5x60WpDUg7pfeln7i00v22JRQsM"
+    var stripPublicKey: String =
+        "pk_test_51HWpLoH5a96j3Kt2rdV31pdGaiLEmPeIgoNBBSbCy79FaDdhOEuXnIiNWi6pT4mzmVxmBuZ5x60WpDUg7pfeln7i00v22JRQsM"
 
     fun presentPaymentSheet() {
         paymentSheet.presentWithPaymentIntent(
@@ -71,6 +72,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             )
         )
     }
+
     private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
@@ -148,7 +150,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 val params = JsonObject()
                 try {
                     params.addProperty(
-                        "code", mViewDataBinding.autoCompleteTextView.text.toString())
+                        "code", mViewDataBinding.autoCompleteTextView.text.toString()
+                    )
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -167,12 +170,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            mViewDataBinding.subtotal.text = data.data.subTotal + "AED"
+                            mViewDataBinding.subtotal.text = data.data.subTotal
                             mViewDataBinding.discount.text = data.data.couponDiscount
-                            mViewDataBinding.vat.text = "25.00" + "AED"
-                            mViewDataBinding.deliveryfee.text = "100.00" + "AED"
-                            mViewDataBinding.total.text = "300.00" + "AED"
-
+                            mViewDataBinding.vat.text = data.data.vat
+                            mViewDataBinding.deliveryfee.text = data.data.delivery_charges
+                            mViewDataBinding.total.text = data.data.Total
 
                         }
                     }
@@ -370,8 +372,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
                         mViewDataBinding.containerAddress.visibility = View.VISIBLE
-                        mViewDataBinding.address.text = data.data.address_1.toString()
-                        mViewDataBinding.postal.text = "Postal Code " + data.data.postal
+                        mViewDataBinding.address.text = data.data[0].address_1
+                        mViewDataBinding.postal.text = "Postal Code " + data.data[0].postal
 
                     }
                 }

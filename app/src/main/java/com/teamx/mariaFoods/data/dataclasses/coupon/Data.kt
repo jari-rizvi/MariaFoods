@@ -6,5 +6,8 @@ data class Data(
     val couponCode: String,
     val couponDiscount: String,
     val qty: Int,
-    val subTotal: String
+    val subTotal: String,
+    val vat: String,
+    val Total: String,
+    val delivery_charges: String,
 )

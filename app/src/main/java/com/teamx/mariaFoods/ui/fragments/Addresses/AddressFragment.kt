@@ -187,7 +187,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         mViewDataBinding.emptyTV.visibility = View.GONE
                         mViewDataBinding.addressRecycler.visibility = View.VISIBLE
 
-                        addressArrayList.addAll(listOf(data.data))
+                        addressArrayList.addAll(data.data)
                         addressAdapter.notifyDataSetChanged()
 
                     }
