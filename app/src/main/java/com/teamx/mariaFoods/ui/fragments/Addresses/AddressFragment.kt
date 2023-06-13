@@ -48,14 +48,11 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
-    private lateinit var fName: String
-    private lateinit var lName: String
-    private lateinit var email: String
-    private lateinit var phone: String
+    private lateinit var name: String
     private lateinit var country: String
     private lateinit var city: String
     private lateinit var address: String
-    private lateinit var state: String
+    private lateinit var statee: String
     private lateinit var postal: String
 
 
@@ -80,6 +77,28 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
             getLocation()
         }
+
+        mViewDataBinding.bottomSheetLayout.btnHome.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnHome.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout.btnWork.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnWork.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout.btnOther.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnOther.text.toString()
+        }
+
         mViewDataBinding.btnAddAddress.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
@@ -110,16 +129,18 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
-            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !state!!.isEmpty()) {
+            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !statee!!.isEmpty()) {
 
                 val params = JsonObject()
                 try {
+                    params.addProperty("name", name)
                     params.addProperty("country", country)
                     params.addProperty("city", city)
                     params.addProperty("address_1", address)
                     params.addProperty("address_2", address)
                     params.addProperty("postal", postal)
-                    params.addProperty("state", state)
+                    params.addProperty("state", statee)
+                    params.addProperty("is_default", 0)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -138,8 +159,6 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
                                     if (data.Flag == 1) {
-                                        mViewDataBinding.emptyTV.visibility = View.GONE
-                                        mViewDataBinding.addressRecycler.visibility = View.VISIBLE
                                         val state =
                                             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                                             else BottomSheetBehavior.STATE_EXPANDED
@@ -171,36 +190,61 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
         mViewModel.getAddress()
 
-        mViewModel.addressList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
+        if (!mViewModel.addressList.hasActiveObservers()) {
+            mViewModel.addressList.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
 
-                        if (addressArrayList.isEmpty()) {
-                            mViewDataBinding.emptyTV.visibility = View.VISIBLE
-                            mViewDataBinding.addressRecycler.visibility = View.GONE
+                            if (addressArrayList.isEmpty()) {
+                                mViewDataBinding.emptyTV.visibility = View.VISIBLE
+                                mViewDataBinding.addressRecycler.visibility = View.GONE
+                            }
+                            mViewDataBinding.emptyTV.visibility = View.GONE
+                            mViewDataBinding.addressRecycler.visibility = View.VISIBLE
+
+                            addressArrayList.addAll(data.data)
+                            addressAdapter.notifyDataSetChanged()
+
                         }
-                        mViewDataBinding.emptyTV.visibility = View.GONE
-                        mViewDataBinding.addressRecycler.visibility = View.VISIBLE
-
-                        addressArrayList.addAll(data.data)
-                        addressAdapter.notifyDataSetChanged()
-
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                if (isAdded) {
+                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
                 }
             }
-            if (isAdded) {
-                mViewModel.addressList.removeObservers(viewLifecycleOwner)
-            }
         }
+
+
+        mViewDataBinding.bottomSheetLayout1.btnHome.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout1.btnHome.isChecked = true
+            mViewDataBinding.bottomSheetLayout1.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout1.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout1.btnHome.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout1.btnWork.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout1.btnWork.isChecked = true
+            mViewDataBinding.bottomSheetLayout1.btnHome.isChecked = false
+            mViewDataBinding.bottomSheetLayout1.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout1.btnWork.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout1.btnOther.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout1.btnOther.isChecked = true
+            mViewDataBinding.bottomSheetLayout1.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout1.btnHome.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout1.btnOther.text.toString()
+        }
+
 
 
         addressRecyclerview()
@@ -218,13 +262,9 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     }
 
     fun initialization() {
-        fName = mViewDataBinding.bottomSheetLayout.fName.text.toString()
-        email = mViewDataBinding.bottomSheetLayout.email.text.toString()
-        lName = mViewDataBinding.bottomSheetLayout.lName.text.toString()
-        phone = mViewDataBinding.bottomSheetLayout.phone.text.toString()
         address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
-        state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
+        statee = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
         country = mViewDataBinding.bottomSheetLayout.country.selectedCountryName
 
@@ -233,8 +273,10 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
     override fun oneditClick(position: Int) {
 
+        val itemidAddress = addressArrayList[position]
+
         bottomSheetBehavior =
-            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
+            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetUpdateaddress)
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -259,13 +301,60 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         bottomSheetBehavior.state = state
 
 
-    }
+        mViewDataBinding.bottomSheetLayout1.btnUpdate.setOnClickListener {
 
-    override fun ondeleteClick(position: Int) {
+            val params = JsonObject()
+            try {
+                params.addProperty("name", name)
+                params.addProperty("id", itemidAddress.id)
+                params.addProperty("country", itemidAddress.country)
+                params.addProperty("city", mViewDataBinding.bottomSheetLayout1.city.text.toString())
+                params.addProperty("address_1", mViewDataBinding.bottomSheetLayout1.editAddress1.text.toString())
+                params.addProperty("address_2", mViewDataBinding.bottomSheetLayout1.editAddress2.text.toString())
+                params.addProperty("postal", mViewDataBinding.bottomSheetLayout1.etPostal.text.toString())
+                params.addProperty("state", mViewDataBinding.bottomSheetLayout1.etState.text.toString())
+                params.addProperty("is_default", 0)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
 
-        mViewModel.deleteAddress(position)
 
-        mViewModel.deleteaddress.observe(requireActivity()) {
+            mViewModel.updateAddress(params)
+
+            if (!mViewModel.updateaddress.hasActiveObservers()) {
+                mViewModel.updateaddress.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                val state =
+                                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                    else BottomSheetBehavior.STATE_EXPANDED
+                                bottomSheetBehavior.state = state
+
+                                mViewDataBinding.root.snackbar("Updated")
+
+                            }
+                        }
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                        }
+                    }
+                    if (isAdded) {
+                        mViewModel.updateaddress.removeObservers(viewLifecycleOwner)
+                    }
+                }
+            }
+        }
+
+
+        mViewModel.editAddress(itemidAddress.id)
+
+        mViewModel.editaddress.observe(requireActivity()) {
             when (it.status) {
                 Resource.Status.LOADING -> {
                     loadingDialog.show()
@@ -273,10 +362,26 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
-                        mViewDataBinding.emptyTV.visibility = View.VISIBLE
-                        mViewDataBinding.addressRecycler.visibility = View.GONE
-                        addressAdapter.notifyDataSetChanged()
-                        mViewDataBinding.root.snackbar(data.Message)
+
+                        data.data.name
+
+                        mViewDataBinding.bottomSheetLayout1.editAddress1?.setText(data.data.address_1?.toString())
+
+                        mViewDataBinding.bottomSheetLayout1.editAddress2?.setText(data.data.address_2?.toString())
+                        mViewDataBinding.bottomSheetLayout1.etPostal?.setText(data.data.postal?.toString())
+                        mViewDataBinding.bottomSheetLayout1.etState?.setText(data.data.state?.toString())
+                        mViewDataBinding.bottomSheetLayout1.etState?.setText(data.data.country?.toString())
+                        mViewDataBinding.bottomSheetLayout1.city?.setText(data.data.city?.toString())
+
+                        if (data.data.name == "Home") {
+                            mViewDataBinding.bottomSheetLayout1.btnHome.isChecked = true
+                        } else if (data.data.name == "Work") {
+                            mViewDataBinding.bottomSheetLayout1.btnWork.isChecked = true
+                        } else if (data.data.name == "Other") {
+                            mViewDataBinding.bottomSheetLayout1.btnOther.isChecked = true
+                        } else {
+
+                        }
 
 
                     }
@@ -286,9 +391,36 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
                 }
             }
-            if (isAdded) {
-                mViewModel.addressList.removeObservers(viewLifecycleOwner)
+
+        }
+
+
+    }
+
+    override fun ondeleteClick(position: Int) {
+        val addressid = addressArrayList[position]
+
+        mViewModel.deleteAddress(addressid.id)
+
+        mViewModel.deleteaddress.observe(requireActivity()) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    loadingDialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+                        addressAdapter.notifyDataSetChanged()
+                        mViewDataBinding.root.snackbar(data.Message)
+
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                }
             }
+
         }
     }
 

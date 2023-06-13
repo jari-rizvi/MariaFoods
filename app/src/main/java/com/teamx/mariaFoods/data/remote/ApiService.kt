@@ -7,6 +7,7 @@ import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
 import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
+import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
@@ -157,6 +158,20 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.UPDATE_ADDRESS)
+    suspend fun updateAddress(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @GET(NetworkCallPoints.EDIT_ADDRESS)
+    suspend fun editAddress(
+        @Query("id") id: Int,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<EditAddressData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_CART)

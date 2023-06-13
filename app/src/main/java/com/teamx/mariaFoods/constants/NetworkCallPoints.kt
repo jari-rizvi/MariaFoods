@@ -41,7 +41,9 @@ class NetworkCallPoints {
         //Ger Addresses
         const val GET_ADDRESS = "users/address/get-addresses"
         const val DELETE_ADDRESS = "users/address/delete-address"
-        const val ADD_ADDRESS = "users/address/address-add-update"
+        const val ADD_ADDRESS = "users/address/new-address"
+        const val UPDATE_ADDRESS = "users/address/update-address"
+        const val EDIT_ADDRESS = "users/address/edit-address?"
 
         //Add to cart
         const val ADD_CART = "products/add-to-cart"

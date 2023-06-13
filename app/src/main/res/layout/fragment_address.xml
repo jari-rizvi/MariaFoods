@@ -25,6 +25,10 @@
                 android:id="@+id/bottomSheetLayout"
                 layout="@layout/bottom_sheet_address" />
 
+            <include
+                android:id="@+id/bottomSheetLayout1"
+                layout="@layout/bottom_sheet_update_address" />
+
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

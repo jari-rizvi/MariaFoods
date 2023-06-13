@@ -44,10 +44,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    private lateinit var fName: String
-    private lateinit var lName: String
-    private lateinit var email: String
-    private lateinit var phone: String
     private lateinit var country: String
     private lateinit var city: String
     private lateinit var address: String
@@ -424,10 +420,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
     fun initialization() {
-        fName = mViewDataBinding.bottomSheetLayout.fName.text.toString()
-        email = mViewDataBinding.bottomSheetLayout.email.text.toString()
-        lName = mViewDataBinding.bottomSheetLayout.lName.text.toString()
-        phone = mViewDataBinding.bottomSheetLayout.phone.text.toString()
         address = ""
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         state = mViewDataBinding.bottomSheetLayout.etState.text.toString()

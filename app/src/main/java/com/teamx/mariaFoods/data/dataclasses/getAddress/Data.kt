@@ -7,6 +7,9 @@ data class Data(
     val country: String,
     val id: Int,
     val is_default: Int,
+    val lat: Any,
+    val long: Any,
+    val name: String,
     val postal: String,
     val state: String,
     val user_id: Int

@@ -7,6 +7,7 @@
     <string name="book_your_slots">Book Your Slots</string>
     <string name="checkout">Checkout</string>
     <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="add_new_address">Add New Address</string>
     <string name="profile">Profile</string>
     <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="addresses">Addresses</string>
@@ -54,5 +55,7 @@
     <string name="change_mobile_number">Change Mobile Number</string>
     <string name="next">NEXT</string>
     <string name="verify">Verify</string>
+    <string name="add_address">Add Address</string>
+    <string name="update">Update</string>
 
 </resources>

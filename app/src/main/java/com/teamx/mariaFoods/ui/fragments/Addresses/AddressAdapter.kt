@@ -25,14 +25,18 @@ class AddressAdapter(
 
         val addressList: Data? = addressArrayList[position]
 
-        holder.bind.txtdeliveryAddressHouse.text =try {
+        holder.bind.txtdeliveryAddressHouse.text = try {
             "P.O Box, ${addressList?.address_1}"
         } catch (e: Exception) {
             ""
         }
+        holder.bind.username.text = try {
+            addressList?.name
+        } catch (e: Exception) {
+            ""
+        }
 
-
-        holder.bind.postal.text =try {
+        holder.bind.postal.text = try {
             "Postal code ${addressList?.postal}"
         } catch (e: Exception) {
             ""
@@ -40,7 +44,7 @@ class AddressAdapter(
 
 
         holder.bind.addressDelete.setOnClickListener {
-            addressList?.id?.let { it1 -> onAddressListener.ondeleteClick(it1) }
+            onAddressListener.ondeleteClick(position)
         }
         holder.bind.addressEditIcon.setOnClickListener {
             onAddressListener.oneditClick(position)
