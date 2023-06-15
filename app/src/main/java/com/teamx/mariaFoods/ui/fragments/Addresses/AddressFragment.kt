@@ -1,15 +1,32 @@
 package com.teamx.mariaFoods.ui.fragments.Addresses
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import com.hbb20.CountryCodePicker
@@ -24,6 +41,10 @@ import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import java.io.IOException
+import java.text.MessageFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>(), OnAddressListener,
@@ -73,8 +94,13 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
             popUpStack()
         }
 
+
+
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
-            getLocation()
+//            getLocation()
+
+            getCurrentLocation()
+
         }
 
         mViewDataBinding.bottomSheetLayout.btnHome.setOnClickListener {
@@ -265,6 +291,82 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
 
         addressRecyclerview()
+    }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private fun getCurrentLocation(){
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            val location = Location("provider").apply {
+                latitude = it.latitude
+                longitude = it.longitude
+            }
+
+            getAddressFromLocation(requireActivity(),location)
+        }
+
+
+    }
+
+    private fun getAddressFromLocation(context: Context, location: Location): String {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        var addressText = ""
+
+        try {
+            val addresses: MutableList<Address>? = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+            if (addresses != null) {
+                if (addresses.isNotEmpty()) {
+                    val address: Address = addresses[0]
+                    val sb = StringBuilder()
+
+                    for (i in 0..address.maxAddressLineIndex) {
+                        sb.append(address.getAddressLine(i)).append("\n")
+                    }
+
+                    addressText = sb.toString()
+
+                    val city: String? = address.locality
+                    val state: String? = address.adminArea
+                    val country: String? = address.countryName
+                    val postalCode: String? = address.postalCode
+                    val knownName: String? = address.featureName
+                    val knownName2: String? = address.subLocality
+                    val phone: String? = address.phone
+
+                    Log.d("lastLocation", "onCreate:latitude ${phone}")
+                    Log.d("lastLocation", "onCreate:latitude ${knownName2}")
+                    Log.d("lastLocation", "onCreate:latitude ${postalCode}")
+                    Log.d("lastLocation", "onCreate:latitude ${country}")
+                    Log.d("lastLocation", "onCreate:latitude ${state}")
+                    Log.d("lastLocation", "onCreate:latitude ${city}")
+                    Log.d("lastLocation", "onCreate:latitude ${addressText}")
+                    Log.d("lastLocation", "onCreate:latitude ${address}")
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return addressText
     }
 
     private fun addressRecyclerview() {
