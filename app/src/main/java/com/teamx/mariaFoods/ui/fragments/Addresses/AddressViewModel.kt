@@ -20,8 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddressViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
-    private val networkHelper: NetworkHelper
+    private val mainRepository: MainRepository, private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
     private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
@@ -38,6 +37,7 @@ class AddressViewModel @Inject constructor(
                             _addressListResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _addressListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 
                             Log.d("TAG", "loginPhone: ${it.code()}")
                             _addressListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
@@ -45,8 +45,7 @@ class AddressViewModel @Inject constructor(
                         } else {
                             _addressListResponse.postValue(
                                 Resource.error(
-                                    "Some thing went wrong",
-                                    null
+                                    "Some thing went wrong", null
                                 )
                             )
                         }
@@ -72,15 +71,11 @@ class AddressViewModel @Inject constructor(
                             _deleteaddressResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
-
-                            Log.d("TAG", "loginPhone: ${it.code()}")
                             _deleteaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
-                            _deleteaddressResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _deleteaddressResponse.postValue(
                                 Resource.error(
-                                    "Some thing went wrong",
-                                    null
+                                    "Some thing went wrong", null
                                 )
                             )
                         }
@@ -108,14 +103,14 @@ class AddressViewModel @Inject constructor(
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
 
+
                             Log.d("TAG", "loginPhone: ${it.code()}")
                             _addaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 //                            _addaddressResponse.postValue(Resource.error(it.message(), null))
                         } else {
                             _addaddressResponse.postValue(
                                 Resource.error(
-                                    "Some thing went wrong",
-                                    null
+                                    "Some thing went wrong", null
                                 )
                             )
                         }
@@ -142,6 +137,7 @@ class AddressViewModel @Inject constructor(
                             _updateaddressResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _updateaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 
                             Log.d("TAG", "loginPhone: ${it.code()}")
                             _updateaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
@@ -149,8 +145,7 @@ class AddressViewModel @Inject constructor(
                         } else {
                             _updateaddressResponse.postValue(
                                 Resource.error(
-                                    "Some thing went wrong",
-                                    null
+                                    "Some thing went wrong", null
                                 )
                             )
                         }
@@ -163,8 +158,7 @@ class AddressViewModel @Inject constructor(
     }
 
 
-
- private val _editaddressResponse = MutableLiveData<Resource<EditAddressData>>()
+    private val _editaddressResponse = MutableLiveData<Resource<EditAddressData>>()
     val editaddress: LiveData<Resource<EditAddressData>>
         get() = _editaddressResponse
 
@@ -178,6 +172,7 @@ class AddressViewModel @Inject constructor(
                             _editaddressResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _editaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 
                             Log.d("TAG", "loginPhone: ${it.code()}")
                             _editaddressResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
@@ -185,8 +180,7 @@ class AddressViewModel @Inject constructor(
                         } else {
                             _editaddressResponse.postValue(
                                 Resource.error(
-                                    "Some thing went wrong",
-                                    null
+                                    "Some thing went wrong", null
                                 )
                             )
                         }

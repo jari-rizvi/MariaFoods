@@ -27,6 +27,10 @@
                 android:id="@+id/bottomSheetLayout1"
                 layout="@layout/bottom_sheet_place_order" />
 
+            <include
+                android:id="@+id/bottomSheetLayout11"
+                layout="@layout/bottom_sheet_update_address" />
+
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

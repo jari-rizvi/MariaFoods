@@ -17,11 +17,13 @@ import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.getAddress.Data
 import com.teamx.mariaFoods.data.dataclasses.getCart.Cart
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentCheckoutBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import timber.log.Timber
@@ -42,6 +44,9 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     lateinit var cartAdapter: CartAdapter
     lateinit var cartArrayList: ArrayList<Cart>
 
+
+    lateinit var addressArrayList: ArrayList<Data>
+
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var country: String
@@ -49,6 +54,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var address: String
     private lateinit var state: String
     private lateinit var postal: String
+    private lateinit var name: String
+
 
     lateinit var paymentSheet: PaymentSheet
     var paymentIntentClientSecret: String = ""
@@ -138,6 +145,50 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             }
         }
 
+        mViewDataBinding.bottomSheetLayout.btnHome.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnHome.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout.btnWork.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnWork.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout.btnOther.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout.btnOther.isChecked = true
+            mViewDataBinding.bottomSheetLayout.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout.btnHome.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout.btnOther.text.toString()
+        }
+
+
+        mViewDataBinding.bottomSheetLayout11.btnHome.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = true
+            mViewDataBinding.bottomSheetLayout11.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout11.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout11.btnHome.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout11.btnWork.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout11.btnWork.isChecked = true
+            mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = false
+            mViewDataBinding.bottomSheetLayout11.btnOther.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout11.btnWork.text.toString()
+        }
+
+        mViewDataBinding.bottomSheetLayout11.btnOther.setOnClickListener {
+            mViewDataBinding.bottomSheetLayout11.btnOther.isChecked = true
+            mViewDataBinding.bottomSheetLayout11.btnWork.isChecked = false
+            mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = false
+            name = mViewDataBinding.bottomSheetLayout11.btnOther.text.toString()
+        }
+
+
         mViewDataBinding.textView20.setOnClickListener {
             if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
                 showToast("Enter Voucher")
@@ -210,17 +261,19 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                 val params = JsonObject()
                 try {
+                    params.addProperty("name", name)
                     params.addProperty("country", country)
                     params.addProperty("city", city)
                     params.addProperty("address_1", address)
                     params.addProperty("address_2", address)
                     params.addProperty("postal", postal)
                     params.addProperty("state", state)
+                    params.addProperty("is_default", 1)
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
 
-                Log.e("UserData", params.toString())
 
                 mViewModel.addAddress(params)
 
@@ -234,6 +287,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
                                     if (data.Flag == 1) {
+                                        val state =
+                                            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                            else BottomSheetBehavior.STATE_EXPANDED
+                                        bottomSheetBehavior.state = state
 
                                     } else {
                                         showToast(data.Message)
@@ -286,8 +343,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
         mViewDataBinding.textView25.setOnClickListener {
+
+            val itemidAddress = addressArrayList[0]
+
             bottomSheetBehavior =
-                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout11.bottomSheetUpdateaddress)
 
             bottomSheetBehavior.addBottomSheetCallback(object :
                 BottomSheetBehavior.BottomSheetCallback() {
@@ -310,6 +370,116 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
+
+
+            mViewDataBinding.bottomSheetLayout11.btnUpdate.setOnClickListener {
+
+                val params = JsonObject()
+                try {
+                    params.addProperty("name", name)
+                    params.addProperty("id", itemidAddress.id)
+                    params.addProperty("country", itemidAddress.country)
+                    params.addProperty(
+                        "city",
+                        mViewDataBinding.bottomSheetLayout11.city.text.toString()
+                    )
+                    params.addProperty(
+                        "address_1",
+                        mViewDataBinding.bottomSheetLayout11.editAddress1.text.toString()
+                    )
+                    params.addProperty(
+                        "address_2",
+                        mViewDataBinding.bottomSheetLayout11.editAddress2.text.toString()
+                    )
+                    params.addProperty(
+                        "postal",
+                        mViewDataBinding.bottomSheetLayout11.etPostal.text.toString()
+                    )
+                    params.addProperty(
+                        "state",
+                        mViewDataBinding.bottomSheetLayout11.etState.text.toString()
+                    )
+                    params.addProperty("is_default", 0)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+
+                mViewModel.updateAddress(params)
+
+                if (!mViewModel.updateaddress.hasActiveObservers()) {
+                    mViewModel.updateaddress.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
+                            Resource.Status.SUCCESS -> {
+                                loadingDialog.dismiss()
+                                it.data?.let { data ->
+                                    val state =
+                                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                        else BottomSheetBehavior.STATE_EXPANDED
+                                    bottomSheetBehavior.state = state
+
+                                    mViewDataBinding.root.snackbar("Updated")
+
+                                }
+                            }
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                            }
+                        }
+                        if (isAdded) {
+                            mViewModel.updateaddress.removeObservers(viewLifecycleOwner)
+                        }
+                    }
+                }
+            }
+
+
+            mViewModel.editAddress(itemidAddress.id)
+
+            mViewModel.editaddress.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+                            data.data.name
+
+                            mViewDataBinding.bottomSheetLayout11.editAddress1?.setText(data.data.address_1?.toString())
+
+                            mViewDataBinding.bottomSheetLayout11.editAddress2?.setText(data.data.address_2?.toString())
+                            mViewDataBinding.bottomSheetLayout11.etPostal?.setText(data.data.postal?.toString())
+                            mViewDataBinding.bottomSheetLayout11.etState?.setText(data.data.state?.toString())
+                            mViewDataBinding.bottomSheetLayout11.etState?.setText(data.data.country?.toString())
+                            mViewDataBinding.bottomSheetLayout11.city?.setText(data.data.city?.toString())
+
+                            if (data.data.name == "Home") {
+                                mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = true
+                            } else if (data.data.name == "Work") {
+                                mViewDataBinding.bottomSheetLayout11.btnWork.isChecked = true
+                            } else if (data.data.name == "Other") {
+                                mViewDataBinding.bottomSheetLayout11.btnOther.isChecked = true
+                            } else {
+
+                            }
+
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+
+            }
+
         }
 
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
@@ -366,10 +536,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     loadingDialog.dismiss()
                     it.data?.let { data ->
 
+                        if (data.data.isEmpty()) {
+                            mViewDataBinding.containerAddress.visibility = View.GONE
+                        } else {
+                            mViewDataBinding.address.text = data.data[0].address_1
+                            mViewDataBinding.postal.text = "Postal Code " + data.data[0].postal
+                        }
 
-                        mViewDataBinding.containerAddress.visibility = View.VISIBLE
-                        mViewDataBinding.address.text = data.data[0].address_1
-                        mViewDataBinding.postal.text = "Postal Code " + data.data[0].postal
 
                     }
                 }
@@ -420,7 +593,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
     fun initialization() {
-        address = ""
+        address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
