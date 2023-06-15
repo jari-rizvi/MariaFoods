@@ -1,13 +1,22 @@
 package com.teamx.mariaFoods.ui.fragments.Checkout
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
@@ -27,6 +36,8 @@ import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import timber.log.Timber
+import java.io.IOException
+import java.util.*
 
 @AndroidEntryPoint
 class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>() {
@@ -51,10 +62,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
     private lateinit var country: String
     private lateinit var city: String
-    private lateinit var address: String
     private lateinit var state: String
     private lateinit var postal: String
     private lateinit var name: String
+    private lateinit var address1: String
 
 
     lateinit var paymentSheet: PaymentSheet
@@ -132,9 +143,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
 
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -147,7 +155,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
-
+        addressArrayList = ArrayList()
         mViewDataBinding.bottomSheetLayout.btnHome.setOnClickListener {
             mViewDataBinding.bottomSheetLayout.btnHome.isChecked = true
             mViewDataBinding.bottomSheetLayout.btnWork.isChecked = false
@@ -168,7 +176,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             mViewDataBinding.bottomSheetLayout.btnHome.isChecked = false
             name = mViewDataBinding.bottomSheetLayout.btnOther.text.toString()
         }
-
 
         mViewDataBinding.bottomSheetLayout11.btnHome.setOnClickListener {
             mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = true
@@ -260,15 +267,15 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
-            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !state!!.isEmpty()) {
+            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address1!!.isEmpty() || !postal!!.isEmpty() || !state!!.isEmpty()) {
 
                 val params = JsonObject()
                 try {
                     params.addProperty("name", name)
                     params.addProperty("country", country)
                     params.addProperty("city", city)
-                    params.addProperty("address_1", address)
-                    params.addProperty("address_2", address)
+                    params.addProperty("address_1", address1)
+                    params.addProperty("address_2", address1)
                     params.addProperty("postal", postal)
                     params.addProperty("state", state)
                     params.addProperty("is_default", 1)
@@ -294,6 +301,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                                             else BottomSheetBehavior.STATE_EXPANDED
                                         bottomSheetBehavior.state = state
+
 
                                     } else {
                                         showToast(data.Message)
@@ -347,7 +355,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
         mViewDataBinding.textView25.setOnClickListener {
 
-            val itemidAddress = addressArrayList[0]
+
+//            val itemidAddress = addressArrayList[0]
 
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout11.bottomSheetUpdateaddress)
@@ -380,8 +389,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 val params = JsonObject()
                 try {
                     params.addProperty("name", name)
-                    params.addProperty("id", itemidAddress.id)
-                    params.addProperty("country", itemidAddress.country)
+
+                    params.addProperty("id", addressArrayList[0].id)
+
+                    params.addProperty("country", addressArrayList[0].country)
+
                     params.addProperty(
                         "city",
                         mViewDataBinding.bottomSheetLayout11.city.text.toString()
@@ -440,8 +452,9 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 }
             }
 
-
-            mViewModel.editAddress(addressArrayList[0].id)
+            if (addressArrayList.size > 0) {
+                mViewModel.editAddress(addressArrayList[0].id)
+            }
 
             mViewModel.editaddress.observe(requireActivity()) {
                 when (it.status) {
@@ -489,6 +502,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         PaymentConfiguration.init(
             requireActivity().applicationContext, stripPublicKey
         )
+
+
         mViewDataBinding.btnPlaceOrder.setOnClickListener {
 
             val params = JsonObject()
@@ -528,6 +543,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
+        mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
+            getCurrentLocation()
+        }
+
+
         mViewModel.getAddress()
 
         mViewModel.addressList.observe(requireActivity()) {
@@ -538,6 +558,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
+
+
+                        data.data.forEach {
+                            if (it.is_default == 1) {
+                                addressArrayList.add(it)
+                            }
+                        }
 
                         if (data.data.isEmpty()) {
                             mViewDataBinding.containerAddress.visibility = View.GONE
@@ -596,7 +623,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
     fun initialization() {
-        address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
+//        address1 = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
@@ -613,6 +640,85 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         cartAdapter = CartAdapter(cartArrayList)
         mViewDataBinding.recyclerView.adapter = cartAdapter
 
+    }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private fun getCurrentLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            val location = Location("provider").apply {
+                latitude = it.latitude
+                longitude = it.longitude
+            }
+
+            getAddressFromLocation(requireActivity(), location)
+        }
+
+
+    }
+
+    private fun getAddressFromLocation(context: Context, location: Location): String {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        var addressText = ""
+
+        try {
+            val addresses: MutableList<Address>? =
+                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+            if (addresses != null) {
+                if (addresses.isNotEmpty()) {
+                    val address: Address = addresses[0]
+                    val sb = StringBuilder()
+
+                    for (i in 0..address.maxAddressLineIndex) {
+                        sb.append(address.getAddressLine(i)).append("\n")
+                    }
+
+                    addressText = sb.toString()
+
+                    address1 = addressText
+
+                    mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
+
+                    val city: String? = address.locality
+                    val state: String? = address.adminArea
+                    val country: String? = address.countryName
+                    val postalCode: String? = address.postalCode
+                    val knownName: String? = address.featureName
+                    val knownName2: String? = address.subLocality
+                    val phone: String? = address.phone
+
+                    Log.d("lastLocation", "onCreate:latitude ${phone}")
+                    Log.d("lastLocation", "onCreate:latitude ${knownName2}")
+                    Log.d("lastLocation", "onCreate:latitude ${postalCode}")
+                    Log.d("lastLocation", "onCreate:latitude ${country}")
+                    Log.d("lastLocation", "onCreate:latitude ${state}")
+                    Log.d("lastLocation", "onCreate:latitude ${city}")
+                    Log.d("lastLocation", "chahye ${addressText}")
+                    Log.d("lastLocation", "onCreate:latitude ${address}")
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return addressText
     }
 
 }

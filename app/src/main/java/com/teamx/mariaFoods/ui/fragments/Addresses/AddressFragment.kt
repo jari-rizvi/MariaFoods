@@ -61,7 +61,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var name: String
     private lateinit var country: String
     private lateinit var city: String
-    private lateinit var address: String
+    private var address1: String = ""
     private lateinit var statee: String
     private lateinit var postal: String
 
@@ -86,10 +86,14 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
 
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
-            showToast("sdddsds")
+            getCurrentLocation()
+        }
+
+        mViewDataBinding.bottomSheetLayout1.btnLocation.setOnClickListener {
             getCurrentLocation()
 
         }
+
 
         mViewDataBinding.bottomSheetLayout.btnHome.setOnClickListener {
             mViewDataBinding.bottomSheetLayout.btnHome.isChecked = true
@@ -143,15 +147,15 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
-            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address!!.isEmpty() || !postal!!.isEmpty() || !statee!!.isEmpty()) {
+            if (/*!country!!.isEmpty() ||*/!city!!.isEmpty() || !address1!!.isEmpty() || !postal!!.isEmpty() || !statee!!.isEmpty()) {
 
                 val params = JsonObject()
                 try {
                     params.addProperty("name", name)
                     params.addProperty("country", country)
                     params.addProperty("city", city)
-                    params.addProperty("address_1", address)
-                    params.addProperty("address_2", address)
+                    params.addProperty("address_1", address1)
+                    params.addProperty("address_2", address1)
                     params.addProperty("postal", postal)
                     params.addProperty("state", statee)
 
@@ -189,8 +193,8 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                                 name = name,
                                                 country = country,
                                                 city = city,
-                                                address_1 = address,
-                                                address_2 = address,
+                                                address_1 = address1,
+                                                address_2 = address1,
                                                 postal = postal,
                                                 state = statee,
                                                 id = 0,
@@ -291,11 +295,9 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private fun getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION
+                requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             // TODO: Consider calling
@@ -338,7 +340,12 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                     addressText = sb.toString()
 
+                    address1 = addressText
+
+
                     mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
+
+                    mViewDataBinding.bottomSheetLayout1.editAddress1.setText(addressText.toString())
 
                     val city: String? = address.locality
                     val state: String? = address.adminArea
@@ -377,7 +384,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     }
 
     fun initialization() {
-        address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
+//        address = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         statee = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
@@ -425,20 +432,16 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 params.addProperty("country", itemidAddress.country)
                 params.addProperty("city", mViewDataBinding.bottomSheetLayout1.city.text.toString())
                 params.addProperty(
-                    "address_1",
-                    mViewDataBinding.bottomSheetLayout1.editAddress1.text.toString()
+                    "address_1", mViewDataBinding.bottomSheetLayout1.editAddress1.text.toString()
                 )
                 params.addProperty(
-                    "address_2",
-                    mViewDataBinding.bottomSheetLayout1.editAddress2.text.toString()
+                    "address_2", mViewDataBinding.bottomSheetLayout1.editAddress2.text.toString()
                 )
                 params.addProperty(
-                    "postal",
-                    mViewDataBinding.bottomSheetLayout1.etPostal.text.toString()
+                    "postal", mViewDataBinding.bottomSheetLayout1.etPostal.text.toString()
                 )
                 params.addProperty(
-                    "state",
-                    mViewDataBinding.bottomSheetLayout1.etState.text.toString()
+                    "state", mViewDataBinding.bottomSheetLayout1.etState.text.toString()
                 )
                 params.addProperty("is_default", 0)
             } catch (e: JSONException) {
