@@ -2,6 +2,7 @@ package com.teamx.mariaFoods.data.remote.reporitory
 
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.data.remote.ApiService
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.Query
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class MainRepository @Inject constructor(
     suspend fun loginPhone(@Body param: JsonObject) = apiService.loginPhone(param)
     suspend fun socialLogins(@Body param: JsonObject) = apiService.socialLogins(param)
     suspend fun editProfile(@Body param: JsonObject) = apiService.editProfile(param)
+    suspend fun uploadProfile(param: MultipartBody.Part) = apiService.uploadProfile(param)
     suspend fun signup(@Body param: JsonObject) = apiService.signup(param)
     suspend fun logout() = apiService.logout()
     suspend fun resetPassEmail(@Body param: JsonObject) = apiService.resetPassEmail(param)

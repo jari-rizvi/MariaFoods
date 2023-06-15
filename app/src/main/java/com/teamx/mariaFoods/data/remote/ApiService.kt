@@ -17,6 +17,8 @@ import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.dataclasses.resetPass.ResetPassData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
+import com.teamx.mariaFoods.data.dataclasses.uploadProfile.UploadProfileData
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -41,6 +43,15 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<SignupData>
+
+
+    @Headers("secret: dev")
+    @Multipart
+    @POST(NetworkCallPoints.PROFILE_IMAGE)
+    suspend fun uploadProfile(
+        @Part filePart: MultipartBody.Part,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<UploadProfileData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.SIGN_UP)

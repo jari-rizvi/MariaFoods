@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -27,7 +25,7 @@ class OrderHistoryFragment :
 
 
     private lateinit var options: NavOptions
-    lateinit var orderAdapter: OrderAdapter
+//    lateinit var orderAdapter: OrderAdapter
     lateinit var orderArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.orderHistory.Data>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,8 +55,8 @@ class OrderHistoryFragment :
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            orderArrayList.addAll(data.data)
-                            orderAdapter.notifyDataSetChanged()
+//                            orderArrayList.addAll(data.data)
+//                            orderAdapter.notifyDataSetChanged()
 
                         }
                     }
@@ -72,19 +70,19 @@ class OrderHistoryFragment :
                 }
             }
         }
-        orderRecyclerview()
+//        orderRecyclerview()
 
     }
-    private fun orderRecyclerview() {
-        orderArrayList = ArrayList()
-
-        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        mViewDataBinding.orderRecycler.layoutManager = linearLayoutManager
-
-        orderAdapter = OrderAdapter(orderArrayList, this)
-        mViewDataBinding.orderRecycler.adapter = orderAdapter
-
-    }
+//    private fun orderRecyclerview() {
+//        orderArrayList = ArrayList()
+//
+//        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+//        mViewDataBinding.orderRecycler.layoutManager = linearLayoutManager
+//
+////        orderAdapter = OrderAdapter(orderArrayList, this)
+//        mViewDataBinding.orderRecycler.adapter = orderAdapter
+//
+//    }
 
 
     override fun oneOrderClick(position: Int) {

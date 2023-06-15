@@ -15,5 +15,4 @@ data class Product(
     val short_description: String,
     val slug: String,
     val stock_qty: Int
-
 )

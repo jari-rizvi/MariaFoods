@@ -1,7 +1,7 @@
 package com.teamx.mariaFoods.data.dataclasses.login
 
 data class User(
-    val avatar: String,
+    var avatar: String,
     val email: String,
     val email_or_otp_verified: Int,
     val first_name: String,

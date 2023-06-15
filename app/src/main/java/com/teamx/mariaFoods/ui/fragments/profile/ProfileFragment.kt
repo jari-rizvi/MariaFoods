@@ -1,7 +1,11 @@
 package com.teamx.mariaFoods.ui.fragments.profile
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -15,30 +19,160 @@ import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentProfileBinding
-import com.teamx.mariaFoods.ui.fragments.Auth.temp.TempViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
-class ProfileFragment :
-    BaseFragment<FragmentProfileBinding, TempViewModel>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewModel>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_profile
-    override val viewModel: Class<TempViewModel>
-        get() = TempViewModel::class.java
+    override val viewModel: Class<EditProfileViewModel>
+        get() = EditProfileViewModel::class.java
     override val bindingVariable: Int
         get() = BR.viewModel
+    var isProfileImg: Boolean = false
 
 
     private lateinit var options: NavOptions
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+
+    private fun uploadWithRetrofit(file: File) {
+//        val fileDir = requireContext().applicationContext.filesDir
+//        val file = File(fileDir, "picture.png")
+//        Timber.tag("TAG").d( "uploadWithRetrofit: $fileDir")
+//        Timber.tag("TAG").d( "uploadWithRetrofit: $file")
+//        val inputStream = requireContext().contentResolver.openInputStream(uri)
+//        val outputStream = FileOutputStream(file)
+//        inputStream!!.copyTo(outputStream)
+        val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+
+        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "avatar", file.name, requestBody
+        )
+        Timber.tag("TAG").d("uploadWithRetrofit: $filePart")
+
+        mViewModel.updateProfile(filePart)
+
+    }
+
+    var strImg = ""
+
+    var user1: User? = null
+    private fun checker() {
+
+        mViewModel.updateProfileResponse.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    Timber.tag("TAG").d("updateProfile:1 ")
+                    loadingDialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+                        Log.e("checker", "strImg ${data.avatar}")
+                        if (isProfileImg) {
+                            this.strImg = data.avatar
+
+                            if (user1 != null) {
+                                it.data?.let { data ->
+                                    lifecycleScope.launch(Dispatchers.IO) {
+
+
+                                        user1!!.avatar = data.avatar
+
+
+                                        Log.e("checker", "lifecycleScope ${user1!!.avatar}")
+                                        Log.e("checker", "lifecycleScope ${user1!!.phone}")
+                                        Log.e("checker", "lifecycleScope ${user1!!.first_name}")
+                                        Log.e("checker", "lifecycleScope ${user1!!.last_name}")
+
+                                        dataStoreProvider.saveUserDetails(
+                                            user1!!
+                                        )
+
+                                    }
+
+
+                                }
+
+                            }
+
+
+                        } else {
+
+                        }
+
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    Timber.tag("TAG").d("updateProfile:3 ${it.message}")
+                }
+            }
+//            if (isAdded) {
+//            mViewModel.updateImgProfileResponse.removeObservers(viewLifecycleOwner)
+//}
+        }
+    }
+
+    private fun fetchImageFromGallery() {
+        startForResult.launch("image/*")
+        checker()
+    }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                val str = "${requireActivity().filesDir}/file.jpg"
+                if (isProfileImg) {
+
+                    val imageUri = uri
+
+// Load the bitmap from the image URI
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver, imageUri
+                    )
+
+// Compress the bitmap to a JPEG format with 80% quality and save it to a file
+                    val outputStream = FileOutputStream(str)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
+
+                    outputStream.close()
+//                    mViewDataBinding.imgCar.visibility = View.GONE
+                    Picasso.get().load(File(str)).into(mViewDataBinding.profilePicture)
+                } else {
+                    val imageUri = uri
+
+// Load the bitmap from the image URI
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver, imageUri
+                    )
+
+// Compress the bitmap to a JPEG format with 80% quality and save it to a file
+                    val outputStream = FileOutputStream(str)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
+                    outputStream.close()
+                    Timber.tag("TAG").d("${bitmap.byteCount}: ")
+                }
+                uploadWithRetrofit(File(str))
+
+            }
+
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,16 +188,24 @@ class ProfileFragment :
         }
 
 
-        lifecycleScope.launch {
-            dataStoreProvider.userFlow.collect { user ->
-
-                mViewDataBinding.btnEditProfile.text = user.first_name?.toString()
-                mViewDataBinding.textView42.text = user.email?.toString()
-//                Picasso.get().load(user.avatar.toString()).into(mViewDataBinding.profilePicture)
-            }
+        mViewDataBinding.profilePicture.setOnClickListener {
+            isProfileImg = true
+            fetchImageFromGallery()
         }
 
 
+
+        lifecycleScope.launch {
+            dataStoreProvider.userFlow.collect { user ->
+
+                user1 = user
+
+                mViewDataBinding.btnEditProfile.text = user.first_name?.toString()
+                mViewDataBinding.textView42.text = user.email?.toString()
+                Picasso.get().load("https://dev.dogtvfoods.com/${user.avatar}")
+                    .into(mViewDataBinding.profilePicture)
+            }
+        }
 
         val accessToken = AccessToken.getCurrentAccessToken()
         val isLoggedIn = accessToken != null && !accessToken.isExpired
@@ -77,8 +219,7 @@ class ProfileFragment :
                 } else {
                     val email = jsonObject?.getString("email")
                     val name = jsonObject?.getString("name")
-                    val profilePicUrl = jsonObject?.getJSONObject("picture")
-                        ?.getJSONObject("data")
+                    val profilePicUrl = jsonObject?.getJSONObject("picture")?.getJSONObject("data")
                         ?.getString("url")
 
                     // Use the retrieved data
@@ -96,7 +237,6 @@ class ProfileFragment :
         }
 
 
-
         val acct = GoogleSignIn.getLastSignedInAccount(requireContext())
         if (acct != null) {
             val personName = acct.displayName
@@ -111,17 +251,15 @@ class ProfileFragment :
 
             Picasso.get().load(personPhoto).into(mViewDataBinding.profilePicture)
 
-            Timber.tag("TAG").d( personPhoto.toString())
+            Timber.tag("TAG").d(personPhoto.toString())
 
         }
 
         mViewDataBinding.btnAddress.setOnClickListener {
 
-            navController =
-                Navigation.findNavController(
-                    requireActivity(),
-                    R.id.nav_host_fragment
-                )
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
             navController.navigate(R.id.addressFragment, null, options)
 
 //            bottomSheetBehavior =
@@ -152,11 +290,9 @@ class ProfileFragment :
         }
 
         mViewDataBinding.btnEditProfile.setOnClickListener {
-            navController =
-                Navigation.findNavController(
-                    requireActivity(),
-                    R.id.nav_host_fragment
-                )
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
             navController.navigate(R.id.editProfileFragment, null, options)
         }
 
@@ -184,11 +320,9 @@ class ProfileFragment :
                                         dataStoreProvider.removeAll()
 
                                     }
-                                    navController =
-                                        Navigation.findNavController(
-                                            requireActivity(),
-                                            R.id.nav_host_fragment
-                                        )
+                                    navController = Navigation.findNavController(
+                                        requireActivity(), R.id.nav_host_fragment
+                                    )
                                     navController.navigate(R.id.tempFragment, null, options)
                                 } else {
                                     showToast(data.Message)

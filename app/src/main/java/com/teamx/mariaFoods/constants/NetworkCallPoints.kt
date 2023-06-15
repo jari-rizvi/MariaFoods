@@ -8,6 +8,7 @@ class NetworkCallPoints {
         const val LOGOUT = "users/signout"
         const val SOCIAL_LOGIN = "users/socials"
         const val EDIT_PROFILE = "settings/profile"
+        const val PROFILE_IMAGE = "settings/profile-photo"
 
 
         // Register Otp Verify
