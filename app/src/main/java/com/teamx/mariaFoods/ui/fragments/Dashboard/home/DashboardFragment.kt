@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
@@ -33,6 +34,7 @@ import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import java.lang.Math.abs
 import java.time.LocalDate
@@ -92,6 +94,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             navController.navigate(R.id.notificationFragment, null, options)
         }
 
+        lifecycleScope.launch {
+            dataStoreProvider.userFlow.collect { user ->
+
+                mViewDataBinding.textView3.text = ("Hello " + user.first_name.toString())
+
+            }
+        }
 
 
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))

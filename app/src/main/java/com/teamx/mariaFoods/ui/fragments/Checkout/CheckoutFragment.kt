@@ -399,7 +399,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         "state",
                         mViewDataBinding.bottomSheetLayout11.etState.text.toString()
                     )
-                    params.addProperty("is_default", 0)
+                    params.addProperty("is_default", 1)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -438,7 +438,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             }
 
 
-            mViewModel.editAddress(itemidAddress.id)
+            mViewModel.editAddress(addressArrayList[0].id)
 
             mViewModel.editaddress.observe(requireActivity()) {
                 when (it.status) {

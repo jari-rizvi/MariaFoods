@@ -7,26 +7,17 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import com.hbb20.CountryCodePicker
@@ -42,9 +33,7 @@ import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import java.io.IOException
-import java.text.MessageFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>(), OnAddressListener,
@@ -97,8 +86,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
 
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
-//            getLocation()
-
+            showToast("sdddsds")
             getCurrentLocation()
 
         }
@@ -166,7 +154,13 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     params.addProperty("address_2", address)
                     params.addProperty("postal", postal)
                     params.addProperty("state", statee)
-                    params.addProperty("is_default", 0)
+
+                    if (mViewDataBinding.bottomSheetLayout.defaultAddress.isChecked) {
+                        params.addProperty("is_default", 1)
+
+                    } else {
+                        params.addProperty("is_default", 0)
+                    }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -190,25 +184,25 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                             else BottomSheetBehavior.STATE_EXPANDED
                                         bottomSheetBehavior.state = state
 
-                                        /*   addressArrayList.add(
-                                               Data(
-                                                   name = name,
-                                                   country = country,
-                                                   city = city,
-                                                   address_1 = address,
-                                                   address_2 = address,
-                                                   postal = postal,
-                                                   state = statee,
-                                                   id = 0,
-                                                   is_default = 0,
-                                                   long = "",
-                                                   lat = "",
-                                                   user_id = 0
-                                               )
-                                           )
+                                        addressArrayList.add(
+                                            Data(
+                                                name = name,
+                                                country = country,
+                                                city = city,
+                                                address_1 = address,
+                                                address_2 = address,
+                                                postal = postal,
+                                                state = statee,
+                                                id = 0,
+                                                is_default = 0,
+                                                long = "",
+                                                lat = "",
+                                                user_id = 0
+                                            )
+                                        )
 
-                                           addressAdapter.notifyDataSetChanged()*/
-                                        mViewModel.getAddress()
+                                        addressAdapter.notifyDataSetChanged()
+//                                        mViewModel.getAddress()
 
                                     } else {
                                         showToast(data.Message)
@@ -289,13 +283,12 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         }
 
 
-
         addressRecyclerview()
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private fun getCurrentLocation(){
+    private fun getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
                 requireActivity(),
@@ -320,7 +313,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 longitude = it.longitude
             }
 
-            getAddressFromLocation(requireActivity(),location)
+            getAddressFromLocation(requireActivity(), location)
         }
 
 
@@ -331,7 +324,8 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         var addressText = ""
 
         try {
-            val addresses: MutableList<Address>? = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            val addresses: MutableList<Address>? =
+                geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
             if (addresses != null) {
                 if (addresses.isNotEmpty()) {
@@ -343,6 +337,8 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     }
 
                     addressText = sb.toString()
+
+                    mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
 
                     val city: String? = address.locality
                     val state: String? = address.adminArea
@@ -358,7 +354,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     Log.d("lastLocation", "onCreate:latitude ${country}")
                     Log.d("lastLocation", "onCreate:latitude ${state}")
                     Log.d("lastLocation", "onCreate:latitude ${city}")
-                    Log.d("lastLocation", "onCreate:latitude ${addressText}")
+                    Log.d("lastLocation", "chahye ${addressText}")
                     Log.d("lastLocation", "onCreate:latitude ${address}")
                 }
             }
@@ -466,6 +462,11 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                     else BottomSheetBehavior.STATE_EXPANDED
                                 bottomSheetBehavior.state = state
 
+                                addressAdapter.notifyDataSetChanged()
+                                addressArrayList.clear()
+                                mViewModel.getAddress()
+
+
                                 mViewDataBinding.root.snackbar("Updated")
 
                             }
@@ -501,8 +502,10 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         mViewDataBinding.bottomSheetLayout1.editAddress2?.setText(data.data.address_2?.toString())
                         mViewDataBinding.bottomSheetLayout1.etPostal?.setText(data.data.postal?.toString())
                         mViewDataBinding.bottomSheetLayout1.etState?.setText(data.data.state?.toString())
-                        mViewDataBinding.bottomSheetLayout1.etState?.setText(data.data.country?.toString())
                         mViewDataBinding.bottomSheetLayout1.city?.setText(data.data.city?.toString())
+
+                        Log.d("TAG", "cityy: ${data.data.city} ")
+                        Log.d("TAG", "state: ${data.data.state} ")
 
                         if (data.data.name == "Home") {
                             mViewDataBinding.bottomSheetLayout1.btnHome.isChecked = true
@@ -513,6 +516,9 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         } else {
 
                         }
+
+
+                        addressAdapter.notifyDataSetChanged()
 
 
                     }
@@ -541,9 +547,10 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
+                        addressArrayList.clear()
                         mViewModel.getAddress()
 
-//                        addressAdapter.notifyDataSetChanged()
+                        addressAdapter.notifyDataSetChanged()
                         mViewDataBinding.root.snackbar(data.Message)
 
                     }

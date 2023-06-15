@@ -122,21 +122,49 @@
             app:layout_constraintVertical_bias="0.0" />
 
 
-        <EditText
-            android:id="@+id/editAddress1"
-            style="@style/open_sans_regular_small"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addressContainer"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/contact_input_background"
-            android:minHeight="@dimen/_35sdp"
-            android:paddingStart="@dimen/_10sdp"
-            android:singleLine="true"
-            android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Address" />
+            app:layout_constraintTop_toBottomOf="@+id/Address">
+
+
+            <EditText
+                android:id="@+id/editAddress1"
+                style="@style/open_sans_regular_small"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@android:color/transparent"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:minHeight="@dimen/_35sdp"
+                android:paddingHorizontal="@dimen/_20sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_40sdp"
+                android:singleLine="true"
+                android:textColor="#666666"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnLocation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btnLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.97"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/current_location" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
             android:id="@+id/editAddress2"
@@ -152,7 +180,7 @@
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editAddress1" />
+            app:layout_constraintTop_toBottomOf="@+id/addressContainer" />
 
         <TextView
             android:id="@+id/Address"
@@ -260,17 +288,6 @@
             app:layout_constraintVertical_bias="0.03" />
 
 
-        <ImageView
-            android:id="@+id/btnLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editAddress1"
-            app:layout_constraintEnd_toEndOf="@+id/editAddress1"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="@+id/editAddress1"
-            app:layout_constraintTop_toTopOf="@+id/editAddress1"
-            app:srcCompat="@drawable/current_location" />
-
         <CheckedTextView
             android:id="@+id/btnHome"
             android:layout_width="@dimen/_50sdp"
@@ -298,11 +315,11 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_25sdp"
             android:background="@drawable/contact_input_background"
+            android:backgroundTint="@android:color/transparent"
             android:checked="false"
             android:gravity="center"
             android:text="Other"
             android:textAlignment="center"
-            android:backgroundTint="@android:color/transparent"
             android:textColor="@color/tab_label"
 
             app:layout_constraintBottom_toBottomOf="@+id/btnWork"
