@@ -34,7 +34,7 @@ class DataStoreProvider(context: Context) {
         val VERIFIED = intPreferencesKey(AppConstants.DataStore.VERIFIED)
         val ID = intPreferencesKey(AppConstants.DataStore.ID)
         val NAME = stringPreferencesKey(AppConstants.DataStore.NAME)
-        val PROVIDER_ID = intPreferencesKey(AppConstants.DataStore.PROVIDER_ID)
+        val PROVIDER_ID = stringPreferencesKey(AppConstants.DataStore.PROVIDER_ID)
 
 
     }
@@ -95,7 +95,7 @@ class DataStoreProvider(context: Context) {
             val _id = preferences[ID] ?: 0
             val name = preferences[NAME] ?: ""
             val avatar = preferences[AVATAR] ?: ""
-            val provider_id = preferences[PROVIDER_ID] ?: 0
+            val provider_id = preferences[PROVIDER_ID] ?: ""
             User(
                 first_name = first_name,
                 email = email,
@@ -105,7 +105,7 @@ class DataStoreProvider(context: Context) {
                 id = _id,
                 avatar = avatar,
                 name = name,
-                provider_id = provider_id
+                provider_id = provider_id as String
 
             )
         }

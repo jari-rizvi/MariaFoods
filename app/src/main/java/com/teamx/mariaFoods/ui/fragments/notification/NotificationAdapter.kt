@@ -25,18 +25,18 @@ class NotificationAdapter(
         val notificationList: Data = notificationArrayList[position]
 
         holder.bind.textView54.text =try {
-            notificationList.title
+            notificationList.Jun[0].title.toString()
         } catch (e: Exception) {
             ""
         }
         holder.bind.textView55.text =try {
-            notificationList.body.toString()
+            notificationList.Jun[0].body.toString()
         } catch (e: Exception) {
             ""
         }
 
         holder.bind.textView56.text =try {
-            notificationList.created_at.dropLast(15)
+            notificationList.Jun[0].time
         } catch (e: Exception) {
             ""
         }

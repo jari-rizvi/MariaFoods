@@ -59,7 +59,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            notificationArrayList.addAll(data.data)
+                            notificationArrayList.addAll(listOf(data.data))
                             notificationAdapter.notifyDataSetChanged()
 
                         }

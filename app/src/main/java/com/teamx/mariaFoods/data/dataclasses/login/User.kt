@@ -9,5 +9,5 @@ data class User(
     val last_name: String,
     val name: String,
     val phone: String,
-    val provider_id: Int
+    val provider_id: String
 )

@@ -57,8 +57,8 @@ class ProfileFragment :
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
 
-                mViewDataBinding.btnEditProfile.text = user.first_name.toString()
-                mViewDataBinding.textView42.text = user.email.toString()
+                mViewDataBinding.btnEditProfile.text = user.first_name?.toString()
+                mViewDataBinding.textView42.text = user.email?.toString()
 //                Picasso.get().load(user.avatar.toString()).into(mViewDataBinding.profilePicture)
             }
         }

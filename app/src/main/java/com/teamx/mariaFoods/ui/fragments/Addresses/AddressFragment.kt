@@ -55,7 +55,6 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var statee: String
     private lateinit var postal: String
 
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,6 +99,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         }
 
         mViewDataBinding.btnAddAddress.setOnClickListener {
+
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetAddress)
 
@@ -164,8 +164,25 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                                             else BottomSheetBehavior.STATE_EXPANDED
                                         bottomSheetBehavior.state = state
 
-                                        addressAdapter.notifyDataSetChanged()
+                                        /*   addressArrayList.add(
+                                               Data(
+                                                   name = name,
+                                                   country = country,
+                                                   city = city,
+                                                   address_1 = address,
+                                                   address_2 = address,
+                                                   postal = postal,
+                                                   state = statee,
+                                                   id = 0,
+                                                   is_default = 0,
+                                                   long = "",
+                                                   lat = "",
+                                                   user_id = 0
+                                               )
+                                           )
 
+                                           addressAdapter.notifyDataSetChanged()*/
+                                        mViewModel.getAddress()
 
                                     } else {
                                         showToast(data.Message)
@@ -309,10 +326,22 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 params.addProperty("id", itemidAddress.id)
                 params.addProperty("country", itemidAddress.country)
                 params.addProperty("city", mViewDataBinding.bottomSheetLayout1.city.text.toString())
-                params.addProperty("address_1", mViewDataBinding.bottomSheetLayout1.editAddress1.text.toString())
-                params.addProperty("address_2", mViewDataBinding.bottomSheetLayout1.editAddress2.text.toString())
-                params.addProperty("postal", mViewDataBinding.bottomSheetLayout1.etPostal.text.toString())
-                params.addProperty("state", mViewDataBinding.bottomSheetLayout1.etState.text.toString())
+                params.addProperty(
+                    "address_1",
+                    mViewDataBinding.bottomSheetLayout1.editAddress1.text.toString()
+                )
+                params.addProperty(
+                    "address_2",
+                    mViewDataBinding.bottomSheetLayout1.editAddress2.text.toString()
+                )
+                params.addProperty(
+                    "postal",
+                    mViewDataBinding.bottomSheetLayout1.etPostal.text.toString()
+                )
+                params.addProperty(
+                    "state",
+                    mViewDataBinding.bottomSheetLayout1.etState.text.toString()
+                )
                 params.addProperty("is_default", 0)
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -410,7 +439,9 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
-                        addressAdapter.notifyDataSetChanged()
+                        mViewModel.getAddress()
+
+//                        addressAdapter.notifyDataSetChanged()
                         mViewDataBinding.root.snackbar(data.Message)
 
                     }

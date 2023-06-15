@@ -101,16 +101,9 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                     it.data?.let { data ->
                         lifecycleScope.launch(Dispatchers.IO) {
                             dataStoreProvider.saveUserToken(data.AccessToken)
-
-                            val firstname = data.User.first_name
-                            val lastname = data.User.last_name
-                            val email = data.User.email
-                            val number = data.User.phone
-
-//                            dataStoreProvider.saveUserDetails(
-//                                data.User
-//                                /*firstname, lastname, email, number*/
-//                            )
+                            dataStoreProvider.saveUserDetails(
+                                data.User
+                            )
 
 
                         }
