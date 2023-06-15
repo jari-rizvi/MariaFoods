@@ -132,6 +132,9 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner

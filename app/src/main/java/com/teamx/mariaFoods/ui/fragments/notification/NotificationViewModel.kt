@@ -4,8 +4,8 @@ package com.teamx.mariaFoods.ui.fragments.notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.notification.NotificationData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -18,8 +18,8 @@ class NotificationViewModel @Inject constructor(
     private val mainRepository: MainRepository, private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _notificationListResponse = MutableLiveData<Resource<NotificationData>>()
-    val notificationList: LiveData<Resource<NotificationData>>
+    private val _notificationListResponse = MutableLiveData<Resource<JsonObject>>()
+    val notificationList: LiveData<Resource<JsonObject>>
         get() = _notificationListResponse
 
     fun getnotification() {
@@ -32,6 +32,7 @@ class NotificationViewModel @Inject constructor(
                             _notificationListResponse.postValue(Resource.success(it.body()!!))
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
                             _notificationListResponse.postValue(Resource.error(it.message(), null))
+
                         } else {
                             _notificationListResponse.postValue(
                                 Resource.error(

@@ -1,6 +1,7 @@
 package com.teamx.mariaFoods.ui.fragments.notification
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
@@ -9,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
-import com.teamx.mariaFoods.data.dataclasses.notification.Data
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.DataExtented
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.Item
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.Jari
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentNotificationBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class NotificationFragment : BaseFragment<FragmentNotificationBinding, NotificationViewModel>() {
@@ -28,7 +32,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
 
     private lateinit var options: NavOptions
     lateinit var notificationAdapter: NotificationAdapter
-    lateinit var notificationArrayList: ArrayList<Data>
+    lateinit var notificationArrayList: ArrayList<DataExtented>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -59,7 +63,61 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            notificationArrayList.addAll(listOf(data.data))
+                            notificationArrayList.clear()
+
+
+                            val jsonObject = JSONObject(data.toString())
+
+
+
+
+
+
+
+                            println(jsonObject.toString())
+                            Log.d("TAG", "onViewCreated2123: $jsonObject")
+                            Log.d("TAG", "onViewCreated: ${jsonObject.getJSONObject("data")}")
+
+
+                            val data = jsonObject.getJSONObject("data")
+                            val a: ArrayList<String> = ArrayList()
+                            var counter = 0
+
+                            val stringIterator: Iterator<String> = data.keys()
+                            while (stringIterator.hasNext()) {
+                                a.add(stringIterator.next())
+                                Log.d("TAG", "onViewCreated: ${a.size}")
+                                Log.d("TAG", "onViewCreated: ${a.get(0)}")
+                            }
+
+                            a.forEach {
+                                val object1 = data.getJSONArray(it)
+                                val jari = ArrayList<Jari>()
+                                for (i in 0..object1.length() - 1) {
+                                    val items = JSONObject(object1[i].toString())
+                                    jari.add(
+                                        Jari(
+                                            title = items.getString("title"),
+                                            body = items.getString("body"),
+                                            time = items.getString("time"),
+                                        )
+                                    )
+                                }
+                                Log.d("TAG", "onViewCreated123123222: ${jari.size}")
+                                notificationArrayList.add(DataExtented(Item("$it", jari)))
+                                counter++
+
+                            }
+
+//                            for(i in 0..array.length())
+//                            {
+//                                val object1 = array.getJSONObject(i)
+//                                Log.d("TAG", "onViewCreated: $object1")
+//                            }
+//                            notificationArrayList.addAll()
+
+//                                Log.d("TAG", "onViewCreated: $array")??
+
                             notificationAdapter.notifyDataSetChanged()
 
                         }
