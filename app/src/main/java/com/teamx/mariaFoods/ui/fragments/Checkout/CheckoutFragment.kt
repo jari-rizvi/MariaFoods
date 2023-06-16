@@ -581,6 +581,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         }
 
                     }
+
                 }
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
