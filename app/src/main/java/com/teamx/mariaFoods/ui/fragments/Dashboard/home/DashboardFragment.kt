@@ -63,6 +63,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     lateinit var timeAdapter: TimeAdapter
     lateinit var timeArrayList: ArrayList<TimeSlot>
+    lateinit var dTimeArrayList: ArrayList<TimeSlot>
 
     lateinit var dayAdapter: DateAdapter
     lateinit var dayArrayList: ArrayList<OrderDay>
@@ -106,8 +107,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
 
         addressArrayList = ArrayList()
-
-
 
 
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
@@ -160,11 +159,43 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                             productArrayList.addAll(data.data)
                             productAdapter.notifyDataSetChanged()
 
-                            timeArrayList.addAll(data.shedule.time_slots)
-                            timeAdapter.notifyDataSetChanged()
+//                            timeArrayList.addAll(data.shedule.time_slots)
+//                            timeAdapter.notifyDataSetChanged()
+                            data.shedule.order_days.forEach {
 
-                            dayArrayList.addAll(data.shedule.order_days)
+                                dayArrayList.add(it)
+                            }
                             dayAdapter.notifyDataSetChanged()
+
+
+                            dTimeArrayList = ArrayList()
+                            data.shedule.time_slots.forEach {
+//                                Log.d("TAG", "onViewCreated: ${currentDateTime.hours}")
+                                Log.d(
+                                    "TAG",
+                                    "onViewCreated: ${
+                                        it.last_order_time.substringBefore(":").toInt()
+                                    }"
+                                )
+                                timeArrayList.add(it)
+                                dTimeArrayList.add(it)
+                                timeAdapter.notifyDataSetChanged()
+
+/*
+
+                                if (currentDateTime.hours < it.last_order_time.substringBefore(":")
+                                        .toInt()
+                                ) {
+                                    timeArrayList.add(it)
+                                    timeAdapter.notifyDataSetChanged()
+                                }else if (it.){
+                                    timeArrayList.add(it)
+                                    timeAdapter.notifyDataSetChanged()
+                                }*/
+                            }
+
+
+
 
                             mViewModel.getAddress()
 
@@ -181,9 +212,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                                 if (it.is_default == 1) {
                                                     addressArrayList.add(it)
                                                     val address = data.data[0].address_1
-                                                    mViewDataBinding.textView4.text = address.dropLast(30)
-                                                }
-                                                else{
+                                                    mViewDataBinding.textView4.text =
+                                                        address.dropLast(30)
+                                                } else {
                                                     mViewDataBinding.textView4.text = ""
 
                                                 }
@@ -195,7 +226,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                     }
                                     Resource.Status.ERROR -> {
                                         loadingDialog.dismiss()
-                                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                        DialogHelperClass.errorDialog(
+                                            requireContext(),
+                                            it.message!!
+                                        )
                                     }
                                 }
                                 if (isAdded) {
@@ -418,11 +452,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             cat.isChecked = false
         }
 
+
         val timeSlicl = timeArrayList[position]
 
         time = timeSlicl.id
         timeSlicl.isChecked = true
-//        timeArrayList[position].isChecked = true
+
+
         timeAdapter.notifyDataSetChanged()
     }
 
@@ -436,9 +472,24 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         days = daysSlicl.day
         daysSlicl.isChecked = true
 
-//        days = position
-//        dayArrayList[position].isChecked = true
-        Log.d("ondaysClick", "ondaysClick: ${days}")
+        val currentDateTime: java.util.Date = java.util.Date()
+        val arr = timeArrayList
+        timeArrayList.clear()
+
+
+        dTimeArrayList.forEach {
+            if (dayArrayList[position].day != 1) {
+                Log.d("TAG", "onViewCreated1212121daynot")
+                timeArrayList.add(it)
+
+            } else if (currentDateTime.hours < it.last_order_time.substringBefore(":").toInt()) {
+                Log.d("TAG", "onViewCreated1212121day")
+                timeArrayList.add(it)
+            }
+            timeAdapter.notifyDataSetChanged()
+        }
+
+
         dayAdapter.notifyDataSetChanged()
     }
 
