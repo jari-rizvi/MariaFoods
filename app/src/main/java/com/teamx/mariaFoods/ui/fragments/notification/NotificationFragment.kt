@@ -103,15 +103,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
 
                             }
 
-//                            for(i in 0..array.length())
-//                            {
-//                                val object1 = array.getJSONObject(i)
-//                                Log.d("TAG", "onViewCreated: $object1")
-//                            }
-//                            notificationArrayList.addAll()
-
-//                                Log.d("TAG", "onViewCreated: $array")??
-
                             notificationAdapter.notifyDataSetChanged()
 
                         }

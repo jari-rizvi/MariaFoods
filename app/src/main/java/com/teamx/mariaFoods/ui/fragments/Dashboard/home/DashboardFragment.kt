@@ -107,55 +107,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
         addressArrayList = ArrayList()
 
-        mViewModel.getAddress()
 
-        mViewModel.addressList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
-
-
-                        data.data.forEach {
-                            if (it.is_default == 1) {
-                                addressArrayList.add(it)
-                            }
-                        }
-                        val address = data.data[0].address_1
-
-//                        val addressParts = address.split(",").map { it.trim() }
-//                        val province = addressParts.last()
-//                        val country = addressParts.lastOrNull()?.split(" ")?.lastOrNull()
-//
-//
-//                        if (province != null && country != null) {
-//                            mViewDataBinding.textView4.text = province + country
-//
-//                            println("Province: $province")
-//                            println("Country: $country")
-//                        } else {
-//                            println("Address format doesn't match")
-//                        }
-
-
-                        mViewDataBinding.textView4.text = address.dropLast(30)
-
-
-
-                    }
-                }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                }
-            }
-            if (isAdded) {
-                mViewModel.addressList.removeObservers(viewLifecycleOwner)
-            }
-        }
 
 
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
@@ -213,6 +165,41 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                             dayArrayList.addAll(data.shedule.order_days)
                             dayAdapter.notifyDataSetChanged()
+
+                            mViewModel.getAddress()
+
+                            mViewModel.addressList.observe(requireActivity()) {
+                                when (it.status) {
+                                    Resource.Status.LOADING -> {
+                                        loadingDialog.show()
+                                    }
+                                    Resource.Status.SUCCESS -> {
+                                        loadingDialog.dismiss()
+                                        it.data?.let { data ->
+
+
+                                            data.data.forEach {
+                                                if (it.is_default == 1) {
+                                                    addressArrayList.add(it)
+                                                }
+                                            }
+                                            val address = data.data[0].address_1
+
+                                            mViewDataBinding.textView4.text = address.dropLast(30)
+
+
+
+                                        }
+                                    }
+                                    Resource.Status.ERROR -> {
+                                        loadingDialog.dismiss()
+                                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                    }
+                                }
+                                if (isAdded) {
+                                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
+                                }
+                            }
 
 
                         }
@@ -395,8 +382,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     var qty = 1
     override fun onAddClickListener(position: Int) {
-
-
         val Pqty = productArrayList[position]
         qty = Pqty.qty
         if (qty < 1) {
@@ -456,8 +441,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     }
 
     override fun onAddToCartListener(id: Int) {
-
-
         val params = JsonObject()
         try {
             params.addProperty("product_variation_id", id)
