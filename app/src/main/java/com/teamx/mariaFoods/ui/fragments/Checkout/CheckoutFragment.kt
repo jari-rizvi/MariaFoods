@@ -246,6 +246,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             }
         }
 
+        mViewDataBinding.imageView11.setOnClickListener {
+            popUpStack()
+        }
+
 
 
         mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
@@ -573,7 +577,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         mViewDataBinding.containerAddress.visibility = View.GONE
                         data.data.forEach {
                             if (it.is_default == 1) {
-                        mViewDataBinding.containerAddress.visibility = View.VISIBLE
+                                mViewDataBinding.containerAddress.visibility = View.VISIBLE
                                 addressArrayList.add(it)
                                 mViewDataBinding.address.text = it.address_1
                                 mViewDataBinding.postal.text = "Postal Code " + it.postal

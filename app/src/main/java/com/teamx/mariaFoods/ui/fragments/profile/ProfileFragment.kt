@@ -10,9 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
-import com.facebook.AccessToken
-import com.facebook.GraphRequest
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -219,53 +216,54 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
             }
         }
 
-        val accessToken = AccessToken.getCurrentAccessToken()
-        val isLoggedIn = accessToken != null && !accessToken.isExpired
+//        val accessToken = AccessToken.getCurrentAccessToken()
+//        val isLoggedIn = accessToken != null && !accessToken.isExpired
+//
+//        if (isLoggedIn) {
+//            val request = GraphRequest.newMeRequest(
+//                accessToken
+//            ) { jsonObject, response ->
+//                if (response?.error != null) {
+//                    // Handle error
+//                } else {
+//                    val email = jsonObject?.getString("email")
+//                    val name = jsonObject?.getString("name")
+//                    val profilePicUrl = jsonObject?.getJSONObject("picture")?.getJSONObject("data")
+//                        ?.getString("url")
+//
+//                    // Use the retrieved data
+//                    mViewDataBinding.btnEditProfile.text = name
 
-        if (isLoggedIn) {
-            val request = GraphRequest.newMeRequest(
-                accessToken
-            ) { jsonObject, response ->
-                if (response?.error != null) {
-                    // Handle error
-                } else {
-                    val email = jsonObject?.getString("email")
-                    val name = jsonObject?.getString("name")
-                    val profilePicUrl = jsonObject?.getJSONObject("picture")?.getJSONObject("data")
-                        ?.getString("url")
-
-                    // Use the retrieved data
-                    mViewDataBinding.btnEditProfile.text = name
-                    Picasso.get().load(profilePicUrl).into(mViewDataBinding.profilePicture)
-                    mViewDataBinding.textView42.text = email
-
-                }
-            }
-
-            val parameters = Bundle()
-            parameters.putString("fields", "email,name,picture.type(large)")
-            request.parameters = parameters
-            request.executeAsync()
-        }
-
-
-        val acct = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (acct != null) {
-            val personName = acct.displayName
-            val personEmail = acct.email
-            val personId = acct.id
-            val personPhoto = acct.photoUrl
-            val token = acct.idToken
-
-
-            mViewDataBinding.btnEditProfile.text = personName
-            mViewDataBinding.textView42.text = personEmail
-
-            Picasso.get().load(personPhoto).into(mViewDataBinding.profilePicture)
-
-            Timber.tag("TAG").d(personPhoto.toString())
-
-        }
+//                    Picasso.get().load(profilePicUrl).into(mViewDataBinding.profilePicture)
+//                    mViewDataBinding.textView42.text = email
+//
+//                }
+//            }
+//
+//            val parameters = Bundle()
+//            parameters.putString("fields", "email,name,picture.type(large)")
+//            request.parameters = parameters
+//            request.executeAsync()
+//        }
+//
+//
+//        val acct = GoogleSignIn.getLastSignedInAccount(requireContext())
+//        if (acct != null) {
+//            val personName = acct.displayName
+//            val personEmail = acct.email
+//            val personId = acct.id
+//            val personPhoto = acct.photoUrl
+//            val token = acct.idToken
+//
+//
+//            mViewDataBinding.btnEditProfile.text = personName
+//            mViewDataBinding.textView42.text = personEmail
+//
+//            Picasso.get().load(personPhoto).into(mViewDataBinding.profilePicture)
+//
+//            Timber.tag("TAG").d(personPhoto.toString())
+//
+//        }
 
         mViewDataBinding.btnAddress.setOnClickListener {
 
