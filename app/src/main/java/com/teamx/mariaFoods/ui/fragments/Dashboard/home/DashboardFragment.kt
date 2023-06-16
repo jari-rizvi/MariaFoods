@@ -1,6 +1,7 @@
 package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -73,8 +74,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private lateinit var handler: Handler
+    lateinit var addressArrayList: java.util.ArrayList<com.teamx.mariaFoods.data.dataclasses.getAddress.Data>
 
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,6 +102,58 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                 mViewDataBinding.textView3.text = ("Hello " + user.first_name.toString())
 
+            }
+        }
+
+        addressArrayList = ArrayList()
+
+        mViewModel.getAddress()
+
+        mViewModel.addressList.observe(requireActivity()) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    loadingDialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+
+
+                        data.data.forEach {
+                            if (it.is_default == 1) {
+                                addressArrayList.add(it)
+                            }
+                        }
+                        val address = data.data[0].address_1
+
+//                        val addressParts = address.split(",").map { it.trim() }
+//                        val province = addressParts.last()
+//                        val country = addressParts.lastOrNull()?.split(" ")?.lastOrNull()
+//
+//
+//                        if (province != null && country != null) {
+//                            mViewDataBinding.textView4.text = province + country
+//
+//                            println("Province: $province")
+//                            println("Country: $country")
+//                        } else {
+//                            println("Address format doesn't match")
+//                        }
+
+
+                        mViewDataBinding.textView4.text = address.dropLast(30)
+
+
+
+                    }
+                }
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                }
+            }
+            if (isAdded) {
+                mViewModel.addressList.removeObservers(viewLifecycleOwner)
             }
         }
 

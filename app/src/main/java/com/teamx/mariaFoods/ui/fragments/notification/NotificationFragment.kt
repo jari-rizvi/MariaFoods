@@ -69,43 +69,37 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
                             val jsonObject = JSONObject(data.toString())
 
 
+                            try {
+                                val data = jsonObject.getJSONObject("data")
+                                val a: ArrayList<String> = ArrayList()
+                                var counter = 0
 
-
-
-
-
-                            println(jsonObject.toString())
-                            Log.d("TAG", "onViewCreated2123: $jsonObject")
-                            Log.d("TAG", "onViewCreated: ${jsonObject.getJSONObject("data")}")
-
-
-                            val data = jsonObject.getJSONObject("data")
-                            val a: ArrayList<String> = ArrayList()
-                            var counter = 0
-
-                            val stringIterator: Iterator<String> = data.keys()
-                            while (stringIterator.hasNext()) {
-                                a.add(stringIterator.next())
-                                Log.d("TAG", "onViewCreated: ${a.size}")
-                                Log.d("TAG", "onViewCreated: ${a.get(0)}")
-                            }
-
-                            a.forEach {
-                                val object1 = data.getJSONArray(it)
-                                val jari = ArrayList<Jari>()
-                                for (i in 0..object1.length() - 1) {
-                                    val items = JSONObject(object1[i].toString())
-                                    jari.add(
-                                        Jari(
-                                            title = items.getString("title"),
-                                            body = items.getString("body"),
-                                            time = items.getString("time"),
-                                        )
-                                    )
+                                val stringIterator: Iterator<String> = data.keys()
+                                while (stringIterator.hasNext()) {
+                                    a.add(stringIterator.next())
+                                    Log.d("TAG", "onViewCreated: ${a.size}")
+                                    Log.d("TAG", "onViewCreated: ${a.get(0)}")
                                 }
-                                Log.d("TAG", "onViewCreated123123222: ${jari.size}")
-                                notificationArrayList.add(DataExtented(Item("$it", jari)))
-                                counter++
+
+                                a.forEach {
+                                    val object1 = data.getJSONArray(it)
+                                    val jari = ArrayList<Jari>()
+                                    for (i in 0..object1.length() - 1) {
+                                        val items = JSONObject(object1[i].toString())
+                                        jari.add(
+                                            Jari(
+                                                title = items.getString("title"),
+                                                body = items.getString("body"),
+                                                time = items.getString("time"),
+                                            )
+                                        )
+                                    }
+                                    Log.d("TAG", "onViewCreated123123222: ${jari.size}")
+                                    notificationArrayList.add(DataExtented(Item("$it", jari)))
+                                    counter++
+
+                                }
+                            } catch (e: Exception) {
 
                             }
 

@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
+import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
@@ -25,9 +26,44 @@ class Dashboard @Inject constructor(
 ) : BaseViewModel() {
 
 
+    private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
+    val addressList: LiveData<Resource<GetAddressData>>
+        get() = _addressListResponse
+
+    fun getAddress() {
+        viewModelScope.launch {
+            _addressListResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.getAddress().let {
+                        if (it.isSuccessful) {
+                            _addressListResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 403) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _addressListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+
+                            _addressListResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _addressListResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _addressListResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _addressListResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
     private val _bannerListResponse = MutableLiveData<Resource<BannerListData>>()
     val bannerList: LiveData<Resource<BannerListData>>
         get() = _bannerListResponse
+
     fun bannerList() {
         viewModelScope.launch {
             _bannerListResponse.postValue(Resource.loading(null))
@@ -43,7 +79,12 @@ class Dashboard @Inject constructor(
                             _bannerListResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 //                            _bannerListResponse.postValue(Resource.error(it.message(), null))
                         } else {
-                            _bannerListResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _bannerListResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -56,6 +97,7 @@ class Dashboard @Inject constructor(
     private val _productsResponse = MutableLiveData<Resource<ProductsData>>()
     val products: LiveData<Resource<ProductsData>>
         get() = _productsResponse
+
     fun getProducts() {
         viewModelScope.launch {
             _productsResponse.postValue(Resource.loading(null))
@@ -67,7 +109,12 @@ class Dashboard @Inject constructor(
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
                             _productsResponse.postValue(Resource.error(it.message(), null))
                         } else {
-                            _productsResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _productsResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -81,6 +128,7 @@ class Dashboard @Inject constructor(
     private val _addtocartResponse = MutableLiveData<Resource<AddToCartData>>()
     val addtocart: LiveData<Resource<AddToCartData>>
         get() = _addtocartResponse
+
     fun addCart(param: JsonObject) {
         viewModelScope.launch {
             _addtocartResponse.postValue(Resource.loading(null))
@@ -96,7 +144,12 @@ class Dashboard @Inject constructor(
                             _addtocartResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 //                            _addtocartResponse.postValue(Resource.error(it.message(), null))
                         } else {
-                            _addtocartResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _addtocartResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
