@@ -302,6 +302,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                             else BottomSheetBehavior.STATE_EXPANDED
                                         bottomSheetBehavior.state = state
 
+                                        mViewModel.getAddress()
 
                                     } else {
                                         showToast(data.Message)
@@ -546,6 +547,9 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
             getCurrentLocation()
         }
+        mViewDataBinding.bottomSheetLayout11.btnLocation.setOnClickListener {
+            getCurrentLocation()
+        }
 
 
         mViewModel.getAddress()
@@ -623,12 +627,12 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
     fun initialization() {
-//        address1 = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
+        address1 = mViewDataBinding.bottomSheetLayout.editAddress1.text.toString()
         postal = mViewDataBinding.bottomSheetLayout.etPostal.text.toString()
         state = mViewDataBinding.bottomSheetLayout.etState.text.toString()
         city = mViewDataBinding.bottomSheetLayout.city.text.toString()
-        country = mViewDataBinding.bottomSheetLayout.country.selectedCountryName
-
+//        country = mViewDataBinding.bottomSheetLayout.country.selectedCountryName
+        country = mViewDataBinding.bottomSheetLayout.country.text.toString()
     }
 
     private fun cartRecyclerview() {
@@ -694,7 +698,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                     address1 = addressText
 
-                    mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
 
                     val city: String? = address.locality
                     val state: String? = address.adminArea
@@ -703,6 +706,21 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     val knownName: String? = address.featureName
                     val knownName2: String? = address.subLocality
                     val phone: String? = address.phone
+
+                    mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
+                    mViewDataBinding.bottomSheetLayout.city.setText(city)
+                    mViewDataBinding.bottomSheetLayout.etState.setText(state)
+                    mViewDataBinding.bottomSheetLayout.etPostal.setText(postalCode)
+                    mViewDataBinding.bottomSheetLayout.country.setText(country)
+
+                    mViewDataBinding.bottomSheetLayout11.editAddress1.setText(addressText.toString())
+                    mViewDataBinding.bottomSheetLayout11.city.setText(city)
+                    mViewDataBinding.bottomSheetLayout11.etState.setText(state)
+                    mViewDataBinding.bottomSheetLayout11.etPostal.setText(postalCode)
+                    mViewDataBinding.bottomSheetLayout11.country.setText(country)
+
+
+
 
                     Log.d("lastLocation", "onCreate:latitude ${phone}")
                     Log.d("lastLocation", "onCreate:latitude ${knownName2}")

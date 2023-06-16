@@ -63,30 +63,50 @@
             app:layout_constraintVertical_bias="0." />
 
 
-        <com.hbb20.CountryCodePicker
+        <EditText
             android:id="@+id/country"
-            android:layout_width="wrap_content"
+            style="@style/open_sans_regular_small"
+            android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/contact_input_background"
-            android:clickable="true"
-            android:dropDownSelector="@color/orange"
-            android:focusable="true"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:singleLine="true"
             android:textColor="#666666"
-            app:ccp_arrowColor="@color/orange"
-            app:ccp_autoDetectCountry="true"
-            app:ccp_defaultNameCode="PK"
-            app:ccp_showNameCode="true"
-            app:ccp_showPhoneCode="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView36"
             app:layout_constraintVertical_bias="0" />
+
+
+<!--        <com.hbb20.CountryCodePicker-->
+<!--            android:id="@+id/country"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="@dimen/_30sdp"-->
+<!--            android:layout_marginHorizontal="@dimen/_15sdp"-->
+<!--            android:layout_marginTop="@dimen/_5sdp"-->
+<!--            android:background="@drawable/contact_input_background"-->
+<!--            android:clickable="true"-->
+<!--            android:dropDownSelector="@color/orange"-->
+<!--            android:focusable="true"-->
+<!--            android:minHeight="@dimen/_35sdp"-->
+<!--            android:paddingStart="@dimen/_10sdp"-->
+<!--            android:textColor="#666666"-->
+<!--            app:ccp_arrowColor="@color/orange"-->
+<!--            app:ccp_autoDetectCountry="true"-->
+<!--            app:ccp_defaultNameCode="PK"-->
+<!--            app:ccp_showNameCode="true"-->
+<!--            app:ccp_showPhoneCode="false"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView36"-->
+<!--            app:layout_constraintVertical_bias="0" />-->
 
 
         <TextView

@@ -1,11 +1,14 @@
 package com.teamx.mariaFoods.ui.activity.mainActivity
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -22,9 +25,9 @@ import com.teamx.mariaFoods.utils.FragHelper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+
 @AndroidEntryPoint
-open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
-    FacebookResponse {
+open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), FacebookResponse {
 
 
     override val viewModel: Class<MainViewModel>
@@ -41,14 +44,14 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-     Timber.tag("321321").d( "onRestoreInstanceState: ")
+        Timber.tag("321321").d("onRestoreInstanceState: ")
     }
 
     override fun onRestoreInstanceState(
         savedInstanceState: Bundle?, persistentState: PersistableBundle?
     ) {
         super.onRestoreInstanceState(savedInstanceState, persistentState)
-       Timber.tag("321321",).d( "onRestoreInstanceState: ")
+        Timber.tag("321321").d("onRestoreInstanceState: ")
     }
 
     override fun onStateNotSaved() {
@@ -81,6 +84,25 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
         Log.d("321321", "onStop: ")
     }
 
+    private val LOCATION_PERMISSION_REQUEST_CODE = 100
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            // Check if the permission has been granted
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with your app logic
+                // ...
+            } else {
+                // Permission denied, handle accordingly (e.g., show an explanation or disable location-related functionality)
+                // ...
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initialising()
@@ -92,6 +114,22 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
         } else {
             val helperState = savedInstanceState.getBundle(STATE_HELPER)
             stateHelper.restoreHelperState(helperState!!)
+        }
+
+
+        if (ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is already granted, proceed with your app logic
+            // ...
+        } else {
+            // Request location permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            );
         }
 
 
@@ -156,7 +194,6 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
 
     override fun attachBaseContext(newBase: Context?) =
         super.attachBaseContext(MainApplication.localeManager!!.setLocale(newBase!!))
-
 
 
     private fun setupBottomNavMenu(navController: NavController) {
@@ -238,8 +275,6 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun onFbProfileReceived(facebookUser: FacebookUser?) {
-
-
 
 
     }

@@ -177,17 +177,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                         loadingDialog.dismiss()
                                         it.data?.let { data ->
 
-
                                             data.data.forEach {
                                                 if (it.is_default == 1) {
                                                     addressArrayList.add(it)
+                                                    val address = data.data[0].address_1
+                                                    mViewDataBinding.textView4.text = address.dropLast(30)
+                                                }
+                                                else{
+                                                    mViewDataBinding.textView4.text = ""
+
                                                 }
                                             }
-                                            val address = data.data[0].address_1
-
-                                            mViewDataBinding.textView4.text = address.dropLast(30)
-
-
+//                                            val address = data.data[0].address_1
+//                                            mViewDataBinding.textView4.text = address.dropLast(30)
 
                                         }
                                     }
