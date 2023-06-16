@@ -25,13 +25,13 @@
                 android:id="@+id/bottomSheetLayout"
                 layout="@layout/bottom_sheet_change_password" />
 
-            <include
-                android:id="@+id/bottomSheetLayout1"
-                layout="@layout/bottom_sheet_change_phone" />
+<!--            <include-->
+<!--                android:id="@+id/bottomSheetLayout1"-->
+<!--                layout="@layout/bottom_sheet_change_phone" />-->
 
-            <include
-                android:id="@+id/bottomSheetLayout2"
-                layout="@layout/bottom_sheet_otp" />
+<!--            <include-->
+<!--                android:id="@+id/bottomSheetLayout2"-->
+<!--                layout="@layout/bottom_sheet_otp" />-->
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

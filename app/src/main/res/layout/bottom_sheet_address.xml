@@ -16,7 +16,7 @@
         android:elevation="@dimen/_5sdp"
         android:paddingBottom="32dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="16dp"
+        app:behavior_peekHeight="1dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <View
@@ -321,7 +321,6 @@
             android:textAlignment="center"
             android:textColor="@color/tab_label"
             android:textSize="@dimen/_10ssp"
-
             app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
             app:layout_constraintEnd_toStartOf="@+id/btnWork"
             app:layout_constraintStart_toStartOf="parent"
@@ -334,8 +333,8 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_25sdp"
             android:background="@drawable/contact_input_background"
-            android:backgroundTint="@android:color/transparent"
             android:checked="false"
+            android:elevation="@dimen/_1sdp"
             android:gravity="center"
             android:text="Other"
             android:textAlignment="center"
@@ -344,7 +343,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toEndOf="@+id/btnWork"
-            app:layout_constraintTop_toTopOf="@+id/btnWork" />
+            app:layout_constraintTop_toTopOf="@+id/btnWork"
+            app:layout_constraintVertical_bias="0.0" />
 
         <CheckedTextView
             android:id="@+id/btnWork"
@@ -357,13 +357,16 @@
             android:text="Work"
             android:textAlignment="center"
             android:textColor="@color/tab_label"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnHome"
             app:layout_constraintVertical_bias="0" />
+
+
+
+
 
 
         <CheckBox

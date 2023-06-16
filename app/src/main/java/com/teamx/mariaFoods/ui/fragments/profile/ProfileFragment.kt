@@ -6,7 +6,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -14,7 +13,6 @@ import androidx.navigation.navOptions
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -46,7 +44,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
 
     private lateinit var options: NavOptions
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+//    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
     private fun uploadWithRetrofit(file: File) {

@@ -64,7 +64,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var city: String
     private lateinit var state: String
     private lateinit var postal: String
-    private lateinit var name: String
+    private var name: String = ""
     private lateinit var address1: String
 
 
@@ -76,8 +76,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
     fun presentPaymentSheet() {
         paymentSheet.presentWithPaymentIntent(
-            paymentIntentClientSecret,
-            PaymentSheet.Configuration(
+            paymentIntentClientSecret, PaymentSheet.Configuration(
                 merchantDisplayName = "Maria Foods",
 //                customer = customerConfig,
                 // Set `allowsDelayedPaymentMethods` to true if your business
@@ -338,10 +337,18 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     when (newState) {
-                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                            View.GONE
-                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                            View.VISIBLE
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            MainActivity.bottomNav?.visibility = View.GONE
+
+                        }
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+//                            if(addressArrayList.size > 0){
+//                                mViewDataBinding.address.text = "${addressArrayList[0].address_1}"
+//                                mViewDataBinding.postal.text = "Postal Code ${addressArrayList[0].postal}"
+//                            }
+
+                            MainActivity.bottomNav?.visibility = View.VISIBLE
+                        }
                         else -> "Persistent Bottom Sheet"
                     }
                 }
@@ -396,8 +403,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     params.addProperty("country", addressArrayList[0].country)
 
                     params.addProperty(
-                        "city",
-                        mViewDataBinding.bottomSheetLayout11.city.text.toString()
+                        "city", mViewDataBinding.bottomSheetLayout11.city.text.toString()
                     )
                     params.addProperty(
                         "address_1",
@@ -408,12 +414,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         mViewDataBinding.bottomSheetLayout11.editAddress2.text.toString()
                     )
                     params.addProperty(
-                        "postal",
-                        mViewDataBinding.bottomSheetLayout11.etPostal.text.toString()
+                        "postal", mViewDataBinding.bottomSheetLayout11.etPostal.text.toString()
                     )
                     params.addProperty(
-                        "state",
-                        mViewDataBinding.bottomSheetLayout11.etState.text.toString()
+                        "state", mViewDataBinding.bottomSheetLayout11.etState.text.toString()
                     )
                     params.addProperty("is_default", 1)
                 } catch (e: JSONException) {
@@ -437,6 +441,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                         else BottomSheetBehavior.STATE_EXPANDED
                                     bottomSheetBehavior.state = state
 
+                                    mViewModel.getAddress()
+
                                     mViewDataBinding.root.snackbar("Updated")
 
                                 }
@@ -453,9 +459,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 }
             }
 
-            if (addressArrayList.size > 0) {
-                mViewModel.editAddress(addressArrayList[0].id)
-            }
+            mViewModel.editAddress(addressArrayList[0].id)
+
 
             mViewModel.editaddress.observe(requireActivity()) {
                 when (it.status) {
@@ -475,6 +480,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                             mViewDataBinding.bottomSheetLayout11.etState?.setText(data.data.state?.toString())
                             mViewDataBinding.bottomSheetLayout11.etState?.setText(data.data.country?.toString())
                             mViewDataBinding.bottomSheetLayout11.city?.setText(data.data.city?.toString())
+                            mViewDataBinding.bottomSheetLayout11.country?.setText(data.data.country?.toString())
+
 
                             if (data.data.name == "Home") {
                                 mViewDataBinding.bottomSheetLayout11.btnHome.isChecked = true
@@ -563,20 +570,15 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     loadingDialog.dismiss()
                     it.data?.let { data ->
 
-
+                        mViewDataBinding.containerAddress.visibility = View.GONE
                         data.data.forEach {
                             if (it.is_default == 1) {
+                        mViewDataBinding.containerAddress.visibility = View.VISIBLE
                                 addressArrayList.add(it)
+                                mViewDataBinding.address.text = it.address_1
+                                mViewDataBinding.postal.text = "Postal Code " + it.postal
                             }
                         }
-
-                        if (data.data.isEmpty()) {
-                            mViewDataBinding.containerAddress.visibility = View.GONE
-                        } else {
-                            mViewDataBinding.address.text = data.data[0].address_1
-                            mViewDataBinding.postal.text = "Postal Code " + data.data[0].postal
-                        }
-
 
                     }
                 }

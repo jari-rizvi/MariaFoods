@@ -22,7 +22,8 @@
 
             <include
                 android:id="@+id/bottomSheetLayout"
-                layout="@layout/bottom_sheet_slots" />
+                layout="@layout/bottom_sheet_slots"
+                />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -31,7 +32,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_140sdp"
+            android:layout_height="@dimen/_180sdp"
             android:background="@drawable/banner_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +43,11 @@
                 android:id="@+id/imageView25"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/auth_image"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/auth_image" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <androidx.viewpager2.widget.ViewPager2
@@ -58,8 +59,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.47" >
-
+                app:layout_constraintVertical_bias="0.47">
 
 
             </androidx.viewpager2.widget.ViewPager2>
@@ -74,9 +74,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintVertical_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:layout_constraintVertical_bias="0.05"
                 app:tabBackground="@drawable/indicator_default"
                 app:tabIndicatorHeight="0dp">
 
@@ -95,6 +95,20 @@
                 app:layout_constraintVertical_bias="0.2"
                 app:srcCompat="@drawable/notifications" />
 
+
+            <ImageView
+                android:id="@+id/imageViewlogo"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/logoo_mar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
+
             <TextView
                 android:id="@+id/textView3"
                 style="@style/montserrat_bold"
@@ -107,8 +121,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewlogo"
+                app:layout_constraintVertical_bias="0.04" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -127,12 +141,12 @@
                 style="@style/open_sans_regular_medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:maxLines="2"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintHorizontal_bias="0.05"
@@ -184,10 +198,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
                 android:src="@drawable/search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="@dimen/_5sdp"
                 app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -223,15 +237,15 @@
 
             <TextView
                 android:id="@+id/textView7"
+                style="@style/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_100_halal_n_chicken"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/montserrat"
-                android:textColor="@color/orange"
-                android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/imageView4"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4"
@@ -239,14 +253,14 @@
 
             <TextView
                 android:id="@+id/textView8"
+                style="@style/open_sans_secondary_medium_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                style="@style/open_sans_secondary_medium_small"
-                android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 app:layout_constraintVertical_bias="0.2" />
@@ -280,15 +294,15 @@
 
             <TextView
                 android:id="@+id/tempControl"
+                style="@style/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temperature_controlled"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/montserrat"
-                android:textColor="@color/orange"
-                android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5"
@@ -296,13 +310,13 @@
 
             <TextView
                 android:id="@+id/textView9"
+                style="@style/open_sans_secondary_medium_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/open_sans_secondary_medium_small"
-                android:textSize="@dimen/_8ssp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tempControl"
                 app:layout_constraintTop_toBottomOf="@+id/tempControl"
@@ -338,13 +352,13 @@
 
             <TextView
                 android:id="@+id/textView10"
+                style="@style/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trusted_customers"
-                style="@style/montserrat"
                 android:textColor="@color/orange"
-                android:textStyle="bold"
                 android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -354,14 +368,14 @@
 
             <TextView
                 android:id="@+id/textView11"
+                style="@style/open_sans_secondary_medium_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                style="@style/open_sans_secondary_medium_small"
-                android:textSize="@dimen/_8ssp"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/textView10"
                 app:layout_constraintVertical_bias="0.2" />
@@ -396,29 +410,29 @@
 
             <TextView
                 android:id="@+id/textView12"
+                style="@style/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fast \nDelivery"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                style="@style/montserrat"
-                android:textColor="@color/orange"
-                android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
                 app:layout_constraintStart_toStartOf="@+id/imageView7"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7"
                 app:layout_constraintVertical_bias="0.15" />
 
             <TextView
                 android:id="@+id/textView13"
+                style="@style/open_sans_secondary_medium_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/open_sans_secondary_medium_small"
-                android:textSize="@dimen/_8ssp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView12"
@@ -431,12 +445,12 @@
             android:id="@+id/productRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
             app:layout_constraintVertical_bias="0.05"
-            android:layout_marginBottom="@dimen/_15sdp"
             tools:listitem="@layout/item_products" />
 
 

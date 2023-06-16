@@ -58,7 +58,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
-    private lateinit var name: String
+    private  var name: String = ""
     private lateinit var country: String
     private lateinit var city: String
     private var address1: String = ""
@@ -518,6 +518,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         mViewDataBinding.bottomSheetLayout1.etPostal?.setText(data.data.postal?.toString())
                         mViewDataBinding.bottomSheetLayout1.etState?.setText(data.data.state?.toString())
                         mViewDataBinding.bottomSheetLayout1.city?.setText(data.data.city?.toString())
+                        mViewDataBinding.bottomSheetLayout1.country?.setText(data.data.country?.toString())
 
                         Log.d("TAG", "cityy: ${data.data.city} ")
                         Log.d("TAG", "state: ${data.data.state} ")

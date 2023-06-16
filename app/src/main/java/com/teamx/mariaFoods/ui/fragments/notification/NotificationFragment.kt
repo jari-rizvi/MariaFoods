@@ -103,6 +103,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
 
                             }
 
+
                             notificationAdapter.notifyDataSetChanged()
 
                         }
