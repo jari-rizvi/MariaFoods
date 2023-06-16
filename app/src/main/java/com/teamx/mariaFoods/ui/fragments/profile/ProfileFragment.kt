@@ -193,6 +193,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
             fetchImageFromGallery()
         }
 
+        mViewDataBinding.termsCondition.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.termsCondtionFragment, null, options)
+        }
+
+        mViewDataBinding.btnHelp.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.helpFragment, null, options)
+        }
+
 
 
         lifecycleScope.launch {

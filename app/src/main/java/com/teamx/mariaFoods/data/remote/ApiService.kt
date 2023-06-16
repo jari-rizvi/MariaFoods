@@ -17,6 +17,7 @@ import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.dataclasses.resetPass.ResetPassData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
+import com.teamx.mariaFoods.data.dataclasses.termsCondition.TermsConditonData
 import com.teamx.mariaFoods.data.dataclasses.uploadProfile.UploadProfileData
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -182,6 +183,16 @@ interface ApiService {
         @Query("id") id: Int,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<EditAddressData>
+  @Headers("secret: dev")
+    @GET(NetworkCallPoints.TERMS_CONDITION)
+    suspend fun termsCondition(
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<TermsConditonData>
+ @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_HELP)
+    suspend fun getHelp(
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<TermsConditonData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_CART)

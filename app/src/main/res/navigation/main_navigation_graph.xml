@@ -87,4 +87,12 @@
         android:id="@+id/resetPasswordFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.Auth.resetPass.ResetPasswordFragment"
         android:label="ResetPasswordFragment" />
+    <fragment
+        android:id="@+id/termsCondtionFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.help.TermsCondtionFragment"
+        android:label="TermsCondtionFragment" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.help.HelpFragment"
+        android:label="HelpFragment" />
 </navigation>

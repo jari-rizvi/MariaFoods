@@ -55,6 +55,10 @@ class NetworkCallPoints {
         const val CHECKOUT = "products/order/checkout"
         const val ADD_COUPON = "products/apply-coupon"
 
+        //Terms&Condition
+        const val TERMS_CONDITION = "app/get-terms-and-conditions"
+        const val GET_HELP = "app/get-help"
+
 
         var TOKENER = ""
     }
