@@ -318,7 +318,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:paddingStart="@dimen/_5sdp"
-                        android:text="Shipment Code"
+                        android:text="Delivery Fee"
                         android:textSize="@dimen/_12ssp"
                         app:layout_constraintBottom_toTopOf="@+id/textView33"
                         app:layout_constraintEnd_toEndOf="@+id/textView6"

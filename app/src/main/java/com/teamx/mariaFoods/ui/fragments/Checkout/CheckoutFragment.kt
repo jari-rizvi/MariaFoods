@@ -200,11 +200,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
-
-
-
-
-
         mViewModel.getDefaultStripeCard()
 
         if (!mViewModel.getDefaultStripeCardsResponse.hasActiveObservers()) {
@@ -245,10 +240,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 }
             }
         }
-
-
-
-
 
         mViewDataBinding.textView20.setOnClickListener {
             if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
@@ -674,11 +665,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         cartArrayList.addAll(data.data.carts)
                         cartAdapter.notifyDataSetChanged()
 
-                        mViewDataBinding.subtotal.text = data.data.subTotal + "AED"
-                        mViewDataBinding.discount.text = "0.00" + "AED"
-                        mViewDataBinding.vat.text = "25.00" + "AED"
-                        mViewDataBinding.deliveryfee.text = "100.00" + "AED"
-                        mViewDataBinding.total.text = "300.00" + "AED"
+                        mViewDataBinding.subtotal.text = data.data.subTotal
+                        mViewDataBinding.discount.text = data.data.couponDiscount
+                        mViewDataBinding.vat.text = data.data.vat
+                        mViewDataBinding.deliveryfee.text = data.data.delivery_charges
+                        mViewDataBinding.total.text = data.data.Total
 
                     }
                 }
