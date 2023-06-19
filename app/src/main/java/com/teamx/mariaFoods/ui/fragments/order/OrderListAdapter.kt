@@ -32,6 +32,12 @@ init {
             ""
         }
 
+        holder.bind.date.text = try {
+            orderList.created_at.dropLast(18)
+        } catch (e: Exception) {
+            ""
+        }
+
         holder.bind.ProductQuantity.text = try {
             orderList.quantity
         } catch (e: Exception) {

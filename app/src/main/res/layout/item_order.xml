@@ -10,10 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
         android:background="@drawable/card_background"
-        android:elevation="@dimen/_1sdp"
-        >
+        android:elevation="@dimen/_1sdp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,9 +46,9 @@
             style="@style/montserrat_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:maxLines="1"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            android:maxLines="1"
+            android:text="TextView"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toTopOf="@+id/ProductQuantity"
             app:layout_constraintEnd_toStartOf="@+id/date"
@@ -64,10 +63,10 @@
             style="@style/montserrat_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/orange"
             android:layout_marginTop="@dimen/_5sdp"
             android:maxLines="1"
+            android:text="TextView"
+            android:textColor="@color/orange"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/ProductQuantity"
@@ -79,10 +78,10 @@
             style="@style/open_sans_secondary_medium_small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:layout_marginTop="@dimen/_5sdp"
-            android:textColor="#A7A7A7"
             android:maxLines="1"
+            android:text="TextView"
+            android:textColor="#A7A7A7"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@+id/ProductPrice"
             app:layout_constraintEnd_toEndOf="@+id/productName"
@@ -94,8 +93,8 @@
             style="@style/montserrat_bold"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/card_background"
             android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/card_background"
             android:backgroundTint="@color/orange"
             android:gravity="center"
             android:text="@string/re_order"
@@ -108,13 +107,13 @@
 
         <TextView
             android:id="@+id/date"
+            style="@style/open_sans_secondary_medium_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="@dimen/_8ssp"
-            android:textColor="#A7A7A7"
-            style="@style/open_sans_secondary_medium_small"
             android:layout_marginEnd="@dimen/_15sdp"
+            android:text="TextView"
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_8ssp"
             app:layout_constraintBottom_toBottomOf="@+id/productName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/productName" />

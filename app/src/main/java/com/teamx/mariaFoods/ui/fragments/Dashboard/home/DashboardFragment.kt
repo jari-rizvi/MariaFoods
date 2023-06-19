@@ -162,7 +162,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                             data.shedule.order_days.forEach {
                                 dayArrayList.add(it)
-//                                dayArrayList[0].isChecked = true
+                                dayArrayList[0].isChecked = true
                             }
 
 
@@ -178,6 +178,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                 timeAdapter.notifyDataSetChanged()
 
 
+                                ondaysClick(0)
                             }
 
 

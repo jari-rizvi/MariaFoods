@@ -68,6 +68,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private var name: String = ""
     private var addressid: String = ""
     private lateinit var address1: String
+    private var paymentid: String = ""
 
 
     lateinit var paymentSheet: PaymentSheet
@@ -222,6 +223,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                     mViewDataBinding.paymentaster.visibility = View.VISIBLE
 
                                 }
+
+                              paymentid  = data.data.id
 
                             } catch (e: Exception) {
 
@@ -573,6 +576,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             try {
                 params.addProperty("payment_method", "STRIPE")
                 params.addProperty("shipping_address", addressid)
+                if(!paymentid.isNullOrEmpty()){
+                    params.addProperty("payment_method_id", paymentid)
+                }
+
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -588,8 +595,35 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         it.data?.let { data ->
                             paymentIntentClientSecret = data.client_secreat
 
+                            if(!paymentid.isNullOrEmpty()){
+                                bottomSheetBehavior =
+                                    BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
 
-                            presentPaymentSheet()
+                                bottomSheetBehavior.addBottomSheetCallback(object :
+                                    BottomSheetBehavior.BottomSheetCallback() {
+                                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                                    }
+
+                                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                                        when (newState) {
+                                            BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                                                View.GONE
+                                            BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                                                View.VISIBLE
+                                            else -> "Persistent Bottom Sheet"
+                                        }
+                                    }
+                                })
+
+                                val state =
+                                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                    else BottomSheetBehavior.STATE_EXPANDED
+                                bottomSheetBehavior.state = state
+                            }
+                            else{
+                                presentPaymentSheet()
+                            }
 
                         }
                     }
@@ -685,6 +719,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 }
             }
         }
+
         cartRecyclerview()
 
     }

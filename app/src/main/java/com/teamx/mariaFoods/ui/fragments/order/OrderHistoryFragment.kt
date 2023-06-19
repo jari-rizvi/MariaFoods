@@ -91,6 +91,7 @@ class OrderHistoryFragment :
                                                 name = items.getJSONObject("product").getString("name"),
                                                 price = items.getJSONObject("product").getDouble("max_price").toString(),
                                                 quantity = items.getInt("order_quantity").toString(),
+                                                created_at = items.getString("created_at").toString(),
                                             )
                                         )
                                     }
