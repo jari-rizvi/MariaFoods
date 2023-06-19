@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
             app:layout_constraintVertical_bias="0.3"
-            app:srcCompat="@drawable/account" />
+            app:srcCompat="@drawable/success" />
 
         <TextView
             android:id="@+id/textView51"
@@ -50,7 +50,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintVertical_bias="0.25"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
             android:id="@+id/textView52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:maxLines="2"
             style="@style/open_sans_secondary_medium_small"
             android:text="@string/your_order_has_been_placed_successfully_n_you_can_see_the_status_of_your_order"
@@ -76,7 +76,7 @@
             android:layout_marginHorizontal="@dimen/_25sdp"
             android:layout_height="@dimen/_30sdp"
             app:layout_constraintVertical_bias="0"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:text="@string/continue_shopping"
             android:textColor="@color/white"
             style="@style/montserrat_bold"

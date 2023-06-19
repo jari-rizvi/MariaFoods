@@ -464,6 +464,11 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         timeArrayList.clear()
 
 
+        if(timeArrayList.size > 1){
+            mViewDataBinding.bottomSheetLayout.notAvailable.visibility = View.VISIBLE
+        }
+
+
         dTimeArrayList.forEach {
             if (dayArrayList[position].day != 1) {
                 Log.d("TAG", "onViewCreated1212121daynot")

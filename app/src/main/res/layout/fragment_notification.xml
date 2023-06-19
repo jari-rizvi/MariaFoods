@@ -42,7 +42,7 @@
             android:id="@+id/notificationRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_notification_months"
             app:layout_constraintEnd_toEndOf="parent"

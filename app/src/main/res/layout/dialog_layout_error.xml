@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    android:elevation="@dimen/_1sdp"
+    android:background="@drawable/card_background"
     android:backgroundTint="@color/colorWhite">
 
     <LinearLayout
@@ -39,11 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            style="@style/open_sans_secondary_medium_medium"
             android:maxLines="3"
             android:text="something went wrong"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="normal" />
 
         <View

@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_55sdp"
         android:elevation="@dimen/_1sdp"
-        android:layout_margin="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_3sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
         android:background="@drawable/card_background"
         >
 
