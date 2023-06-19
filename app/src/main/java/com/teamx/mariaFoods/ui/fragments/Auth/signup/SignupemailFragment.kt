@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -39,6 +41,7 @@ class SignupemailFragment :
     private var userEmail: String? = null
     private var password: String? = null
     private var Cpassword: String? = null
+    private lateinit var fcmToken: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,6 +63,21 @@ class SignupemailFragment :
         mViewDataBinding.btnBack.setOnClickListener {
             popUpStack()
         }
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            fcmToken = task.result
+
+
+            Log.d("TokeeennnFcm", "onViewCreated: $fcmToken")
+
+
+        })
 
    mViewDataBinding.showPassword.setOnClickListener {
        mViewDataBinding.pass.transformationMethod = HideReturnsTransformationMethod.getInstance();
@@ -149,6 +167,8 @@ class SignupemailFragment :
                 params.addProperty("email", userEmail)
                 params.addProperty("password", password)
                 params.addProperty("through", "email")
+                params.addProperty("fcm_token", fcmToken)
+
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

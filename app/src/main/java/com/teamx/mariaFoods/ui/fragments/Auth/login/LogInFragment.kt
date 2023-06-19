@@ -19,7 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -48,7 +50,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     var mGoogleSignInClient: GoogleSignInClient? = null
     var callbackManager: CallbackManager? = null
-
+    private lateinit var fcmToken: String
 
     var RC_SIGN_IN = 1
 
@@ -88,6 +90,21 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
         }
 
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            fcmToken = task.result
+
+
+            Log.d("TokeeennnFcm", "onViewCreated: $fcmToken")
+
+
+        })
 
 
         mViewModel.socialLoginResponse.observe(requireActivity()) {
@@ -266,6 +283,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                         params.addProperty("token", idTokenFb)
                         params.addProperty("provider", "facebook")
                         params.addProperty("platform", "android")
+                        params.addProperty("fcm_token", fcmToken)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -301,6 +319,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                         params.addProperty("token", idTokenFb)
                         params.addProperty("platform", "android")
                         params.addProperty("provider", "facebook")
+                        params.addProperty("fcm_token", fcmToken)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -348,6 +367,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                 params.addProperty("token", idToken)
                 params.addProperty("provider", "google")
                 params.addProperty("platform", "android")
+                params.addProperty("fcm_token", fcmToken)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

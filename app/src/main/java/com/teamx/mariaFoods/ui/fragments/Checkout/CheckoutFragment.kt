@@ -653,33 +653,36 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
         mViewModel.getCart()
 
-        mViewModel.getCartList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
 
-                        cartArrayList.addAll(data.data.carts)
-                        cartAdapter.notifyDataSetChanged()
+        if (!mViewModel.getCartList.hasActiveObservers()) {
+            mViewModel.getCartList.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
 
-                        mViewDataBinding.subtotal.text = data.data.subTotal
-                        mViewDataBinding.discount.text = data.data.couponDiscount
-                        mViewDataBinding.vat.text = data.data.vat
-                        mViewDataBinding.deliveryfee.text = data.data.delivery_charges
-                        mViewDataBinding.total.text = data.data.Total
+                            cartArrayList.addAll(data.data.carts)
+                            cartAdapter.notifyDataSetChanged()
 
+                            mViewDataBinding.subtotal.text = data.data.subTotal
+                            mViewDataBinding.discount.text = data.data.couponDiscount
+                            mViewDataBinding.vat.text = data.data.vat
+                            mViewDataBinding.deliveryfee.text = data.data.delivery_charges
+                            mViewDataBinding.total.text = data.data.Total
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                if (isAdded) {
+
                 }
-            }
-            if (isAdded) {
-                mViewModel.getCartList.removeObservers(viewLifecycleOwner)
             }
         }
         cartRecyclerview()

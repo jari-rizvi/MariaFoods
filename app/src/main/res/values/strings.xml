@@ -30,7 +30,7 @@
     <string name="facebook_client_token">a01a5e7db91fe42a420a349e2024445d</string>
     <string name="schedule_delivery">Schedule Delivery</string>
     <string name="order_now">Order Now</string>
-    <string name="select_quantity">select Quantity</string>
+    <string name="select_quantity">Select Quantity</string>
     <string name="_100_halal_n_chicken">100% Halal \n Chicken</string>
     <string name="temperature_controlled">Temperature Controlled</string>
     <string name="trusted_customers">Trusted Customers</string>
@@ -60,5 +60,6 @@
     <string name="save_your_delivery_address">Save your delivery address</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="buy_now">Buy Now</string>
 
 </resources>
