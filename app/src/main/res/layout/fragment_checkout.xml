@@ -100,7 +100,7 @@
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.03" />
+                    app:layout_constraintVertical_bias="0.015" />
 
                 <EditText
                     android:id="@+id/autoCompleteTextView"
@@ -139,7 +139,7 @@
                     style="@style/open_sans_regular_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+ Add Address"
+                    android:text="+ Add New Address"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
@@ -539,9 +539,9 @@
                     android:id="@+id/paymentCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
                     app:layout_constraintBottom_toTopOf="@+id/btnPlaceOrder"
                     app:layout_constraintEnd_toEndOf="@+id/containerPayment"
                     app:layout_constraintStart_toStartOf="@+id/textView266"

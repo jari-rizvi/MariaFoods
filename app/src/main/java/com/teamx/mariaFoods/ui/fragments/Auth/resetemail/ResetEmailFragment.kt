@@ -1,7 +1,6 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.resetemail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -90,7 +89,7 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                 e.printStackTrace()
             }
 
-            Log.e("UserData", params.toString())
+
 
             mViewModel.resetPass(params)
 
