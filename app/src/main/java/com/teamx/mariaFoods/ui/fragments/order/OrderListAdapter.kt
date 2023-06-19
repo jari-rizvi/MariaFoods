@@ -26,22 +26,22 @@ init {
 
         val orderList: Jari1 = orderArrayList[position]
 
-//        holder.bind.productName.text = try {
-//            orderList.title
-//        } catch (e: Exception) {
-//            ""
-//        }
+        holder.bind.productName.text = try {
+            orderList.name
+        } catch (e: Exception) {
+            ""
+        }
 
-//        holder.bind.ProductQuantity.text = try {
-//            orderList.order_quantity
-//        } catch (e: Exception) {
-//            ""
-//        }
-//        holder.bind.ProductPrice.text = try {
-//            orderList.subTotal
-//        } catch (e: Exception) {
-//            ""
-//        }
+        holder.bind.ProductQuantity.text = try {
+            orderList.quantity
+        } catch (e: Exception) {
+            ""
+        }
+        holder.bind.ProductPrice.text = try {
+            orderList.price
+        } catch (e: Exception) {
+            ""
+        }
 
     }
 

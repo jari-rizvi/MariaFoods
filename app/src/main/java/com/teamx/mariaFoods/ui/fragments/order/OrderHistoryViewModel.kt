@@ -4,8 +4,8 @@ package com.teamx.mariaFoods.ui.fragments.order
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -19,8 +19,8 @@ class OrderHistoryViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _orderListResponse = MutableLiveData<Resource<OrderData>>()
-    val orderList: LiveData<Resource<OrderData>>
+    private val _orderListResponse = MutableLiveData<Resource<JsonObject>>()
+    val orderList: LiveData<Resource<JsonObject>>
         get() = _orderListResponse
     fun getOrder() {
         viewModelScope.launch {

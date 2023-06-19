@@ -62,7 +62,7 @@ class OrderHistoryFragment :
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-
+                            Log.d("TAG", "onViewCreated33333: $data")
 
                             orderArrayList.clear()
 
@@ -77,7 +77,7 @@ class OrderHistoryFragment :
                                 val stringIterator: Iterator<String> = data.keys()
                                 while (stringIterator.hasNext()) {
                                     a.add(stringIterator.next())
-                                    Log.d("TAG", "onViewCreated: ${a.size}")
+                                    Log.d("TAG", "onViewCreated33333: ${a.size}")
                                     Log.d("TAG", "onViewCreated: ${a.get(0)}")
                                 }
 
@@ -88,9 +88,9 @@ class OrderHistoryFragment :
                                         val items = JSONObject(object1[i].toString())
                                         jari.add(
                                             Jari1(
-                                                name = items.getString("name"),
-                                                min_price = items.getString("min_price"),
-                                                time = items.getString("time"),
+                                                name = items.getJSONObject("product").getString("name"),
+                                                price = items.getJSONObject("product").getDouble("max_price").toString(),
+                                                quantity = items.getInt("order_quantity").toString(),
                                             )
                                         )
                                     }
@@ -99,7 +99,9 @@ class OrderHistoryFragment :
                                     counter++
 
                                 }
-                            } catch (e: Exception) { }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
 
 
                             orderAdapter.notifyDataSetChanged()
