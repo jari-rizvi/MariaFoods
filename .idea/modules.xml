@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MariaFoods.iml" filepath="$PROJECT_DIR$/.idea/modules/MariaFoods.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MariaFoods.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DogTv.iml" filepath="$PROJECT_DIR$/.idea/modules/DogTv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DogTv.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DogTv.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DogTv.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DogTv.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DogTv.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DogTv.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DogTv.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DogTv.app.unitTest.iml" />
     </modules>
   </component>
 </project>
