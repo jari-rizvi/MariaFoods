@@ -68,7 +68,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
 
                             val jsonObject = JSONObject(data.toString())
 
-
                             try {
                                 val data = jsonObject.getJSONObject("data")
                                 val a: ArrayList<String> = ArrayList()
@@ -99,9 +98,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
                                     counter++
 
                                 }
-                            } catch (e: Exception) {
-
-                            }
+                            } catch (e: Exception) { }
 
 
                             notificationAdapter.notifyDataSetChanged()

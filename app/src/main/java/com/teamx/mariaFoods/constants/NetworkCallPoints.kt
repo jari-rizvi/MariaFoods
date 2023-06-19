@@ -51,6 +51,13 @@ class NetworkCallPoints {
         const val GET_CART = "products/get-cart"
 
 
+        //Stripe
+        const val GET_CARDS = "users/stripe/get_payment_method"
+        const val GET_DEFAULT_CARDS = "users/stripe/get_default_payment_method"
+        const val SET_DEFAULT_CARDS = "users/stripe/set_default_payment_method"
+        const val DELETE_STRIPE_CARDS = "users/stripe/remove_payment_method"
+
+
         //Checkout
         const val CHECKOUT = "products/order/checkout"
         const val ADD_COUPON = "products/apply-coupon"

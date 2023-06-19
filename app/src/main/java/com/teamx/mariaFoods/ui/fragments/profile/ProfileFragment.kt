@@ -201,6 +201,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
             )
             navController.navigate(R.id.helpFragment, null, options)
         }
+        mViewDataBinding.btnPayment.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.paymentFragment, null, options)
+        }
 
 
 

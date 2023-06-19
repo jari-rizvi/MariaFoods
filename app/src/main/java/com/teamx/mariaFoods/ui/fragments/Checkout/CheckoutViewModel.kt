@@ -12,6 +12,7 @@ import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
+import com.teamx.mariaFoods.data.dataclasses.getDefaultStripeCard.GetDefaultStripeCard
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
@@ -26,6 +27,43 @@ class CheckoutViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
+
+
+    private val _getDefaultStripeCardsResponse = MutableLiveData<Resource<GetDefaultStripeCard>>()
+    val getDefaultStripeCardsResponse: LiveData<Resource<GetDefaultStripeCard>>
+        get() = _getDefaultStripeCardsResponse
+
+
+    fun getDefaultStripeCard() {
+        viewModelScope.launch {
+            _getDefaultStripeCardsResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.getDefaultCard().let {
+                        if (it.isSuccessful) {
+                            _getDefaultStripeCardsResponse.postValue(Resource.success(it.body()!!))
+
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _getDefaultStripeCardsResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+
+                        } else {
+                            _getDefaultStripeCardsResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong", null
+                                )
+                            )
+
+                        }
+                    }
+                } catch (e: Exception) {
+                    _getDefaultStripeCardsResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _getDefaultStripeCardsResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
 
     private val _getCartListResponse = MutableLiveData<Resource<GetCartData>>()
     val getCartList: LiveData<Resource<GetCartData>>

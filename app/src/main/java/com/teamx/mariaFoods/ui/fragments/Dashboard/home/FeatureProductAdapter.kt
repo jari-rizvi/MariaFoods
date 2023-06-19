@@ -17,7 +17,7 @@ class FeatureProductAdapter(private val arrayList : ArrayList<Data>):RecyclerVie
 
     override fun onBindViewHolder(holder: FeatureProductViewHolder, position: Int) {
 
-        Picasso.get().load(/*banner.*/arrayList[position].path).into(holder.binding.imageView)
+        Picasso.get().load("https://dev.dogtvfoods.com/"+arrayList[position].path).into(holder.binding.imageView)
 
         holder.itemView.setOnClickListener {
 

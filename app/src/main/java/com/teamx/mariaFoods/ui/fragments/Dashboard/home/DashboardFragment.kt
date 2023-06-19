@@ -159,39 +159,25 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                             productArrayList.addAll(data.data)
                             productAdapter.notifyDataSetChanged()
 
-//                            timeArrayList.addAll(data.shedule.time_slots)
-//                            timeAdapter.notifyDataSetChanged()
-                            data.shedule.order_days.forEach {
 
+                            data.shedule.order_days.forEach {
                                 dayArrayList.add(it)
+//                                dayArrayList[0].isChecked = true
                             }
+
+
                             dayAdapter.notifyDataSetChanged()
 
 
                             dTimeArrayList = ArrayList()
                             data.shedule.time_slots.forEach {
 //                                Log.d("TAG", "onViewCreated: ${currentDateTime.hours}")
-                                Log.d(
-                                    "TAG",
-                                    "onViewCreated: ${
-                                        it.last_order_time.substringBefore(":").toInt()
-                                    }"
-                                )
+                                Log.d("TAG", "onViewCreated: ${it.last_order_time.substringBefore(":").toInt()}")
                                 timeArrayList.add(it)
                                 dTimeArrayList.add(it)
                                 timeAdapter.notifyDataSetChanged()
 
-/*
 
-                                if (currentDateTime.hours < it.last_order_time.substringBefore(":")
-                                        .toInt()
-                                ) {
-                                    timeArrayList.add(it)
-                                    timeAdapter.notifyDataSetChanged()
-                                }else if (it.){
-                                    timeArrayList.add(it)
-                                    timeAdapter.notifyDataSetChanged()
-                                }*/
                             }
 
 

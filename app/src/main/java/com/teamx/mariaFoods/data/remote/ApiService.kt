@@ -10,6 +10,8 @@ import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
+import com.teamx.mariaFoods.data.dataclasses.getDefaultStripeCard.GetDefaultStripeCard
+import com.teamx.mariaFoods.data.dataclasses.getStripecards.StripeCardsData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
 import com.teamx.mariaFoods.data.dataclasses.orderHistory.OrderData
@@ -139,6 +141,17 @@ interface ApiService {
     suspend fun getCart(
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<GetCartData>
+  @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_CARDS)
+    suspend fun getCards(
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<StripeCardsData>
+
+    @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_DEFAULT_CARDS)
+    suspend fun getDefaultCard(
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<GetDefaultStripeCard>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.CHECKOUT)
@@ -160,6 +173,13 @@ interface ApiService {
     @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_ADDRESS)
     suspend fun deleteAddress(
         @Query("id") id: Int,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_STRIPE_CARDS)
+    suspend fun deleteCard(
+        @Query("payment_method_id") id: String,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<SuccessData>
 
@@ -200,5 +220,13 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<AddToCartData>
+
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.SET_DEFAULT_CARDS)
+    suspend fun setDefaultCard(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
 }

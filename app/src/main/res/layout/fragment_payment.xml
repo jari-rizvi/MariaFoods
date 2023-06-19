@@ -48,6 +48,7 @@
             android:text="Add New Card"
             android:textColor="@color/orange"
             android:textSize="@dimen/_10ssp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.89"
@@ -56,9 +57,11 @@
             app:layout_constraintVertical_bias="0.05" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stripecardsRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_payment_cards"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/_15sdp"
             app:layout_constraintStart_toStartOf="parent"

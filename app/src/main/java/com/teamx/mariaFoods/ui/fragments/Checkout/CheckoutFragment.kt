@@ -12,6 +12,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,6 +66,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var state: String
     private lateinit var postal: String
     private var name: String = ""
+    private var addressid: String = ""
     private lateinit var address1: String
 
 
@@ -72,7 +74,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     var paymentIntentClientSecret: String = ""
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     var stripPublicKey: String =
-        "pk_test_51HWpLoH5a96j3Kt2rdV31pdGaiLEmPeIgoNBBSbCy79FaDdhOEuXnIiNWi6pT4mzmVxmBuZ5x60WpDUg7pfeln7i00v22JRQsM"
+        "pk_test_51NIUy0Cth47xs3WC9tm8vZi0P6SmxOKYLjDhg3BWm5OR0Xg4GfmU90akrrwObn64iRo6qx1DaQ1QDYikZsCo4ljL00X9Maixp9"
 
     fun presentPaymentSheet() {
         paymentSheet.presentWithPaymentIntent(
@@ -198,6 +200,56 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
+
+
+
+
+
+        mViewModel.getDefaultStripeCard()
+
+        if (!mViewModel.getDefaultStripeCardsResponse.hasActiveObservers()) {
+            mViewModel.getDefaultStripeCardsResponse.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+
+                            try {
+                                mViewDataBinding.paymentName.text =
+                                    "*** *** *** ${data.data.card.last4}"
+                                if (data.data.card.brand == "visa") {
+                                    mViewDataBinding.paymentVisa.visibility = View.VISIBLE
+                                } else if (data.data.card.brand == "master card") {
+                                    mViewDataBinding.paymentaster.visibility = View.VISIBLE
+
+                                }
+
+                            } catch (e: Exception) {
+
+                            }
+
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.getDefaultStripeCardsResponse.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
+
+
+
+
+
         mViewDataBinding.textView20.setOnClickListener {
             if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
                 showToast("Enter Voucher")
@@ -250,6 +302,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             popUpStack()
         }
 
+        mViewDataBinding.btnDefault.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.paymentFragment, null, options)
+        }
+
 
 
         mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
@@ -266,6 +325,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
         }
+
 
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
@@ -521,6 +581,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
             val params = JsonObject()
             try {
                 params.addProperty("payment_method", "STRIPE")
+                params.addProperty("shipping_address", addressid)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -581,6 +642,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                 addressArrayList.add(it)
                                 mViewDataBinding.address.text = it.address_1
                                 mViewDataBinding.postal.text = "Postal Code " + it.postal
+                                addressid = it.id.toString()
                             }
                         }
 

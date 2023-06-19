@@ -58,5 +58,7 @@
     <string name="add_address">Add Address</string>
     <string name="update">Update</string>
     <string name="save_your_delivery_address">Save your delivery address</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 
 </resources>
