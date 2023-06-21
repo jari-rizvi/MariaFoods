@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -64,6 +66,35 @@ class ResetPasswordFragment() :
             }
         }
 
+
+        mViewDataBinding.showPassword.setOnClickListener {
+            mViewDataBinding.newPass.transformationMethod =
+                HideReturnsTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.VISIBLE
+            mViewDataBinding.showPassword.visibility = View.GONE
+        }
+
+        mViewDataBinding.hidePassword.setOnClickListener {
+            mViewDataBinding.newPass.transformationMethod =
+                PasswordTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.GONE
+            mViewDataBinding.showPassword.visibility = View.VISIBLE
+        }
+
+
+        mViewDataBinding.showPasswordConfirm.setOnClickListener {
+            mViewDataBinding.CnfrmPass.transformationMethod =
+                HideReturnsTransformationMethod.getInstance();
+            mViewDataBinding.hidePasswordConfirm.visibility = View.VISIBLE
+            mViewDataBinding.showPasswordConfirm.visibility = View.GONE
+        }
+
+        mViewDataBinding.hidePasswordConfirm.setOnClickListener {
+            mViewDataBinding.CnfrmPass.transformationMethod =
+                PasswordTransformationMethod.getInstance();
+            mViewDataBinding.hidePasswordConfirm.visibility = View.GONE
+            mViewDataBinding.showPasswordConfirm.visibility = View.VISIBLE
+        }
 
 
         mViewDataBinding.btnReset.setOnClickListener {

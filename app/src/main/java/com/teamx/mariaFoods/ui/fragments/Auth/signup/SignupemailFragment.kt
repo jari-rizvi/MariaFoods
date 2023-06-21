@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
-import com.google.android.gms.tasks.OnCompleteListener
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
@@ -79,10 +80,11 @@ class SignupemailFragment :
 
         })
 
-   mViewDataBinding.showPassword.setOnClickListener {
-       mViewDataBinding.pass.transformationMethod = HideReturnsTransformationMethod.getInstance();
-       mViewDataBinding.hidePassword.visibility = View.VISIBLE
-       mViewDataBinding.showPassword.visibility = View.GONE
+        mViewDataBinding.showPassword.setOnClickListener {
+            mViewDataBinding.pass.transformationMethod =
+                HideReturnsTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.VISIBLE
+            mViewDataBinding.showPassword.visibility = View.GONE
         }
 
         mViewDataBinding.hidePassword.setOnClickListener {
@@ -97,19 +99,20 @@ class SignupemailFragment :
         }
 
         mViewDataBinding.showPasswordConfirm.setOnClickListener {
-            mViewDataBinding.cnfrmPass.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            mViewDataBinding.cnfrmPass.transformationMethod =
+                HideReturnsTransformationMethod.getInstance()
             mViewDataBinding.hidePasswordConfirm.visibility = View.VISIBLE
             mViewDataBinding.showPasswordConfirm.visibility = View.GONE
 
         }
 
         mViewDataBinding.hidePasswordConfirm.setOnClickListener {
-            mViewDataBinding.cnfrmPass.transformationMethod = PasswordTransformationMethod.getInstance()
+            mViewDataBinding.cnfrmPass.transformationMethod =
+                PasswordTransformationMethod.getInstance()
             mViewDataBinding.hidePasswordConfirm.visibility = View.GONE
             mViewDataBinding.showPasswordConfirm.visibility = View.VISIBLE
         }
     }
-
 
 
     private fun initialization() {
@@ -120,6 +123,13 @@ class SignupemailFragment :
     }
 
     fun validate(): Boolean {
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(mViewDataBinding.email.text.toString().trim())
+                .matches()
+        ) {
+            mViewDataBinding.root.snackbar(getString(R.string.invalid_email))
+            return false
+        }
         if (mViewDataBinding.pass.text.toString().trim().isEmpty()) {
             mViewDataBinding.root.snackbar(getString(R.string.enter_Password))
             return false
@@ -197,7 +207,6 @@ class SignupemailFragment :
                                     }
 
 
-
                                     val bundle = Bundle()
                                     bundle.putString("email", data.User.email)
 
@@ -206,7 +215,11 @@ class SignupemailFragment :
                                             requireActivity(),
                                             R.id.nav_host_fragment
                                         )
-                                    navController.navigate(R.id.otpRegisterEmailFragment, bundle, options)
+                                    navController.navigate(
+                                        R.id.otpRegisterEmailFragment,
+                                        bundle,
+                                        options
+                                    )
                                 } else {
                                     showToast(data.Message)
                                 }
@@ -228,8 +241,6 @@ class SignupemailFragment :
             }
         }
     }
-
-
 
 
 }

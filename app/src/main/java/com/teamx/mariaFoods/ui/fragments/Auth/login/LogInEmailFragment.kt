@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -26,6 +27,7 @@ import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,7 +82,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
         }
 
         mViewDataBinding.btnLogin.setOnClickListener {
-            subscribeToNetworkLiveData()
+            validate()
         }
 
         mViewDataBinding.showPassword.setOnClickListener {
@@ -255,6 +257,26 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
             }
 
         }
+    }
+
+    private fun validate(): Boolean {
+        if (!Patterns.EMAIL_ADDRESS.matcher(mViewDataBinding.email.text.toString().trim())
+                .matches()
+        ) {
+            mViewDataBinding.root.snackbar(getString(R.string.invalid_email))
+            return false
+        }
+        if (mViewDataBinding.password.text.toString().trim().isEmpty()) {
+            mViewDataBinding.root.snackbar(getString(R.string.enter_Password))
+            return false
+        }
+        if (mViewDataBinding.password.text.toString().trim().length < 8) {
+            mViewDataBinding.root.snackbar(getString(R.string.password_8_character))
+            return false
+        }
+
+        subscribeToNetworkLiveData()
+        return true
     }
 
 

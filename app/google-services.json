@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1087608872383-j49urb05ueuor7d1s001fo82iof4s9q2.apps.googleusercontent.com",
+          "client_id": "1087608872383-qaocqqj4rhu74tf3aiqslod5n183tp8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamx.mariaFoods",
+            "certificate_hash": "b9167e5fbfb08ca77137bd2da159c3b9d43f8d78"
+          }
+        },
+        {
+          "client_id": "1087608872383-kldqmck42817mfdkqnmgpjiu8ookevil.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

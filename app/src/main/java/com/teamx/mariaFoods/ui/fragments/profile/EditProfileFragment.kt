@@ -1,7 +1,8 @@
 package com.teamx.mariaFoods.ui.fragments.profile
 
 import android.os.Bundle
-import android.util.Log
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
@@ -72,13 +73,21 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
                 mViewDataBinding.lName.setText(user.last_name.toString())
                 mViewDataBinding.phone.setText(user.phone.toString())
 
-
-                // Do something with the user
-                Log.d("editer", "onViewCreated: ${user.first_name}")
-                Log.d("editer", "onViewCreated: ${user.last_name}")
-                Log.d("editer", "onViewCreated: ${user.phone}")
-                Log.d("editer", "onViewCreated: ${user.email}")
             }
+        }
+
+        mViewDataBinding.showPassword.setOnClickListener {
+            mViewDataBinding.password.transformationMethod =
+                HideReturnsTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.VISIBLE
+            mViewDataBinding.showPassword.visibility = View.GONE
+        }
+
+        mViewDataBinding.hidePassword.setOnClickListener {
+            mViewDataBinding.password.transformationMethod =
+                PasswordTransformationMethod.getInstance();
+            mViewDataBinding.hidePassword.visibility = View.GONE
+            mViewDataBinding.showPassword.visibility = View.VISIBLE
         }
 
 //        mViewDataBinding.bottomSheetLayout1.countryCode.registerCarrierNumberEditText(

@@ -25,13 +25,13 @@
                 android:id="@+id/bottomSheetLayout"
                 layout="@layout/bottom_sheet_change_password" />
 
-<!--            <include-->
-<!--                android:id="@+id/bottomSheetLayout1"-->
-<!--                layout="@layout/bottom_sheet_change_phone" />-->
+            <!--            <include-->
+            <!--                android:id="@+id/bottomSheetLayout1"-->
+            <!--                layout="@layout/bottom_sheet_change_phone" />-->
 
-<!--            <include-->
-<!--                android:id="@+id/bottomSheetLayout2"-->
-<!--                layout="@layout/bottom_sheet_otp" />-->
+            <!--            <include-->
+            <!--                android:id="@+id/bottomSheetLayout2"-->
+            <!--                layout="@layout/bottom_sheet_otp" />-->
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -70,6 +70,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_7sdp"
             android:background="@drawable/contact_input_background"
+            android:maxLength="30"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
@@ -105,6 +106,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_7sdp"
             android:background="@drawable/contact_input_background"
+            android:maxLength="30"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
@@ -138,6 +140,7 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/contact_input_background"
+            android:inputType="textEmailAddress"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
@@ -170,6 +173,7 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/contact_input_background"
+            android:inputType="phone"
             android:minHeight="@dimen/_35sdp"
             android:paddingStart="@dimen/_10sdp"
             android:singleLine="true"
@@ -203,16 +207,44 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_7sdp"
             android:background="@drawable/contact_input_background"
+            android:inputType="text"
             android:minHeight="@dimen/_35sdp"
             android:padding="@dimen/_5sdp"
             android:paddingStart="@dimen/_10sdp"
-
             android:singleLine="true"
             android:textColor="#666666"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView244"
             app:layout_constraintVertical_bias="0.92" />
+
+
+        <ImageView
+            android:id="@+id/showPassword"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/show_password"
+            app:layout_constraintBottom_toBottomOf="@+id/password"
+            app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toTopOf="@+id/password" />
+
+        <ImageView
+            android:id="@+id/hidePassword"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/hide_password"
+            app:layout_constraintBottom_toBottomOf="@+id/password"
+            app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toTopOf="@+id/password" />
 
 
         <TextView
@@ -249,7 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:text="Change Phone"
+            android:text="Change Phone Number"
             android:textColor="@color/orange"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="@+id/Address"

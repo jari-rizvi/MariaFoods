@@ -29,7 +29,7 @@ class CartAdapter(
 
         holder.binding.ProductPrice.text = "${cart.product.max_price}"
 
-        holder.binding.ProductQuantity.text = "${cart.qty}"
+        holder.binding.ProductQuantity.text = "Qty: ${cart.qty}"
 
         Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
 

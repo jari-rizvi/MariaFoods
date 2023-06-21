@@ -367,13 +367,10 @@
 
 
 
-
-
         <CheckBox
             android:id="@+id/defaultAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
             android:buttonTint="@color/product_txt_selector"
             app:backgroundTint="#8094959b"
             app:layout_constraintHorizontal_bias="0"
@@ -389,8 +386,8 @@
             android:maxLines="2"
             android:text="@string/save_your_delivery_address"
             android:textColor="#343434"
-            app:layout_constraintVertical_bias="0.65"
             android:textSize="@dimen/_10ssp"
+            app:layout_constraintVertical_bias="0.5"
             app:backgroundTint="#8094959b"
             app:layout_constraintBottom_toBottomOf="@+id/defaultAddress"
             app:layout_constraintEnd_toEndOf="@+id/btnOther"
