@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/_5sdp"
         android:layout_marginHorizontal="@dimen/_3sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
         android:background="@drawable/card_background"
         android:elevation="@dimen/_1sdp">
 
@@ -77,8 +77,9 @@
         <TextView
             android:id="@+id/ProductQuantity"
             style="@style/open_sans_secondary_medium_small"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0"
             android:layout_marginTop="@dimen/_5sdp"
             android:maxLines="1"
             android:text="TextView"
@@ -92,9 +93,8 @@
         <TextView
             android:id="@+id/btnReOrder"
             style="@style/montserrat_bold"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/card_background"
             android:backgroundTint="@color/orange"
             android:gravity="center"
@@ -102,9 +102,29 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnCnclOrder"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
+
+        <CheckedTextView
+            android:id="@+id/btnCnclOrder"
+            style="@style/montserrat_bold"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/card_border"
+            android:gravity="center"
+            android:text="Cancel Order"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
+            app:layout_constraintTop_toTopOf="@+id/btnReOrder" />
 
         <TextView
             android:id="@+id/date"
@@ -118,6 +138,22 @@
             app:layout_constraintBottom_toBottomOf="@+id/productName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/productName" />
+
+        <TextView
+            android:id="@+id/orderStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange"
+            android:text="Pending"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            style="@style/open_sans_regular_small"
+            app:layout_constraintHorizontal_bias="0.9"
+            android:backgroundTint="#FFD7C7"
+            android:gravity="center"
+            android:background="@drawable/card_background_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ProductPrice"
+            app:layout_constraintTop_toTopOf="@+id/ProductPrice" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

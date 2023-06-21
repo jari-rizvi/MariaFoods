@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 @AndroidEntryPoint
 class OrderHistoryFragment :
-    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(),OnOrderListener {
+    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(){
 
     override val layoutId: Int
         get() = R.layout.fragment_order_history
@@ -92,6 +92,7 @@ class OrderHistoryFragment :
                                                 price = items.getJSONObject("product").getDouble("max_price").toString(),
                                                 quantity = items.getInt("order_quantity").toString(),
                                                 created_at = items.getString("created_at").toString(),
+                                                payment_status = items.getString("payment_status").toString()
                                             )
                                         )
                                     }
@@ -131,11 +132,6 @@ class OrderHistoryFragment :
 
         orderAdapter = OrderAdapter(orderArrayList)
         mViewDataBinding.orderRecycler.adapter = orderAdapter
-
-    }
-
-
-    override fun oneOrderClick(position: Int) {
 
     }
 
