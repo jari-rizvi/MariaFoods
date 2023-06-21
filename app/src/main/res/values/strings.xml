@@ -25,8 +25,7 @@
     <string name="enter_Password">Enter Password</string>
     <string name="password_does_not_match">Password does not match</string>
     <string name="re_order">Re-Order</string>
-<!--    <string name="server_client_id">249049982150-v3p486tgiqap6lk3orpl00i2uvppb9d9.apps.googleusercontent.com</string>-->
-    <string name="server_client_id">1087608872383-q76prm39oocqllakfels9t5kulm7hgi6.apps.googleusercontent.com</string>
+    <string name="server_client_id">1087608872383-fj43ipvm49paqunt2p4ruf0i1r54nk4o.apps.googleusercontent.com</string>
     <string name="facebook_app_id">178571151835229</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">a01a5e7db91fe42a420a349e2024445d</string>

@@ -207,7 +207,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_7sdp"
             android:background="@drawable/contact_input_background"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:minHeight="@dimen/_35sdp"
             android:padding="@dimen/_5sdp"
             android:paddingStart="@dimen/_10sdp"
@@ -284,6 +284,7 @@
             android:text="Change Phone Number"
             android:textColor="@color/orange"
             android:textSize="@dimen/_10ssp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/Address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/Address" />

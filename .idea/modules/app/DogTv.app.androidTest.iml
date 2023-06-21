@@ -83,8 +83,8 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b1b1b0a41b26e16dfe99703dd7e9b62c/transformed/vectordrawable-animated-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/46ba1ef69e2f4959e228aa8457b68a17/transformed/vectordrawable-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e07ad44676c05f71562a635548636452/transformed/media-1.0.0-api.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/98f5c3bebdf569bb9f0c252bb826c5e7/transformed/viewpager-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d5ba7d3480a9b02ba890df45a4947aa2/transformed/browser-1.4.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/98f5c3bebdf569bb9f0c252bb826c5e7/transformed/viewpager-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/fc9538d4294f88221f2f06144c2462f1/transformed/recyclerview-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/02aa178d011ca1c6edd14e8571ee0254/transformed/slidingpanelayout-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d4782d0f162b1a58d2f96d60422c146e/transformed/customview-1.1.0-api.jar</arg>
@@ -171,11 +171,11 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5af68d09fd764e7ae65152fc49c7ca44/transformed/core-runtime-2.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/8923270836c4f5697ed798d3c0cc091f/transformed/exifinterface-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5aeb8517493f8dd95540890f090a5667/transformed/interpolator-1.0.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/999253f674e71dd3c539e08450bf97ae/transformed/localbroadcastmanager-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/390314ccf626b2f7ab6e204015e31078/transformed/jetified-concurrent-futures-1.1.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/49bc89c99e780dd0081a1db2a13c54b0/transformed/versionedparcelable-1.1.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/58d7b46677aeb750539c345cc0d117c3/transformed/jetified-collection-ktx-1.1.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.collection/collection/1.1.0/1f27220b47669781457de0d600849a5de0e89909/collection-1.1.0.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/999253f674e71dd3c539e08450bf97ae/transformed/localbroadcastmanager-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/c9cbaf34b91f0e064c045674bac9423b/transformed/jetified-transport-backend-cct-3.1.8-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/f904bbfa5851a92fe213bb5a95ccffc8/transformed/jetified-transport-runtime-3.1.8-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ffc2482202c24749744c2e8f493e7125/transformed/jetified-transport-api-3.0.0-api.jar</arg>

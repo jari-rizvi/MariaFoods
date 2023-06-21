@@ -87,7 +87,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
         mViewDataBinding.txtLoginGoogle.setOnClickListener {
             fb()
-
         }
 
 
@@ -376,11 +375,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
             Timber.tag("TAG").d("signInResult:failed code=")
 
-            // Signed in successfully, show authenticated UI.
-//            navController = Navigation.findNavController(
-//                requireActivity(), R.id.nav_host_fragment
-//            )
-//            navController.navigate(R.id.userProfileFragment, null, options)
 
 //            updateUI(account)
         } catch (e: ApiException) {
