@@ -34,7 +34,7 @@ class PaymentAdapter(
 
         if (cardsList?.card?.brand == "visa") {
             holder.bind.paymentVisa.visibility = View.VISIBLE
-        } else if (cardsList?.card?.brand == "master card") {
+        } else if (cardsList?.card?.brand == "mastercard") {
             holder.bind.paymentaster.visibility = View.VISIBLE
 
         }

@@ -65,7 +65,7 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
                                     requireActivity(),
                                     R.id.nav_host_fragment
                                 )
-                                navController.navigate(R.id.logInFragment, null, options)
+                                navController.navigate(R.id.dashboardFragment, null, options)
 
                             } else {
                                 navController = Navigation.findNavController(

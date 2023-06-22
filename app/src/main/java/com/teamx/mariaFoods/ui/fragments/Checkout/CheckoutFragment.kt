@@ -219,7 +219,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                     "*** *** *** ${data.data.card.last4}"
                                 if (data.data.card.brand == "visa") {
                                     mViewDataBinding.paymentVisa.visibility = View.VISIBLE
-                                } else if (data.data.card.brand == "master card") {
+                                } else if (data.data.card.brand == "mastercard") {
                                     mViewDataBinding.paymentaster.visibility = View.VISIBLE
 
                                 }
