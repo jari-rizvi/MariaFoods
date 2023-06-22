@@ -157,7 +157,7 @@ class OrderHistoryFragment :
 
         val params = JsonObject()
         try {
-            params.addProperty("id", position)
+            params.addProperty("order_id", position)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -174,6 +174,7 @@ class OrderHistoryFragment :
                         loadingDialog.dismiss()
                         it.data?.let { data ->
                             if (data.Flag == 1) {
+                                mViewModel.getOrder()
                                 showToast(data.Message)
 
 
