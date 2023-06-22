@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
+    android:background="@drawable/card_background"
+    android:backgroundTint="@color/colorWhite"
+    android:elevation="@dimen/_5sdp">
+
+
+    <TextView
+        android:id="@+id/tv_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        android:gravity="center"
+        android:text="Please Login"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/removeBtn"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginVertical="@dimen/_25sdp"
+        android:background="@drawable/notification_round_item"
+        android:backgroundTint="@color/orange"
+        android:elevation="@dimen/_1sdp"
+        android:gravity="center"
+        android:maxLines="3"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancelBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_text" />
+
+    <TextView
+        android:id="@+id/cancelBtn"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:background="@drawable/cncl_btn_border"
+        android:elevation="@dimen/_1sdp"
+        android:gravity="center"
+        android:maxLines="3"
+        android:text="@string/cancel"
+        android:textAlignment="center"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/removeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/removeBtn"
+        app:layout_constraintTop_toTopOf="@+id/removeBtn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

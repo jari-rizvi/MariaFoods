@@ -42,7 +42,6 @@ class DialogHelperClass {
             fun onCnclClicked()
         }
 
-
         fun defaultCardDialog(context: Context, dialogCallBack: DialogCallBack, boo: Boolean) {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.default_card_dialog)
@@ -57,6 +56,39 @@ class DialogHelperClass {
                     dialogCallBack.onCnfrmClicked()
                 } else {
                     dialogCallBack.onCnclClicked()
+                }
+                dialog.dismiss()
+            }
+
+            val cancelBtn = dialog.findViewById<TextView>(R.id.cancelBtn)
+            cancelBtn.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+        }
+
+
+        interface DialogLoginCallBack {
+            fun CnfrmClicked()
+            fun CnclClicked()
+        }
+
+        fun LoginDialog(context: Context, dialogLoginCallBack: DialogLoginCallBack, boo: Boolean) {
+            val dialog = Dialog(context)
+            dialog.setContentView(R.layout.login_dialog)
+            dialog.window!!.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT
+            )
+
+
+            val removeBtn = dialog.findViewById<TextView>(R.id.removeBtn)
+            removeBtn.setOnClickListener {
+                if (boo) {
+                    dialogLoginCallBack.CnfrmClicked()
+                } else {
+                    dialogLoginCallBack.CnclClicked()
                 }
                 dialog.dismiss()
             }

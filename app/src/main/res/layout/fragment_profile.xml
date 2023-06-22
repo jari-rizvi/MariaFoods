@@ -124,7 +124,7 @@
             android:background="@drawable/border_background"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_2sdp"
-            android:src="@drawable/fast_delivery"
+            android:src="@drawable/asasas"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout15"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout15"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout15"

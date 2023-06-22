@@ -26,6 +26,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
 import com.teamx.mariaFoods.data.dataclasses.products.OrderDay
 import com.teamx.mariaFoods.data.dataclasses.products.TimeSlot
@@ -35,6 +36,8 @@ import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import java.lang.Math.abs
@@ -43,7 +46,7 @@ import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener,
-    OnCartListener, OnTimeListener {
+    OnCartListener, OnTimeListener, DialogHelperClass.Companion.DialogLoginCallBack {
 
     override val layoutId: Int
         get() = R.layout.fragment_dashboard
@@ -70,6 +73,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     var days: Int? = 0
     var time: Int? = 0
+    var token: String? = null
+
 
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -106,9 +111,84 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             }
         }
 
+
+
+        if (isAdded) {
+            CoroutineScope(Dispatchers.Main).launch {
+
+                dataStoreProvider.token.collect {
+                    Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                    Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                    token = it
+
+                    NetworkCallPoints.TOKENER = token.toString()
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            Log.d("Databsae Token", "token ${token}")
+//                            navController = Navigation.findNavController(
+//                                requireActivity(),
+//                                R.id.nav_host_fragment
+//                            )
+//                            navController.navigate(R.id.dashboardFragment, null, options)
+
+                        } else {
+
+                            mViewModel.getAddress()
+
+                            mViewModel.addressList.observe(requireActivity()) {
+                                when (it.status) {
+                                    Resource.Status.LOADING -> {
+                                        loadingDialog.show()
+                                    }
+                                    Resource.Status.SUCCESS -> {
+                                        loadingDialog.dismiss()
+                                        it.data?.let { data ->
+
+                                            data.data.forEach {
+                                                if (it.is_default == 1) {
+                                                    addressArrayList.add(it)
+                                                    val address = data.data[0].address_1
+                                                    mViewDataBinding.textView4.text =
+                                                        address.dropLast(30)
+                                                } else {
+                                                    mViewDataBinding.textView4.text = ""
+
+                                                }
+                                            }
+//                                            val address = data.data[0].address_1
+//                                            mViewDataBinding.textView4.text = address.dropLast(30)
+
+                                        }
+                                    }
+                                    Resource.Status.ERROR -> {
+                                        loadingDialog.dismiss()
+                                        DialogHelperClass.errorDialog(
+                                            requireContext(),
+                                            it.message!!
+                                        )
+                                    }
+                                }
+                                if (isAdded) {
+                                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+        }
+
+
         addressArrayList = ArrayList()
-
-
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
         mViewDataBinding.bottomSheetLayout.months.text = currentMonth
 
@@ -179,49 +259,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
 
                                 ondaysClick(0)
-                            }
-
-
-
-
-                            mViewModel.getAddress()
-
-                            mViewModel.addressList.observe(requireActivity()) {
-                                when (it.status) {
-                                    Resource.Status.LOADING -> {
-                                        loadingDialog.show()
-                                    }
-                                    Resource.Status.SUCCESS -> {
-                                        loadingDialog.dismiss()
-                                        it.data?.let { data ->
-
-                                            data.data.forEach {
-                                                if (it.is_default == 1) {
-                                                    addressArrayList.add(it)
-                                                    val address = data.data[0].address_1
-                                                    mViewDataBinding.textView4.text =
-                                                        address.dropLast(30)
-                                                } else {
-                                                    mViewDataBinding.textView4.text = ""
-
-                                                }
-                                            }
-//                                            val address = data.data[0].address_1
-//                                            mViewDataBinding.textView4.text = address.dropLast(30)
-
-                                        }
-                                    }
-                                    Resource.Status.ERROR -> {
-                                        loadingDialog.dismiss()
-                                        DialogHelperClass.errorDialog(
-                                            requireContext(),
-                                            it.message!!
-                                        )
-                                    }
-                                }
-                                if (isAdded) {
-                                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
-                                }
                             }
 
 
@@ -486,53 +523,76 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     }
 
     override fun onAddToCartListener(id: Int) {
-        val params = JsonObject()
-        try {
-            params.addProperty("product_variation_id", id)
-            params.addProperty("quantity", qty)
-            params.addProperty("order_day", days)
-            params.addProperty("time_slot", time)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
 
-        Log.e("UserData", params.toString())
+        if (token.isNullOrBlank()) {
+            DialogHelperClass.LoginDialog(
+                requireContext(), this, true
+            )
 
-        mViewModel.addCart(params)
+        } else {
 
-        if (!mViewModel.addtocart.hasActiveObservers()) {
-            mViewModel.addtocart.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-                            if (data.Flag == 1) {
-                                navController = Navigation.findNavController(
-                                    requireActivity(), R.id.nav_host_fragment
-                                )
-                                navController.navigate(R.id.checkoutFragment, null, options)
+            val params = JsonObject()
+            try {
+                params.addProperty("product_variation_id", id)
+                params.addProperty("quantity", qty)
+                params.addProperty("order_day", days)
+                params.addProperty("time_slot", time)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            Log.e("UserData", params.toString())
+
+            mViewModel.addCart(params)
+
+            if (!mViewModel.addtocart.hasActiveObservers()) {
+                mViewModel.addtocart.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                if (data.Flag == 1) {
+                                    navController = Navigation.findNavController(
+                                        requireActivity(), R.id.nav_host_fragment
+                                    )
+                                    navController.navigate(R.id.checkoutFragment, null, options)
 
 
-                            } else {
-                                showToast(data.Message)
+                                } else {
+                                    showToast(data.Message)
+                                }
+
+
                             }
-
-
+                        }
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    if (isAdded) {
+                        mViewModel.addtocart.removeObservers(viewLifecycleOwner)
                     }
-                }
-                if (isAdded) {
-                    mViewModel.addtocart.removeObservers(viewLifecycleOwner)
                 }
             }
         }
+
+
+    }
+
+    override fun CnfrmClicked() {
+        navController = Navigation.findNavController(
+            requireActivity(), R.id.nav_host_fragment
+        )
+        navController.navigate(R.id.logInFragment, null, options)
+
+    }
+
+    override fun CnclClicked() {
+
     }
 
 

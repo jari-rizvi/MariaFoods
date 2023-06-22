@@ -14,11 +14,13 @@ import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentProfileBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,6 +40,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
     override val bindingVariable: Int
         get() = BR.viewModel
     var isProfileImg: Boolean = false
+    var token: String? = null
 
 
     private lateinit var options: NavOptions
@@ -87,12 +90,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
 
                                         user1!!.avatar = data.avatar
-
-
-                                        Log.e("checker", "lifecycleScope ${user1!!.avatar}")
-                                        Log.e("checker", "lifecycleScope ${user1!!.phone}")
-                                        Log.e("checker", "lifecycleScope ${user1!!.first_name}")
-                                        Log.e("checker", "lifecycleScope ${user1!!.last_name}")
 
                                         dataStoreProvider.saveUserDetails(
                                             user1!!
@@ -180,6 +177,46 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                 popEnter = R.anim.nav_default_pop_enter_anim
                 popExit = R.anim.nav_default_pop_exit_anim
             }
+        }
+
+
+        if (isAdded) {
+            CoroutineScope(Dispatchers.Main).launch {
+
+                dataStoreProvider.token.collect {
+
+                    token = it
+
+                    NetworkCallPoints.TOKENER = token.toString()
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            mViewDataBinding.profilePicture.setImageResource(R.drawable.asasas)
+                            mViewDataBinding.btnEditProfile.text = "Guest User"
+                            mViewDataBinding.textView49.text = "Login"
+                            mViewDataBinding.btnAddress.visibility = View.GONE
+                            mViewDataBinding.btnPayment.visibility = View.GONE
+                            mViewDataBinding.trackOrder.visibility = View.GONE
+                            mViewDataBinding.btnLogput.setOnClickListener {
+                                navController = Navigation.findNavController(
+                                    requireActivity(), R.id.nav_host_fragment
+                                )
+                                navController.navigate(R.id.logInFragment, null, options)
+
+                            }
+
+                        } else {
+
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+
         }
 
 

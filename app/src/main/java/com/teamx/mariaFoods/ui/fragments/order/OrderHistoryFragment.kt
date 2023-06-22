@@ -12,6 +12,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.notificationModel.DataExtented1
 import com.teamx.mariaFoods.data.dataclasses.notificationModel.Item1
 import com.teamx.mariaFoods.data.dataclasses.notificationModel.Jari1
@@ -19,6 +20,9 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentOrderHistoryBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -39,6 +43,8 @@ class OrderHistoryFragment :
     lateinit var orderArrayList: ArrayList<DataExtented1>
 
     lateinit var dayArrayList: ArrayList<Jari1>
+    var token: String? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,79 +62,116 @@ class OrderHistoryFragment :
             popUpStack()
         }
 
-        mViewModel.getOrder()
+        if (isAdded) {
+            CoroutineScope(Dispatchers.Main).launch {
 
-        if (!mViewModel.orderList.hasActiveObservers()) {
-            mViewModel.orderList.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
+                dataStoreProvider.token.collect {
+                    Log.d("Databsae Token", "CoroutineScope ${it}")
 
-                            Log.d("TAG", "onViewCreated33333: $data")
+                    Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
 
-                            orderArrayList.clear()
+                    token = it
+
+                    NetworkCallPoints.TOKENER = token.toString()
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            Log.d("Databsae Token", "token ${token}")
+//                            navController = Navigation.findNavController(
+//                                requireActivity(),
+//                                R.id.nav_host_fragment
+//                            )
+//                            navController.navigate(R.id.dashboardFragment, null, options)
+
+                        } else {
+
+                            mViewModel.getOrder()
+
+                            if (!mViewModel.orderList.hasActiveObservers()) {
+                                mViewModel.orderList.observe(requireActivity()) {
+                                    when (it.status) {
+                                        Resource.Status.LOADING -> {
+                                            loadingDialog.show()
+                                        }
+                                        Resource.Status.SUCCESS -> {
+                                            loadingDialog.dismiss()
+                                            it.data?.let { data ->
+
+                                                Log.d("TAG", "onViewCreated33333: $data")
+
+                                                orderArrayList.clear()
 
 
-                            val jsonObject = JSONObject(data.toString())
+                                                val jsonObject = JSONObject(data.toString())
 
-                            try {
-                                val data = jsonObject.getJSONObject("data")
-                                val a: ArrayList<String> = ArrayList()
-                                var counter = 0
+                                                try {
+                                                    val data = jsonObject.getJSONObject("data")
+                                                    val a: ArrayList<String> = ArrayList()
+                                                    var counter = 0
 
-                                val stringIterator: Iterator<String> = data.keys()
-                                while (stringIterator.hasNext()) {
-                                    a.add(stringIterator.next())
-                                    Log.d("TAG", "onViewCreated33333: ${a.size}")
-                                    Log.d("TAG", "onViewCreated: ${a.get(0)}")
-                                }
+                                                    val stringIterator: Iterator<String> = data.keys()
+                                                    while (stringIterator.hasNext()) {
+                                                        a.add(stringIterator.next())
+                                                        Log.d("TAG", "onViewCreated33333: ${a.size}")
+                                                        Log.d("TAG", "onViewCreated: ${a.get(0)}")
+                                                    }
 
-                                a.forEach {
-                                    val object1 = data.getJSONArray(it)
-                                    val jari = ArrayList<Jari1>()
-                                    for (i in 0..object1.length() - 1) {
-                                        val items = JSONObject(object1[i].toString())
-                                        jari.add(
-                                            Jari1(
-                                                id = items.getInt("id"),
-                                                name = items.getJSONObject("product").getString("name"),
-                                                price = items.getJSONObject("product").getDouble("max_price").toString(),
-                                                quantity = items.getInt("order_quantity").toString(),
-                                                created_at = items.getString("created_at").toString(),
-                                                delivery_status = items.getString("delivery_status").toString()
-                                            )
-                                        )
+                                                    a.forEach {
+                                                        val object1 = data.getJSONArray(it)
+                                                        val jari = ArrayList<Jari1>()
+                                                        for (i in 0..object1.length() - 1) {
+                                                            val items = JSONObject(object1[i].toString())
+                                                            jari.add(
+                                                                Jari1(
+                                                                    id = items.getInt("id"),
+                                                                    name = items.getJSONObject("product").getString("name"),
+                                                                    price = items.getJSONObject("product").getDouble("max_price").toString(),
+                                                                    quantity = items.getInt("order_quantity").toString(),
+                                                                    created_at = items.getString("created_at").toString(),
+                                                                    delivery_status = items.getString("delivery_status").toString()
+                                                                )
+                                                            )
+                                                        }
+
+                                                        Log.d("TAG", "onViewCreated123123222: ${jari.size}")
+                                                        orderArrayList.add(DataExtented1(Item1("$it", jari)))
+                                                        counter++
+
+                                                    }
+                                                } catch (e: Exception) {
+                                                    e.printStackTrace()
+                                                }
+
+
+                                                orderAdapter.notifyDataSetChanged()
+
+
+                                            }
+                                        }
+                                        Resource.Status.ERROR -> {
+                                            loadingDialog.dismiss()
+                                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                        }
                                     }
-
-                                    Log.d("TAG", "onViewCreated123123222: ${jari.size}")
-                                    orderArrayList.add(DataExtented1(Item1("$it", jari)))
-                                    counter++
-
+                                    if (isAdded) {
+                                        mViewModel.orderList.removeObservers(viewLifecycleOwner)
+                                    }
                                 }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
                             }
-
-
-                            orderAdapter.notifyDataSetChanged()
-
 
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                    }
+
                 }
-                if (isAdded) {
-                    mViewModel.orderList.removeObservers(viewLifecycleOwner)
-                }
+
+
             }
+
+
         }
+
+
+
         orderRecyclerview()
 
     }
