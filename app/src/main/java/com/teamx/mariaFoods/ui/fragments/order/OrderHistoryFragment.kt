@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
@@ -17,11 +19,12 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentOrderHistoryBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONException
 import org.json.JSONObject
 
 @AndroidEntryPoint
 class OrderHistoryFragment :
-    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(){
+    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(), OnOrderListener{
 
     override val layoutId: Int
         get() = R.layout.fragment_order_history
@@ -34,6 +37,9 @@ class OrderHistoryFragment :
     private lateinit var options: NavOptions
     lateinit var orderAdapter: OrderAdapter
     lateinit var orderArrayList: ArrayList<DataExtented1>
+
+    lateinit var dayArrayList: ArrayList<Jari1>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -88,14 +94,16 @@ class OrderHistoryFragment :
                                         val items = JSONObject(object1[i].toString())
                                         jari.add(
                                             Jari1(
+                                                id = items.getInt("id"),
                                                 name = items.getJSONObject("product").getString("name"),
                                                 price = items.getJSONObject("product").getDouble("max_price").toString(),
                                                 quantity = items.getInt("order_quantity").toString(),
                                                 created_at = items.getString("created_at").toString(),
-                                                payment_status = items.getString("payment_status").toString()
+                                                delivery_status = items.getString("delivery_status").toString()
                                             )
                                         )
                                     }
+
                                     Log.d("TAG", "onViewCreated123123222: ${jari.size}")
                                     orderArrayList.add(DataExtented1(Item1("$it", jari)))
                                     counter++
@@ -130,10 +138,61 @@ class OrderHistoryFragment :
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.orderRecycler.layoutManager = linearLayoutManager
 
-        orderAdapter = OrderAdapter(orderArrayList)
+        orderAdapter = OrderAdapter(orderArrayList, this)
         mViewDataBinding.orderRecycler.adapter = orderAdapter
 
     }
 
+    override fun oneReorderClick(position: Int) {
+        navController = Navigation.findNavController(
+            requireActivity(), R.id.nav_host_fragment
+        )
+        navController.navigate(R.id.dashboardFragment, null, options)
 
-}
+    }
+
+    override fun oneCancelOrderClick(position: Int) {
+        showToast("asas")
+
+
+        val params = JsonObject()
+        try {
+            params.addProperty("id", position)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+
+        mViewModel.cancelOrder(params)
+
+            mViewModel.cancelOrder.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+                                showToast(data.Message)
+
+
+                            } else {
+                                showToast(data.Message)
+                            }
+
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.cancelOrder.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
+
+    }
+

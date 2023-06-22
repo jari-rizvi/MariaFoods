@@ -158,6 +158,12 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
     ): Response<CheckoutData>
+ @Headers("secret: dev")
+    @POST(NetworkCallPoints.CANCEL_ORDER)
+    suspend fun cancelOrder(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_COUPON)

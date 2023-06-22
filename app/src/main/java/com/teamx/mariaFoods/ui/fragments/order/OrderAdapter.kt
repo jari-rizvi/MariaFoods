@@ -9,8 +9,9 @@ import com.teamx.mariaFoods.data.dataclasses.notificationModel.DataExtented1
 import com.teamx.mariaFoods.databinding.ItemOrderMonthsBinding
 
 class OrderAdapter(
-    private val orderArrayList: ArrayList<DataExtented1>
-) : RecyclerView.Adapter<OrderViewHolder>() {
+    private val orderArrayList: ArrayList<DataExtented1>,
+    private val onOrderListener: OnOrderListener
+) : RecyclerView.Adapter<OrderViewHolder>(), OnOrderListener {
 
     lateinit var orderListAdapter: OrderListAdapter
 
@@ -47,7 +48,7 @@ class OrderAdapter(
         holder.binding.listtorder.layoutManager = linearLayoutManager
 
 
-        orderListAdapter = OrderListAdapter(noti.item.jariis)
+        orderListAdapter = OrderListAdapter(noti.item.jariis,this)
 
         holder.binding.listtorder.adapter = orderListAdapter
 
@@ -56,6 +57,14 @@ class OrderAdapter(
 
     override fun getItemCount(): Int {
         return orderArrayList.size
+    }
+
+    override fun oneReorderClick(position: Int) {
+        onOrderListener.oneReorderClick(position)
+    }
+
+    override fun oneCancelOrderClick(position: Int) {
+        onOrderListener.oneCancelOrderClick(position)
     }
 }
 

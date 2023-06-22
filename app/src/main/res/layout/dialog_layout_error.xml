@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
     android:elevation="@dimen/_1sdp"
-    android:background="@drawable/card_background"
     android:backgroundTint="@color/colorWhite">
 
     <LinearLayout
@@ -13,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:elevation="@dimen/_1sdp"
+        android:background="@drawable/card_background"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
