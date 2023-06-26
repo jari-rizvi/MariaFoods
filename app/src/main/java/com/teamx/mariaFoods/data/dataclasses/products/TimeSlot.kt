@@ -1,9 +1,10 @@
 package com.teamx.mariaFoods.data.dataclasses.products
 
+import com.google.errorprone.annotations.Keep
+
+@Keep
 data class TimeSlot(
-    val id: Int = 0,
-    val name: String,
-    val timeline: String,
-    var isChecked: Boolean,
-    var last_order_time: String
-)
+    val id: Int?,
+    val last_order_time: String?,
+    val name: String?, val timeline: String?, var isChecked: Boolean = false,
+    )

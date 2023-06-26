@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.facebook.appevents.codeless.internal.PathComponent
-import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.MainApplication.Companion.context
 import com.teamx.mariaFoods.constants.AppConstants
 import com.teamx.mariaFoods.data.dataclasses.login.User
@@ -19,7 +17,7 @@ class DataStoreProvider(context: Context) {
 
     //Create some keys
     companion object {
-//        private val Context.dataStore: AppConstants.DataStore<Preferences> by preferencesDataStore(name = AppConstants.DataStore.DATA_STORE_NAME)
+        //        private val Context.dataStore: AppConstants.DataStore<Preferences> by preferencesDataStore(name = AppConstants.DataStore.DATA_STORE_NAME)
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = AppConstants.DataStore.DATA_STORE_NAME)
         val IS_LOCALIZATION_KEY =
             booleanPreferencesKey(AppConstants.DataStore.LOCALIZATION_KEY_NAME)
@@ -40,7 +38,12 @@ class DataStoreProvider(context: Context) {
     }
 
     //Store data
-    suspend fun storeData(isLocalizationKey: Boolean, name: String, token: String, details: String) {
+    suspend fun storeData(
+        isLocalizationKey: Boolean,
+        name: String,
+        token: String,
+        details: String
+    ) {
         context.dataStore.edit {
             it[IS_LOCALIZATION_KEY] = isLocalizationKey
             it[USER_NAME_KEY] = name
@@ -105,14 +108,13 @@ class DataStoreProvider(context: Context) {
                 id = _id,
                 avatar = avatar,
                 name = name,
-                provider_id = provider_id as String
-
+                provider_id = provider_id as String,
+                with_email_and_pass = true
             )
         }
 
 
-
-    suspend fun saveUserDetails(user : User) {
+    suspend fun saveUserDetails(user: User) {
         context.dataStore.edit {
             it[FIRSTNAME] = user.first_name
             it[LASTNAME] = user.last_name

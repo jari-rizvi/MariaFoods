@@ -64,13 +64,15 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>() {
                         web_view.settings.setGeolocationEnabled(true)
 
                         web_view.webChromeClient = WebChromeClient()
-                        web_view.loadDataWithBaseURL(
-                            "https://dev.dogtvfoods.com/api/v1",
-                            data.data.content,
-                            "text/html",
-                            "UTF-8",
-                            null
-                        )
+                        data.data?.content?.let { it1 ->
+                            web_view.loadDataWithBaseURL(
+                                "https://dev.dogtvfoods.com/api/v1",
+                                it1,
+                                "text/html",
+                                "UTF-8",
+                                null
+                            )
+                        }
 
                         web_view.isSoundEffectsEnabled = true
 

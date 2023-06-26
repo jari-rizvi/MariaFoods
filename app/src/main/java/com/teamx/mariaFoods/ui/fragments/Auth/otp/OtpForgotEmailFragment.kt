@@ -27,7 +27,7 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    private var email: String? = null
+    private var email: String?? = null
 
     private lateinit var options: NavOptions
 
@@ -109,7 +109,7 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                                     )
                                 navController.navigate(R.id.resetPasswordFragment, bundle, options)
                             } else {
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
                         }
                     }

@@ -36,8 +36,8 @@ class ProductAdapter(
 
         holder.binding.price.text = "${product.max_price}"
 
-
-        if (product.qty < 1) {
+//       val quanti = product.qty ?: 1
+        if ( product.qty < 1) {
             product.qty = 1
         }
         holder.binding.textView19.text = "${product.qty}"
@@ -49,11 +49,18 @@ class ProductAdapter(
 
         holder.binding.screenViewpager
 
-        val productBannerArrayList: List<String> = productBannner.product_images
+        val productBannerArrayList: List<String?>? = productBannner.product_images
 
         val arrayList = ArrayList<String>()
 
-        arrayList.addAll(productBannerArrayList)
+        productBannerArrayList?.forEach {
+
+            if (it != null) {
+                arrayList.add(it)
+            }
+        }
+
+
 
         ProductBannerAdapter = ProductBannersAdapter(arrayList)
         holder.binding.screenViewpager.adapter = ProductBannerAdapter
@@ -61,7 +68,7 @@ class ProductAdapter(
         TabLayoutMediator(
             holder.binding.tabIndicator, holder.binding.screenViewpager
         ) { tab, position ->
-            tab.text = productBannerArrayList[position].toString()
+            tab.text = productBannerArrayList!![position].toString()
         }.attach()
 
 
@@ -89,7 +96,7 @@ class ProductAdapter(
             onCartListener?.onSubClickListener(position)
         }
         holder.binding.btnBuy.setOnClickListener {
-            onCartListener?.onAddToCartListener(product.variation.id)
+            product.variation!!.id?.let { it1 -> onCartListener?.onAddToCartListener(it1) }
         }
 
     }

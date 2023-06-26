@@ -88,7 +88,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String?>, grantResults: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
@@ -211,19 +211,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     navController.navigate(R.id.profileFragment, null)
                 }
             }
-            /* val newFragment = if (true) {
-                 fragments[it.itemId] ?: TempFragment()
-             } else {
-                 // We are pretending we aren't keeping the Fragments in memory
-                 TempFragment()
-             }
-             fragments[it.itemId] = newFragment
-             idN = it.itemId
-             if (*//*state_switch.isChecked &&*//*idN != 0) {
-                Log.d("321321", "setupBottomNavMenu: $idN")
-                saveCurrentState()
-                stateHelper.restoreState(newFragment, it.itemId)
-            }*/
+
             Log.d("321321", "saveCurrentState:$idN ")
 //            supportFragmentManager.beginTransaction()
 //                .replace(R.id.container, newFragment)

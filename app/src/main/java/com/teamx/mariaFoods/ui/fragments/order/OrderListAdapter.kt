@@ -38,7 +38,7 @@ class OrderListAdapter(
         }
 
         holder.bind.date.text = try {
-            orderList.created_at.dropLast(18)
+            orderList.created_at?.dropLast(18)
         } catch (e: Exception) {
             ""
         }
@@ -71,7 +71,7 @@ class OrderListAdapter(
             onTopCategoriesListener.oneReorderClick(position)
         }
         holder.bind.btnCnclOrder.setOnClickListener {
-            onTopCategoriesListener.oneCancelOrderClick(orderArrayList[position].id)
+            onTopCategoriesListener.oneCancelOrderClick(orderArrayList[position].id!!)
         }
 
     }

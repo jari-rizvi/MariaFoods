@@ -20,7 +20,6 @@ class PushNotificationService : FirebaseMessagingService() {
         Log.d("123123", "onMessageReceived: ")
 
     }
-
     override fun onNewToken(token: String) {
         Log.d("123123", "Refreshed token: $token")
 

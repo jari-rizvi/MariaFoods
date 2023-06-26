@@ -218,11 +218,11 @@ class OrderHistoryFragment :
                         it.data?.let { data ->
                             if (data.Flag == 1) {
                                 mViewModel.getOrder()
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
 
 
                             } else {
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
 
                         }

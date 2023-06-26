@@ -16,7 +16,7 @@ class MainApplication : Application() {
             private set
         val context: Context
             get() = application!!.applicationContext
-        val PACKAGE_NAME: String
+        val PACKAGE_NAME: String?
             get() = application!!.packageName
 
         var localeManager: LocaleManager? = null

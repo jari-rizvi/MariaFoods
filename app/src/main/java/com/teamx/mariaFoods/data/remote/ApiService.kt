@@ -29,7 +29,7 @@ interface ApiService {
     //Get Post Update Delete
     @Headers("secret: dev")
     @POST(NetworkCallPoints.LOGIN)
-    suspend fun loginEmail(@Body params: JsonObject?): Response<LoginData>
+    suspend fun loginEmail(@Body params: JsonObject?): Response<JsonObject>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.LOGIN_PHONE)
@@ -43,7 +43,7 @@ interface ApiService {
     @POST(NetworkCallPoints.EDIT_PROFILE)
     suspend fun editProfile(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SignupData>
 
 
@@ -52,7 +52,7 @@ interface ApiService {
     @POST(NetworkCallPoints.PROFILE_IMAGE)
     suspend fun uploadProfile(
         @Part filePart: MultipartBody.Part,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<UploadProfileData>
 
     @Headers("secret: dev")
@@ -62,7 +62,7 @@ interface ApiService {
     @Headers("secret: dev")
     @POST(NetworkCallPoints.LOGOUT)
     suspend fun logout(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
@@ -77,20 +77,20 @@ interface ApiService {
     @POST(NetworkCallPoints.CHANGE_PASSWORD)
     suspend fun changePass(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 @Headers("secret: dev")
     @POST(NetworkCallPoints.CHANGE_PHONE)
     suspend fun changePhone(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<LoginPhoneData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.CHANGE_PHONE_VERIFY)
     suspend fun changePhoneVerify(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
@@ -120,56 +120,56 @@ interface ApiService {
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_ORDER_HISTORY)
     suspend fun getOrder(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_NOTIFICATION)
     suspend fun getNotification(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_ADDRESS)
     suspend fun getAddress(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<GetAddressData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CART)
     suspend fun getCart(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<GetCartData>
   @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CARDS)
     suspend fun getCards(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<StripeCardsData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_DEFAULT_CARDS)
     suspend fun getDefaultCard(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<GetDefaultStripeCard>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.CHECKOUT)
     suspend fun checkout(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<CheckoutData>
  @Headers("secret: dev")
     @POST(NetworkCallPoints.CANCEL_ORDER)
     suspend fun cancelOrder(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_COUPON)
     suspend fun coupon(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<CouponData>
 
 
@@ -177,53 +177,53 @@ interface ApiService {
     @Headers("secret: dev")
     @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_ADDRESS)
     suspend fun deleteAddress(
-        @Query("id") id: Int,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Query("id") id: Int?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
     @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_STRIPE_CARDS)
     suspend fun deleteCard(
-        @Query("payment_method_id") id: String,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Query("payment_method_id") id: String?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_ADDRESS)
     suspend fun addAddress(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.UPDATE_ADDRESS)
     suspend fun updateAddress(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.EDIT_ADDRESS)
     suspend fun editAddress(
-        @Query("id") id: Int,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Query("id") id: Int?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<EditAddressData>
   @Headers("secret: dev")
     @GET(NetworkCallPoints.TERMS_CONDITION)
     suspend fun termsCondition(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<TermsConditonData>
  @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_HELP)
     suspend fun getHelp(
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<TermsConditonData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_CART)
     suspend fun addCart(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<AddToCartData>
 
 
@@ -231,7 +231,7 @@ interface ApiService {
     @POST(NetworkCallPoints.SET_DEFAULT_CARDS)
     suspend fun setDefaultCard(
         @Body params: JsonObject?,
-        @Header("Authorization") basicCredentials: String = "Bearer $TOKENER"
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
 }

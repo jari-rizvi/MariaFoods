@@ -3,8 +3,11 @@ package com.teamx.mariaFoods.data.local.dbModel
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.errorprone.annotations.Keep
 
 @Entity(tableName = "cart_table")
+
+@Keep
 data class CartTable(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
@@ -13,13 +16,13 @@ data class CartTable(
     @ColumnInfo(name = "name")
     val name: String?,
     @ColumnInfo(name = "modifier")
-    val modifier: String,
+    val modifier: String?,
     @ColumnInfo(name = "price")
     val price: Double = 0.0,
     @ColumnInfo(name = "imageUrl")
-    val imageUrl: String,
+    val imageUrl: String?,
     @ColumnInfo(name = "quantity")
     var quantity: Int = 1,
     @ColumnInfo(name = "variationId")
-    var variationId: String = ""
+    var variationId: String? = ""
 )

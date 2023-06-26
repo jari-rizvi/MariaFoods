@@ -32,19 +32,19 @@ open class LocaleManager(context: Context) {
 
     fun setNewLocale(
         c: Context,
-        language: String
+        language: String?
     ): Context {
         persistLanguage(language)
         return updateResources(c, language)
     }
 
-    fun getLanguage(): String {
+    fun getLanguage(): String? {
         return prefs!!.getString(LANGUAGE_KEY, DEFAULT_LAN)!!
     }
 
 
     @SuppressLint("ApplySharedPref")
-    private fun persistLanguage(language: String) {
+    private fun persistLanguage(language: String?) {
         // use commit() instead of apply(), because sometimes we kill the application process immediately
         // which will prevent apply() to finish
         prefs!!.edit().putString(LANGUAGE_KEY, language).commit()
@@ -52,7 +52,7 @@ open class LocaleManager(context: Context) {
 
     private fun updateResources(
         contextx: Context,
-        language: String
+        language: String?
     ): Context {
         var context = contextx
         val locale = Locale(language)

@@ -20,7 +20,7 @@ class ProductBannersAdapter(
     }
 
     override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
-        val product: String = arrayList[position]
+        val product: String? = arrayList[position]
 
         Picasso.get().load(product).into(holder.binding.imageView)
 

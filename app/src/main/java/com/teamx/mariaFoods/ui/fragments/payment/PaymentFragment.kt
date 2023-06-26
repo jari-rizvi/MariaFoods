@@ -65,8 +65,11 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding, PaymentViewModel>()
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
+                            data.data.forEach {
 
-                            stripecardsArrayList.addAll(data.data)
+                                stripecardsArrayList.add(it)
+                            }
+
                             stripecardsAdapter.notifyDataSetChanged()
 
                         }
@@ -114,7 +117,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding, PaymentViewModel>()
                         mViewModel.getStripeCardss()
 
                         stripecardsAdapter.notifyDataSetChanged()
-                        mViewDataBinding.root.snackbar(data.Message)
+                        data.Message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
 
                     }
                 }
@@ -128,8 +131,8 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding, PaymentViewModel>()
     }
 
 
-    override fun onItemClickListener(position: Int, id: String) {
-        itemid = id
+    override fun onItemClickListener(position: Int?, id: String?) {
+        itemid = id!!
         DialogHelperClass.defaultCardDialog(
             requireContext(), this, true
         )
@@ -161,7 +164,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding, PaymentViewModel>()
                         loadingDialog.dismiss()
                         it.data?.let { data ->
                             if (data.Flag == 1) {
-                                mViewDataBinding.root.snackbar(data.Message)
+                                data.Message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
 
 //                                navController = Navigation.findNavController(
 //                                    requireActivity(), R.id.nav_host_fragment
@@ -170,7 +173,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding, PaymentViewModel>()
 
 
                             } else {
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
 
 

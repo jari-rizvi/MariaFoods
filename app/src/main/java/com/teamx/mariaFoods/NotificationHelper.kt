@@ -3,7 +3,7 @@ package com.teamx.mariaFoods
 import android.content.Context
 
 object NotificationHelper {
-    fun displayNotification(context: Context?, title: String?, description: String) {
+    fun displayNotification(context: Context?, title: String?, description: String?) {
        /* val builder = NotificationCompat.Builder(
             context!!, "MainActivity.Channel_ID"
         )

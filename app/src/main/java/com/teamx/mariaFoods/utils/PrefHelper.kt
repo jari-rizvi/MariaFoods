@@ -25,17 +25,17 @@ class PrefHelper private constructor() {
         }
     }
 
-    val firstname: String? get() = sharedPreferences.getString(AppConstants.DataStore.FIRSTNAME, "")
-    val lastname: String? get() = sharedPreferences.getString(AppConstants.DataStore.LASTNAME, "")
-    val email: String? get() = sharedPreferences.getString(AppConstants.DataStore.EMAIL, "")
-    val avatar: String? get() = sharedPreferences.getString(AppConstants.DataStore.AVATAR, "")
-    val number: String? get() = sharedPreferences.getString(AppConstants.DataStore.NUMBER, "")
+    val firstname: String?? get() = sharedPreferences.getString(AppConstants.DataStore.FIRSTNAME, "")
+    val lastname: String?? get() = sharedPreferences.getString(AppConstants.DataStore.LASTNAME, "")
+    val email: String?? get() = sharedPreferences.getString(AppConstants.DataStore.EMAIL, "")
+    val avatar: String?? get() = sharedPreferences.getString(AppConstants.DataStore.AVATAR, "")
+    val number: String?? get() = sharedPreferences.getString(AppConstants.DataStore.NUMBER, "")
     fun saveProfile(
-        firstname: String,
-        lastname: String,
-        email: String,
-        avatar: String,
-        number: String
+        firstname: String?,
+        lastname: String?,
+        email: String?,
+        avatar: String?,
+        number: String?
     ) {
         sharedPreferences.edit().putString(AppConstants.DataStore.FIRSTNAME, firstname).apply()
         sharedPreferences.edit().putString(AppConstants.DataStore.LASTNAME, lastname).apply()

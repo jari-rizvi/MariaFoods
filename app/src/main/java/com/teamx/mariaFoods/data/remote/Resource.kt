@@ -1,6 +1,8 @@
 package com.teamx.mariaFoods.data.remote
+import com.google.errorprone.annotations.Keep
 
-data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
+@Keep
+data class Resource<out T>(val status: Status, val data: T?, val message: String??) {
 
     enum class Status {
         SUCCESS,
@@ -13,7 +15,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             return Resource(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(message: String, data: T? = null): Resource<T> {
+        fun <T> error(message: String?, data: T? = null): Resource<T> {
             return Resource(Status.ERROR, data, message)
         }
 

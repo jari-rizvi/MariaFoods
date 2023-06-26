@@ -46,7 +46,7 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             if (isAdded) {
-                var token: String? = null
+                var token: String?? = null
                 CoroutineScope(Dispatchers.Main).launch {
 
                     dataStoreProvider.token.collect {

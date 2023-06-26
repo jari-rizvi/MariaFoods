@@ -1,9 +1,12 @@
 package com.teamx.mariaFoods.data.dataclasses.products
 
+import com.google.errorprone.annotations.Keep
+
+@Keep
 data class Variation(
-    val code: String,
-    val id: Int,
-    val price: Double,
-    val product_id: Int,
-    val sku: String
+    val code: String?,
+    val id: Int?,
+    val price: Int?,
+    val product_id: Int?,
+    val sku: String??
 )

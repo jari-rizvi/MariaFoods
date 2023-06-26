@@ -30,7 +30,7 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    private var phoneNumber: String? = null
+    private var phoneNumber: String?? = null
 
     private lateinit var options: NavOptions
 
@@ -92,10 +92,10 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                             if (data.Flag == 1) {
 
                                 lifecycleScope.launch(Dispatchers.IO) {
-                                    dataStoreProvider.saveUserToken(data.AccessToken)
+                                    dataStoreProvider.saveUserToken(data.AccessToken!!)
 
                                     dataStoreProvider.saveUserDetails(
-                                        data.User
+                                        data.User!!
                                     )
                                 }
                                 navController =
@@ -105,7 +105,7 @@ class OtpRegisterFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpViewMo
                                     )
                                 navController.navigate(R.id.dashboardFragment, null, options)
                             } else {
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
                         }
                     }

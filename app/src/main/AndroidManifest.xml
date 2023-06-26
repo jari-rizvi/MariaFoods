@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
+
+
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -35,7 +38,10 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/NoAppTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="tiramisu">
+        tools:targetApi="tiramisu"
+        android:largeHeap="true"
+        tools:replace="android:allowBackup"
+        >
 
 
 

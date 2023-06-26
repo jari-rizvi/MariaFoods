@@ -53,15 +53,15 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
 
     private var ccp: CountryCodePicker? = null
-    private var countryName: String? = null
+    private var countryName: String?? = null
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
-    private  var name: String = ""
+    private  var name: String? = ""
     private lateinit var country: String
     private lateinit var city: String
-    private var address1: String = ""
+    private var address1: String? = ""
     private lateinit var statee: String
     private lateinit var postal: String
 
@@ -209,7 +209,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 //                                        mViewModel.getAddress()
 
                                     } else {
-                                        showToast(data.Message)
+                                        data.Message?.let { it1 -> showToast(it1) }
                                     }
 
                                 }
@@ -248,7 +248,11 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                             mViewDataBinding.emptyTV.visibility = View.GONE
                             mViewDataBinding.addressRecycler.visibility = View.VISIBLE
 
-                            addressArrayList.addAll(data.data)
+
+                            data.data.forEach {
+
+                                addressArrayList.add(it)
+                            }
                             addressAdapter.notifyDataSetChanged()
 
                         }
@@ -321,7 +325,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
     }
 
-    private fun getAddressFromLocation(context: Context, location: Location): String {
+    private fun getAddressFromLocation(context: Context, location: Location): String? {
         val geocoder = Geocoder(context, Locale.getDefault())
         var addressText = ""
 
@@ -343,13 +347,13 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     address1 = addressText
 
 
-                    val city: String? = address.locality
-                    val state: String? = address.adminArea
-                    val country: String? = address.countryName
-                    val postalCode: String? = address.postalCode
-                    val knownName: String? = address.featureName
-                    val knownName2: String? = address.subLocality
-                    val phone: String? = address.phone
+                    val city: String?? = address.locality
+                    val state: String?? = address.adminArea
+                    val country: String?? = address.countryName
+                    val postalCode: String?? = address.postalCode
+                    val knownName: String?? = address.featureName
+                    val knownName2: String?? = address.subLocality
+                    val phone: String?? = address.phone
 
 
                     mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
@@ -499,7 +503,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         }
 
 
-        mViewModel.editAddress(itemidAddress.id)
+        mViewModel.editAddress(itemidAddress.id!!)
 
         mViewModel.editaddress.observe(requireActivity()) {
             when (it.status) {
@@ -553,7 +557,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     override fun ondeleteClick(position: Int) {
         val addressid = addressArrayList[position]
 
-        mViewModel.deleteAddress(addressid.id)
+        mViewModel.deleteAddress(addressid.id!!)
 
         mViewModel.deleteaddress.observe(requireActivity()) {
             when (it.status) {
@@ -567,7 +571,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         mViewModel.getAddress()
 
                         addressAdapter.notifyDataSetChanged()
-                        mViewDataBinding.root.snackbar(data.Message)
+                        data.Message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
 
                     }
                 }

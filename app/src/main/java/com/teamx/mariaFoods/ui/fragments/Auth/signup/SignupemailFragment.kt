@@ -199,7 +199,7 @@ class SignupemailFragment :
                                 if (data.Flag == 1) {
 
                                     lifecycleScope.launch(Dispatchers.IO) {
-                                        dataStoreProvider.saveUserToken(data.AccessToken)
+                                        dataStoreProvider.saveUserToken(data.AccessToken!!)
 
                                         dataStoreProvider.saveUserDetails(
                                             data.User
@@ -208,7 +208,7 @@ class SignupemailFragment :
 
 
                                     val bundle = Bundle()
-                                    bundle.putString("email", data.User.email)
+                                    bundle.putString("email", data.User?.email)
 
                                     navController =
                                         Navigation.findNavController(
@@ -221,7 +221,7 @@ class SignupemailFragment :
                                         options
                                     )
                                 } else {
-                                    showToast(data.Message)
+                                    data.Message?.let { it1 -> showToast(it1) }
                                 }
 
 

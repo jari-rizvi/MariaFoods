@@ -10,6 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -40,10 +43,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
     override val bindingVariable: Int
         get() = BR.viewModel
     var isProfileImg: Boolean = false
-    var token: String? = null
+    var token: String?? = null
 
 
     private lateinit var options: NavOptions
+    private lateinit var auth: FirebaseAuth
 //    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
@@ -82,14 +86,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                     it.data?.let { data ->
                         Log.e("checker", "strImg ${data.avatar}")
                         if (isProfileImg) {
-                            this.strImg = data.avatar
+                            this.strImg = data.avatar!!
 
                             if (user1 != null) {
                                 it.data?.let { data ->
                                     lifecycleScope.launch(Dispatchers.IO) {
 
 
-                                        user1!!.avatar = data.avatar
+                                        user1!!.avatar = data.avatar.toString()
 
                                         dataStoreProvider.saveUserDetails(
                                             user1!!
@@ -180,6 +184,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
         }
 
 
+        auth = Firebase.auth
+
         if (isAdded) {
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -194,6 +200,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                             mViewDataBinding.profilePicture.setImageResource(R.drawable.asasas)
                             mViewDataBinding.btnEditProfile.text = "Guest User"
                             mViewDataBinding.textView49.text = "Login"
+                            mViewDataBinding.textView42.visibility = View.GONE
                             mViewDataBinding.btnAddress.visibility = View.GONE
                             mViewDataBinding.btnPayment.visibility = View.GONE
                             mViewDataBinding.trackOrder.visibility = View.GONE
@@ -369,6 +376,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                             it.data?.let { data ->
                                 if (data.Flag == 1) {
 
+
+                                    Firebase.auth.signOut()
+
                                     lifecycleScope.launch(Dispatchers.IO) {
                                         dataStoreProvider.removeAll()
 
@@ -378,7 +388,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                                     )
                                     navController.navigate(R.id.tempFragment, null, options)
                                 } else {
-                                    showToast(data.Message)
+                                    data.Message?.let { it1 -> showToast(it1) }
                                 }
 
 

@@ -73,8 +73,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     var days: Int? = 0
     var time: Int? = 0
-    var token: String? = null
-
+    var token: String?? = null
 
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -128,11 +127,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     if (isAdded) {
                         if (token.isNullOrBlank()) {
                             Log.d("Databsae Token", "token ${token}")
-//                            navController = Navigation.findNavController(
-//                                requireActivity(),
-//                                R.id.nav_host_fragment
-//                            )
-//                            navController.navigate(R.id.dashboardFragment, null, options)
 
                         } else {
 
@@ -152,22 +146,18 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                                     addressArrayList.add(it)
                                                     val address = data.data[0].address_1
                                                     mViewDataBinding.textView4.text =
-                                                        address.dropLast(30)
+                                                        address?.dropLast(30)
                                                 } else {
                                                     mViewDataBinding.textView4.text = ""
 
                                                 }
                                             }
-//                                            val address = data.data[0].address_1
-//                                            mViewDataBinding.textView4.text = address.dropLast(30)
-
                                         }
                                     }
                                     Resource.Status.ERROR -> {
                                         loadingDialog.dismiss()
                                         DialogHelperClass.errorDialog(
-                                            requireContext(),
-                                            it.message!!
+                                            requireContext(), it.message!!
                                         )
                                     }
                                 }
@@ -186,7 +176,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
 
         }
-
 
         addressArrayList = ArrayList()
         val currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM"))
@@ -207,7 +196,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            featureProductArrayList.addAll(data.data)
+                            data.data?.forEach {
+                                if (it != null) {
+                                    featureProductArrayList.add(it)
+                                }
+
+                            }
                             featureProductAdapter.notifyDataSetChanged()
 
 
@@ -236,12 +230,18 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            productArrayList.addAll(data.data)
+                            data.data?.forEach {
+                                if (it != null) {
+                                    productArrayList.add(it)
+                                }
+                            }
                             productAdapter.notifyDataSetChanged()
 
 
-                            data.shedule.order_days.forEach {
-                                dayArrayList.add(it)
+                            data.shedule?.order_days?.forEach {
+                                if (it != null) {
+                                    dayArrayList.add(it)
+                                }
                                 dayArrayList[0].isChecked = true
                             }
 
@@ -250,11 +250,20 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
 
                             dTimeArrayList = ArrayList()
-                            data.shedule.time_slots.forEach {
-//                                Log.d("TAG", "onViewCreated: ${currentDateTime.hours}")
-                                Log.d("TAG", "onViewCreated: ${it.last_order_time.substringBefore(":").toInt()}")
-                                timeArrayList.add(it)
-                                dTimeArrayList.add(it)
+                            data.shedule?.time_slots?.forEach {
+                                if (it != null) {
+                                    Log.d(
+                                        "TAG", "onViewCreated: ${
+                                            it.last_order_time?.substringBefore(":")!!.toInt()
+                                        }"
+                                    )
+                                }
+                                if (it != null) {
+                                    timeArrayList.add(it)
+                                }
+                                if (it != null) {
+                                    dTimeArrayList.add(it)
+                                }
                                 timeAdapter.notifyDataSetChanged()
 
 
@@ -443,7 +452,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     var qty = 1
     override fun onAddClickListener(position: Int) {
         val Pqty = productArrayList[position]
-        qty = Pqty.qty
+        qty = Pqty.qty!!
         if (qty < 1) {
             qty = 1
         }
@@ -458,7 +467,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     override fun onSubClickListener(position: Int) {
         val Pqty = productArrayList[position]
-        qty = Pqty.qty
+        qty = Pqty.qty!!
         if (qty <= 1) {
             mViewDataBinding.root.snackbar("atleast select one item")
             return
@@ -501,7 +510,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         timeArrayList.clear()
 
 
-        if(timeArrayList.size > 1){
+        if (timeArrayList.size > 1) {
             mViewDataBinding.bottomSheetLayout.notAvailable.visibility = View.VISIBLE
         }
 
@@ -511,7 +520,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 Log.d("TAG", "onViewCreated1212121daynot")
                 timeArrayList.add(it)
 
-            } else if (currentDateTime.hours < it.last_order_time.substringBefore(":").toInt()) {
+            } else if (currentDateTime.hours < it.last_order_time?.substringBefore(":")!!.toInt()) {
                 Log.d("TAG", "onViewCreated1212121day")
                 timeArrayList.add(it)
             }
@@ -562,7 +571,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
 
                                 } else {
-                                    showToast(data.Message)
+                                    data.Message?.let { it1 -> showToast(it1) }
                                 }
 
 

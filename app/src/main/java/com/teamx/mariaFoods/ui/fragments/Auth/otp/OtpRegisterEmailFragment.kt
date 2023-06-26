@@ -27,7 +27,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    private var email: String? = null
+    private var email: String?? = null
 
     private lateinit var options: NavOptions
 
@@ -94,7 +94,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
                                     )
                                 navController.navigate(R.id.dashboardFragment, null, options)
                             } else {
-                                showToast(data.Message)
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
                         }
                     }

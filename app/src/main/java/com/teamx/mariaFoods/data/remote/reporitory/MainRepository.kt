@@ -37,7 +37,7 @@ class MainRepository @Inject constructor(
     suspend fun cancelOrder(@Body param: JsonObject) = apiService.cancelOrder(param)
     suspend fun coupon(@Body param: JsonObject) = apiService.coupon(param)
     suspend fun deleteAddress(@Query("payment_method_id") id: Int) = apiService.deleteAddress(id)
-    suspend fun deleteCard(@Query("id") id: String) = apiService.deleteCard(id)
+    suspend fun deleteCard(@Query("id") id: String?) = apiService.deleteCard(id)
     suspend fun addAddress(@Body param: JsonObject) = apiService.addAddress(param)
     suspend fun updateAddress(@Body param: JsonObject) = apiService.updateAddress(param)
     suspend fun editAddress(@Query("id") id: Int) = apiService.editAddress(id)

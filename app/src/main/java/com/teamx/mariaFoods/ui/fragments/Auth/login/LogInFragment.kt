@@ -75,9 +75,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.server_client_id))
-            .requestEmail()
-            .build()
+            .requestIdToken(getString(R.string.server_client_id)).requestEmail().build()
 
 //        googleSignInClient = GoogleSignIn.getClient(requireActivity() , gso)
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
@@ -133,7 +131,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
                     it.data?.let { data ->
                         lifecycleScope.launch(Dispatchers.IO) {
-                            dataStoreProvider.saveUserToken(data.AccessToken)
+                            dataStoreProvider.saveUserToken(data.AccessToken!!)
                             dataStoreProvider.saveUserDetails(
                                 data.User
                             )
@@ -171,13 +169,13 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     }
 
     @SuppressLint("LongLogTag")
-    fun getUserProfile(token: AccessToken?, userId: String?) {
+    fun getUserProfile(token: AccessToken?, userId: String??) {
         val parameters = Bundle()
         parameters.putString(
-            "fields",
-            "id, first_name, middle_name, last_name, name, picture, email"
+            "fields", "id, first_name, middle_name, last_name, name, picture, email"
         )
-        GraphRequest(token,
+        GraphRequest(
+            token,
             "/$userId/",
             parameters,
             HttpMethod.GET,
@@ -398,23 +396,17 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
                 mViewModel.socialLogins(params)
 
-//                navController =
-//                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-//                navController.navigate(R.id.dashboardFragment, null, options)
-
-//                val intent : Intent = Intent(this , HomeActivity::class.java)
-//                intent.putExtra("email" , account.email)
-//                intent.putExtra("name" , account.displayName)
-//                startActivity(intent)
             } else {
                 Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
+                Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
+
 
             }
         }
     }
 
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    override fun onActivityResult(requestCode: Int?, resultCode: Int?, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
 //
 //        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);

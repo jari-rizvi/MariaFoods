@@ -22,9 +22,9 @@ class PasswordChangeFragment() : BaseFragment<FragmentOtpRegisterBinding, OtpVie
     override val bindingVariable: Int
         get() = BR.viewModel
 
-    private var phoneNumber: String? = null
-    private var sid: String? = null
-    private var otpid: String? = null
+    private var phoneNumber: String?? = null
+    private var sid: String?? = null
+    private var otpid: String?? = null
 
     private lateinit var options: NavOptions
 

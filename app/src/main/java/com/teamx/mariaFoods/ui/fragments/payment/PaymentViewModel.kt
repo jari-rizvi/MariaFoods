@@ -61,7 +61,7 @@ class PaymentViewModel @Inject constructor(
     val deletestripecard: LiveData<Resource<SuccessData>>
         get() = _deletestripecardResponse
 
-    fun deleteStripeCard(id: String) {
+    fun deleteStripeCard(id: String?) {
         viewModelScope.launch {
             _deletestripecardResponse.postValue(Resource.loading(null))
             if (networkHelper.isNetworkConnected()) {

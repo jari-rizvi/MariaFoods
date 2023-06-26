@@ -147,7 +147,7 @@ class SignupPhoneFragment :
                                     navController.navigate(R.id.otpRegisterFragment, bundle, options)
                                 }
                                 else{
-                                    showToast(data.Message)
+                                    data.Message?.let { it1 -> showToast(it1) }
                                 }
 
 

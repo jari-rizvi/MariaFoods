@@ -24,6 +24,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
@@ -32,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewModel>() {
@@ -203,8 +205,6 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                 e.printStackTrace()
             }
 
-            Log.e("UserData", params.toString())
-
             mViewModel.loginEmail(params)
 
             if (!mViewModel.loginResponse.hasActiveObservers()) {
@@ -214,20 +214,40 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                             loadingDialog.show()
                         }
                         Resource.Status.SUCCESS -> {
+                            Log.d("UserData", it.data.toString())
                             loadingDialog.dismiss()
                             it.data?.let { data ->
-                                if (data.Flag == 1) {
+
+                                val jsonObject = JSONObject(data.toString())
+
+                                val Flag = jsonObject.getInt("Flag")
+                                val AccessToken = jsonObject.getString("AccessToken")
+                                val Message = jsonObject.getString("Message")
+                                val User = jsonObject.getJSONObject("User")
+                                if (Flag == 1) {
                                     lifecycleScope.launch(Dispatchers.IO) {
-                                        dataStoreProvider.saveUserToken(data.AccessToken)
+                                        dataStoreProvider.saveUserToken(AccessToken)
 
 
-                                        val firstname = data.User.first_name
-                                        val lastname = data.User.last_name
-                                        val email = data.User.email
-                                        val number = data.User.phone
+                                        val user = User(
+                                            id = User.getInt("id"),
+                                            first_name = User.getString("first_name"),
+                                            last_name = User.getString("last_name"),
+                                            email = User.getString("email"),
+                                            phone = User.getString("phone"),
+                                            email_or_otp_verified = User.getInt("email_or_otp_verified"),
+                                            provider_id = User.getString("provider_id"),
+                                            avatar = User.getString("avatar"),
+                                            name = User.getString("name"),
+                                            with_email_and_pass = User.getBoolean("with_email_and_pass")
+                                            )
 
+                                        val firstname = user.first_name
+                                        val lastname = user.last_name
+                                        val email = user.email
+                                        val number = user.phone
                                         dataStoreProvider.saveUserDetails(
-                                            data.User
+                                            user
                                         )
 
                                     }
@@ -239,7 +259,10 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
 
 
                                 } else {
-                                    showToast(data.Message)
+                                     showToast(
+                                         Message
+                                        )
+
                                 }
 
 

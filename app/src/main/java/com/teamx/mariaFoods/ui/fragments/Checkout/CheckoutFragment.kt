@@ -65,10 +65,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private lateinit var city: String
     private lateinit var state: String
     private lateinit var postal: String
-    private var name: String = ""
-    private var addressid: String = ""
+    private var name: String? = ""
+    private var addressid: String? = ""
     private lateinit var address1: String
-    private var paymentid: String = ""
+    private var paymentid: String? = ""
 
 
     lateinit var paymentSheet: PaymentSheet
@@ -362,7 +362,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                         mViewModel.getAddress()
 
                                     } else {
-                                        showToast(data.Message)
+                                        data.Message?.let { it1 -> showToast(it1) }
                                     }
 
 
@@ -517,7 +517,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 }
             }
 
-            mViewModel.editAddress(addressArrayList[0].id)
+            mViewModel.editAddress(addressArrayList[0].id!!)
 
 
             mViewModel.editaddress.observe(requireActivity()) {
@@ -566,7 +566,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
         PaymentConfiguration.init(
-            requireActivity().applicationContext, stripPublicKey
+            requireActivity().applicationContext, stripPublicKey!!
         )
 
 
@@ -593,7 +593,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
-                            paymentIntentClientSecret = data.client_secreat
+                            paymentIntentClientSecret = data.client_secreat!!
 
                             if(!paymentid.isNullOrEmpty()){
                                 bottomSheetBehavior =
@@ -698,7 +698,12 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            cartArrayList.addAll(data.data.carts)
+
+                            data.data.carts.forEach {
+
+                                cartArrayList.add(it)
+                            }
+
                             cartAdapter.notifyDataSetChanged()
 
                             mViewDataBinding.subtotal.text = data.data.subTotal
@@ -775,7 +780,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
     }
 
-    private fun getAddressFromLocation(context: Context, location: Location): String {
+    private fun getAddressFromLocation(context: Context, location: Location): String? {
         val geocoder = Geocoder(context, Locale.getDefault())
         var addressText = ""
 
@@ -797,13 +802,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     address1 = addressText
 
 
-                    val city: String? = address.locality
-                    val state: String? = address.adminArea
-                    val country: String? = address.countryName
-                    val postalCode: String? = address.postalCode
-                    val knownName: String? = address.featureName
-                    val knownName2: String? = address.subLocality
-                    val phone: String? = address.phone
+                    val city: String?? = address.locality
+                    val state: String?? = address.adminArea
+                    val country: String?? = address.countryName
+                    val postalCode: String?? = address.postalCode
+                    val knownName: String?? = address.featureName
+                    val knownName2: String?? = address.subLocality
+                    val phone: String?? = address.phone
 
                     mViewDataBinding.bottomSheetLayout.editAddress1.setText(addressText.toString())
                     mViewDataBinding.bottomSheetLayout.city.setText(city)

@@ -14,11 +14,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.SharedViewModel
 import com.teamx.mariaFoods.data.local.datastore.DataStoreProvider
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
-import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.utils.UnAuthorizedCallback
 import kotlinx.coroutines.launch
 
@@ -128,7 +128,7 @@ BaseFragment<T : ViewDataBinding, V : BaseViewModel> : androidx.fragment.app.Fra
 
     }
 
-    open fun showToast(message: String?) {
+    open fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 

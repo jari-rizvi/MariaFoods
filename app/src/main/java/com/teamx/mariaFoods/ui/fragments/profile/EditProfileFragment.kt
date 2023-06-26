@@ -217,7 +217,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
                             lifecycleScope.launch(Dispatchers.IO) {
 
                                 dataStoreProvider.saveUserDetails(
-                                    data.User
+                                    data.User!!
                                 )
 
                             }

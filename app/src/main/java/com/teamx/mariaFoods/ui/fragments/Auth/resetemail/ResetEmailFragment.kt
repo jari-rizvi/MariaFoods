@@ -118,7 +118,7 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                                         options
                                     )
                                 } else {
-                                    showToast(data.Message)
+                                    data.Message?.let { it1 -> showToast(it1) }
                                 }
 
 
