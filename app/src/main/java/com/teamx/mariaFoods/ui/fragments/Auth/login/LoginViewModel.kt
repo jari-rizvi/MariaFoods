@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.remote.Resource
@@ -24,8 +23,8 @@ class LoginViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _loginResponse = MutableLiveData<Resource<LoginData>>()
-    val loginResponse: LiveData<Resource<LoginData>>
+    private val _loginResponse = MutableLiveData<Resource<JsonObject>>()
+    val loginResponse: LiveData<Resource<JsonObject>>
         get() = _loginResponse
     fun loginEmail(param: JsonObject) {
         viewModelScope.launch {
@@ -37,7 +36,7 @@ class LoginViewModel @Inject constructor(
                     mainRepository.loginEmail(param).let {
                         if (it.isSuccessful) {
                             _loginResponse.postValue(Resource.success(it.body()!!))
-                            Log.d("TAG", "loginPhone: first1")
+                            Log.d("TAG", "loginPhone: first1 ${it.body()}")
                             Log.e("TAG", "loginPhone: 1111111", )
 
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
