@@ -1,5 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.coupon
-import com.google.errorprone.annotations.Keep
+import androidx.annotation.Keep
 
 @Keep
 data class Cart(

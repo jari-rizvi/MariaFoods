@@ -4,8 +4,8 @@ package com.teamx.mariaFoods.ui.fragments.help
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.termsCondition.TermsConditonData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -20,8 +20,8 @@ class HelpViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 
-    private val _termsConditionResponse = MutableLiveData<Resource<TermsConditonData>>()
-    val termsConditionResponse: LiveData<Resource<TermsConditonData>>
+    private val _termsConditionResponse = MutableLiveData<Resource<JsonObject>>()
+    val termsConditionResponse: LiveData<Resource<JsonObject>>
         get() = _termsConditionResponse
 
 
@@ -54,8 +54,8 @@ class HelpViewModel @Inject constructor(
         }
     }
 
- private val _helpResponse = MutableLiveData<Resource<TermsConditonData>>()
-    val helpResponse: LiveData<Resource<TermsConditonData>>
+ private val _helpResponse = MutableLiveData<Resource<JsonObject>>()
+    val helpResponse: LiveData<Resource<JsonObject>>
         get() = _helpResponse
 
 

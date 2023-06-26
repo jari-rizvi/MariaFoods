@@ -3,7 +3,7 @@ package com.teamx.mariaFoods.data.local.dbModel
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.errorprone.annotations.Keep
+import androidx.annotation.Keep
 
 @Entity(tableName = "cart_table")
 

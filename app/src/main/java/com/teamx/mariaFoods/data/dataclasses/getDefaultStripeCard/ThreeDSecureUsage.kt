@@ -1,5 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.getDefaultStripeCard
-import com.google.errorprone.annotations.Keep
+import androidx.annotation.Keep
 
 @Keep
 data class ThreeDSecureUsage(

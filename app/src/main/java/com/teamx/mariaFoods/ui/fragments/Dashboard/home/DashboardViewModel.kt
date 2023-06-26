@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
-import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
@@ -26,8 +24,8 @@ class Dashboard @Inject constructor(
 ) : BaseViewModel() {
 
 
-    private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
-    val addressList: LiveData<Resource<GetAddressData>>
+    private val _addressListResponse = MutableLiveData<Resource<JsonObject>>()
+    val addressList: LiveData<Resource<JsonObject>>
         get() = _addressListResponse
 
     fun getAddress() {
@@ -60,8 +58,8 @@ class Dashboard @Inject constructor(
     }
 
 
-    private val _bannerListResponse = MutableLiveData<Resource<BannerListData>>()
-    val bannerList: LiveData<Resource<BannerListData>>
+    private val _bannerListResponse = MutableLiveData<Resource<JsonObject>>()
+    val bannerList: LiveData<Resource<JsonObject>>
         get() = _bannerListResponse
 
     fun bannerList() {
@@ -94,8 +92,8 @@ class Dashboard @Inject constructor(
         }
     }
 
-    private val _productsResponse = MutableLiveData<Resource<ProductsData>>()
-    val products: LiveData<Resource<ProductsData>>
+    private val _productsResponse = MutableLiveData<Resource<JsonObject>>()
+    val products: LiveData<Resource<JsonObject>>
         get() = _productsResponse
 
     fun getProducts() {

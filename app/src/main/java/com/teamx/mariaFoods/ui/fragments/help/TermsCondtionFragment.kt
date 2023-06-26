@@ -8,10 +8,12 @@ import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.termsCondition.Data
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentTermssConditionBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -63,7 +65,20 @@ class TermsCondtionFragment : BaseFragment<FragmentTermssConditionBinding, HelpV
                         web_view.settings.setGeolocationEnabled(true)
 
                         web_view.webChromeClient = WebChromeClient()
-                        data.data?.content?.let { it1 ->
+
+                        val jsonObject = JSONObject(data.toString())
+
+                        val Flag = jsonObject.getInt("Flag")
+                        val Data = jsonObject.getJSONObject("data")
+
+
+                        val data = Data(
+                        content= Data.getString("content"),
+                        title= Data.getString("title")
+                        )
+
+
+                        data.content?.let { it1 ->
                             web_view.loadDataWithBaseURL(
                                 "https://dev.dogtvfoods.com/api/v1",
                                 it1,
@@ -108,7 +123,19 @@ class TermsCondtionFragment : BaseFragment<FragmentTermssConditionBinding, HelpV
                         web_view.settings.setGeolocationEnabled(true)
 
                         web_view.webChromeClient = WebChromeClient()
-                        data.data?.content?.let { it1 ->
+
+
+                        val jsonObject = JSONObject(data.toString())
+
+                        val Flag = jsonObject.getInt("Flag")
+                        val Data = jsonObject.getJSONObject("data")
+
+
+                        val data = Data(
+                            content= Data.getString("content"),
+                            title= Data.getString("title")
+                        )
+                        data.content?.let { it1 ->
                             web_view.loadDataWithBaseURL(
                                 "https://dev.dogtvfoods.com/api/v1",
                                 it1,

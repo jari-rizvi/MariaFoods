@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
-import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -23,8 +21,8 @@ class AddressViewModel @Inject constructor(
     private val mainRepository: MainRepository, private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _addressListResponse = MutableLiveData<Resource<GetAddressData>>()
-    val addressList: LiveData<Resource<GetAddressData>>
+    private val _addressListResponse = MutableLiveData<Resource<JsonObject>>()
+    val addressList: LiveData<Resource<JsonObject>>
         get() = _addressListResponse
 
     fun getAddress() {
@@ -57,8 +55,8 @@ class AddressViewModel @Inject constructor(
         }
     }
 
-    private val _deleteaddressResponse = MutableLiveData<Resource<SuccessData>>()
-    val deleteaddress: LiveData<Resource<SuccessData>>
+    private val _deleteaddressResponse = MutableLiveData<Resource<JsonObject>>()
+    val deleteaddress: LiveData<Resource<JsonObject>>
         get() = _deleteaddressResponse
 
     fun deleteAddress(id: Int) {
@@ -88,8 +86,8 @@ class AddressViewModel @Inject constructor(
     }
 
 
-    private val _addaddressResponse = MutableLiveData<Resource<SuccessData>>()
-    val addaddress: LiveData<Resource<SuccessData>>
+    private val _addaddressResponse = MutableLiveData<Resource<JsonObject>>()
+    val addaddress: LiveData<Resource<JsonObject>>
         get() = _addaddressResponse
 
     fun addAddress(param: JsonObject) {
@@ -123,8 +121,8 @@ class AddressViewModel @Inject constructor(
     }
 
 
-    private val _updateaddressResponse = MutableLiveData<Resource<SuccessData>>()
-    val updateaddress: LiveData<Resource<SuccessData>>
+    private val _updateaddressResponse = MutableLiveData<Resource<JsonObject>>()
+    val updateaddress: LiveData<Resource<JsonObject>>
         get() = _updateaddressResponse
 
     fun updateAddress(param: JsonObject) {

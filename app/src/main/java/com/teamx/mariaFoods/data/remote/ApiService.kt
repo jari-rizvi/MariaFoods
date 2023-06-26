@@ -4,19 +4,15 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
-import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
 import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
-import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.getDefaultStripeCard.GetDefaultStripeCard
 import com.teamx.mariaFoods.data.dataclasses.getStripecards.StripeCardsData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
-import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
-import com.teamx.mariaFoods.data.dataclasses.termsCondition.TermsConditonData
 import com.teamx.mariaFoods.data.dataclasses.uploadProfile.UploadProfileData
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -42,7 +38,7 @@ interface ApiService {
     suspend fun editProfile(
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<SignupData>
+    ): Response<JsonObject>
 
 
     @Headers("secret: dev")
@@ -109,11 +105,11 @@ interface ApiService {
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.BANNERS)
-    suspend fun getBanners(): Response<BannerListData>
+    suspend fun getBanners(): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.PRODUCTS)
-    suspend fun getProducts(): Response<ProductsData>
+    suspend fun getProducts(): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_ORDER_HISTORY)
@@ -131,7 +127,7 @@ interface ApiService {
     @GET(NetworkCallPoints.GET_ADDRESS)
     suspend fun getAddress(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<GetAddressData>
+    ): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CART)
@@ -177,7 +173,7 @@ interface ApiService {
     suspend fun deleteAddress(
         @Query("id") id: Int?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<SuccessData>
+    ): Response<JsonObject>
 
     @Headers("secret: dev")
     @HTTP(method = "DELETE", path = NetworkCallPoints.DELETE_STRIPE_CARDS)
@@ -191,14 +187,14 @@ interface ApiService {
     suspend fun addAddress(
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<SuccessData>
+    ): Response<JsonObject>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.UPDATE_ADDRESS)
     suspend fun updateAddress(
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<SuccessData>
+    ): Response<JsonObject>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.EDIT_ADDRESS)
@@ -210,12 +206,12 @@ interface ApiService {
     @GET(NetworkCallPoints.TERMS_CONDITION)
     suspend fun termsCondition(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<TermsConditonData>
+    ): Response<JsonObject>
  @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_HELP)
     suspend fun getHelp(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<TermsConditonData>
+    ): Response<JsonObject>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_CART)

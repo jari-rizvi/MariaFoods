@@ -16,6 +16,7 @@ import com.hbb20.CountryCodePicker
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentEditProfileBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>(),
@@ -145,7 +147,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
 //        }
 
 
-
         mViewDataBinding.btnChangePass.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetChangePass)
@@ -212,23 +213,65 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
                     }
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
-
                         it.data?.let { data ->
-                            lifecycleScope.launch(Dispatchers.IO) {
 
-                                dataStoreProvider.saveUserDetails(
-                                    data.User!!
+                            val jsonObject = JSONObject(data.toString())
+
+                            val Flag = jsonObject.getInt("Flag")
+                            val AccessToken = jsonObject.getString("AccessToken")
+                            val Message = jsonObject.getString("Message")
+                            val User = jsonObject.getJSONObject("User")
+
+                            if (Flag == 1) {
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    dataStoreProvider.saveUserToken(AccessToken)
+
+
+                                    val user = User(
+                                        id = User.getInt("id"),
+                                        first_name = User.getString("first_name"),
+                                        last_name = User.getString("last_name"),
+                                        email = User.getString("email"),
+                                        phone = User.getString("phone"),
+                                        email_or_otp_verified = User.getInt("email_or_otp_verified"),
+                                        provider_id = User.getString("provider_id"),
+                                        avatar = User.getString("avatar"),
+                                        name = User.getString("name"),
+                                        with_email_and_pass = User.getBoolean("with_email_and_pass")
+                                    )
+
+                                    val firstname = user.first_name
+                                    val lastname = user.last_name
+                                    val email = user.email
+                                    val number = user.phone
+
+
+                                    it.data.let { data ->
+                                        lifecycleScope.launch(Dispatchers.IO) {
+
+                                            dataStoreProvider.saveUserDetails(
+                                                user
+                                            )
+
+                                        }
+
+                                    }
+                                }
+
+
+                            } else {
+                                showToast(
+                                    Message
                                 )
 
                             }
 
                             mViewDataBinding.root.snackbar("Profile Has Been Updated")
 
-
                         }
 
-
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)

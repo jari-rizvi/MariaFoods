@@ -32,6 +32,7 @@ import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
@@ -58,7 +59,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
-    private  var name: String? = ""
+    private var name: String? = ""
     private lateinit var country: String
     private lateinit var city: String
     private var address1: String? = ""
@@ -182,7 +183,13 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                             Resource.Status.SUCCESS -> {
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
-                                    if (data.Flag == 1) {
+
+                                    val jsonObject = JSONObject(data.toString())
+
+                                    val Flag = jsonObject.getInt("Flag")
+                                    val Message = jsonObject.getString("Message")
+
+                                    if (Flag == 1) {
                                         val state =
                                             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                                             else BottomSheetBehavior.STATE_EXPANDED
@@ -209,7 +216,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 //                                        mViewModel.getAddress()
 
                                     } else {
-                                        data.Message?.let { it1 -> showToast(it1) }
+                                        showToast(Message)
                                     }
 
                                 }
@@ -249,10 +256,33 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                             mViewDataBinding.addressRecycler.visibility = View.VISIBLE
 
 
-                            data.data.forEach {
+                            val jsonObject = JSONObject(data.toString())
 
-                                addressArrayList.add(it)
-                            }
+                            val Flag = jsonObject.getInt("Flag")
+                            val Data = jsonObject.getJSONObject("data")
+
+                            addressArrayList.add(
+                                Data(
+                                    name = name,
+                                    country = country,
+                                    city = city,
+                                    address_1 = address1,
+                                    address_2 = address1,
+                                    postal = postal,
+                                    state = statee,
+                                    id = 0,
+                                    is_default = 0,
+                                    long = "",
+                                    lat = "",
+                                    user_id = 0
+                                )
+                            )
+
+
+//                            data.data.forEach {
+//
+//                                addressArrayList.add(it)
+//                            }
                             addressAdapter.notifyDataSetChanged()
 
                         }
@@ -476,6 +506,12 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
+                                val jsonObject = JSONObject(data.toString())
+
+                                val Flag = jsonObject.getInt("Flag")
+                                val Message = jsonObject.getString("Message")
+
+
                                 val state =
                                     if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                                     else BottomSheetBehavior.STATE_EXPANDED
@@ -567,11 +603,26 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
-                        addressArrayList.clear()
-                        mViewModel.getAddress()
 
-                        addressAdapter.notifyDataSetChanged()
-                        data.Message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
+                        val jsonObject = JSONObject(data.toString())
+
+                        val Flag = jsonObject.getInt("Flag")
+                        val Message = jsonObject.getString("Message")
+
+                        if (Flag == 1) {
+                            addressArrayList.clear()
+                            mViewModel.getAddress()
+
+                            addressAdapter.notifyDataSetChanged()
+                            mViewDataBinding.root.snackbar(Message)
+
+                        } else {
+                            showToast(
+                                Message
+                            )
+
+                        }
+
 
                     }
                 }

@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
-import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.dataclasses.uploadProfile.UploadProfileData
 import com.teamx.mariaFoods.data.remote.Resource
@@ -27,8 +26,8 @@ class EditProfileViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 
-    private val _editProfileResponse = MutableLiveData<Resource<SignupData>>()
-    val editProfileResponse: LiveData<Resource<SignupData>>
+    private val _editProfileResponse = MutableLiveData<Resource<JsonObject>>()
+    val editProfileResponse: LiveData<Resource<JsonObject>>
         get() = _editProfileResponse
     fun editProfiles(param: JsonObject) {
         viewModelScope.launch {
