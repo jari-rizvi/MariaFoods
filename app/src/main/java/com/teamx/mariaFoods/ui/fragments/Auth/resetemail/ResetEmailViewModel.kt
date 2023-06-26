@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.resetPass.ResetPassData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -21,8 +20,8 @@ class ResetEmailViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _resetPassResponse = MutableLiveData<Resource<ResetPassData>>()
-    val resetPassResponse: LiveData<Resource<ResetPassData>>
+    private val _resetPassResponse = MutableLiveData<Resource<JsonObject>>()
+    val resetPassResponse: LiveData<Resource<JsonObject>>
         get() = _resetPassResponse
 
     fun resetPass(param: JsonObject) {

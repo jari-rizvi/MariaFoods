@@ -7,8 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
-import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -64,8 +62,8 @@ class LoginViewModel @Inject constructor(
     }
 
 
-  private val _loginPhoneResponse = MutableLiveData<Resource<LoginPhoneData>>()
-    val loginPhoneResponse: LiveData<Resource<LoginPhoneData>>
+  private val _loginPhoneResponse = MutableLiveData<Resource<JsonObject>>()
+    val loginPhoneResponse: LiveData<Resource<JsonObject>>
         get() = _loginPhoneResponse
     fun loginPhone(param: JsonObject) {
         viewModelScope.launch {
@@ -93,8 +91,8 @@ class LoginViewModel @Inject constructor(
     }
 
 
- private val _socialLoginResponse = MutableLiveData<Resource<SignupData>>()
-    val socialLoginResponse: LiveData<Resource<SignupData>>
+ private val _socialLoginResponse = MutableLiveData<Resource<JsonObject>>()
+    val socialLoginResponse: LiveData<Resource<JsonObject>>
         get() = _socialLoginResponse
     fun socialLogins(param: JsonObject) {
         viewModelScope.launch {

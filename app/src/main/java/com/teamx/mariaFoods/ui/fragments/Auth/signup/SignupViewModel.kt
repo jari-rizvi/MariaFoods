@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -22,8 +21,8 @@ class SignupViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _signupResponse = MutableLiveData<Resource<SignupData>>()
-    val signupResponse: LiveData<Resource<SignupData>>
+    private val _signupResponse = MutableLiveData<Resource<JsonObject>>()
+    val signupResponse: LiveData<Resource<JsonObject>>
         get() = _signupResponse
 
     fun signup(param: JsonObject) {

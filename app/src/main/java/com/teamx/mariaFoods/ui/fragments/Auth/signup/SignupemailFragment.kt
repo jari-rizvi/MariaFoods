@@ -16,6 +16,7 @@ import com.google.gson.JsonObject
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentSignupEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
@@ -24,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -196,19 +198,48 @@ class SignupemailFragment :
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
-                                if (data.Flag == 1) {
+
+                                val jsonObject = JSONObject(data.toString())
+
+                                val Flag = jsonObject.getInt("Flag")
+                                val AccessToken = jsonObject.getString("AccessToken")
+                                val Message = jsonObject.getString("Message")
+                                val User = jsonObject.getJSONObject("User")
+
+                                if (Flag == 1) {
+
+
+                                    val user = User(
+                                        id = User.getInt("id"),
+                                        first_name = User.getString("first_name"),
+                                        last_name = User.getString("last_name"),
+                                        email = User.getString("email"),
+                                        phone = User.getString("phone"),
+                                        email_or_otp_verified = User.getInt("email_or_otp_verified"),
+                                        provider_id = User.getString("provider_id"),
+                                        avatar = User.getString("avatar"),
+                                        name = User.getString("name"),
+                                        with_email_and_pass = User.getBoolean("with_email_and_pass")
+                                    )
+
+
 
                                     lifecycleScope.launch(Dispatchers.IO) {
-                                        dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                        dataStoreProvider.saveUserToken(AccessToken)
 
+
+                                        val firstname = user.first_name
+                                        val lastname = user.last_name
+                                        val email = user.email
+                                        val number = user.phone
                                         dataStoreProvider.saveUserDetails(
-                                            data.User
+                                            user
                                         )
                                     }
 
 
                                     val bundle = Bundle()
-                                    bundle.putString("email", data.User?.email)
+                                    bundle.putString("email", user.email)
 
                                     navController =
                                         Navigation.findNavController(
@@ -221,7 +252,7 @@ class SignupemailFragment :
                                         options
                                     )
                                 } else {
-                                    data.Message?.let { it1 -> showToast(it1) }
+                                    showToast(Message)
                                 }
 
 

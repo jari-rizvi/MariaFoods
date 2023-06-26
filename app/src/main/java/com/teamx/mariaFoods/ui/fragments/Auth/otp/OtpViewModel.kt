@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
-import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -22,8 +20,8 @@ class OtpViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
 
-    private val _otpVerifyResponse = MutableLiveData<Resource<SignupData>>()
-    val otpVerifyResponse: LiveData<Resource<SignupData>>
+    private val _otpVerifyResponse = MutableLiveData<Resource<JsonObject>>()
+    val otpVerifyResponse: LiveData<Resource<JsonObject>>
         get() = _otpVerifyResponse
 
     fun otpVerify(param : JsonObject,unAuthorizedCallback: UnAuthorizedCallback) {
@@ -49,8 +47,8 @@ class OtpViewModel @Inject constructor(
     }
 
 
-    private val _otpVerifyForgotEmailResponse = MutableLiveData<Resource<SuccessData>>()
-    val otpVerifyForgotEmailResponse: LiveData<Resource<SuccessData>>
+    private val _otpVerifyForgotEmailResponse = MutableLiveData<Resource<JsonObject>>()
+    val otpVerifyForgotEmailResponse: LiveData<Resource<JsonObject>>
         get() = _otpVerifyForgotEmailResponse
 
     fun otpVerifyForgotEmail(param : JsonObject,unAuthorizedCallback: UnAuthorizedCallback) {

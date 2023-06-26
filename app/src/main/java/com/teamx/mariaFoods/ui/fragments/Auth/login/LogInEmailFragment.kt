@@ -224,6 +224,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                                 val AccessToken = jsonObject.getString("AccessToken")
                                 val Message = jsonObject.getString("Message")
                                 val User = jsonObject.getJSONObject("User")
+
                                 if (Flag == 1) {
                                     lifecycleScope.launch(Dispatchers.IO) {
                                         dataStoreProvider.saveUserToken(AccessToken)

@@ -15,6 +15,7 @@ import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -102,10 +103,18 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
-                                if (data.Flag == 1) {
+
+                                val jsonObject = JSONObject(data.toString())
+
+                                val Flag = jsonObject.getInt("Flag")
+                                val email = jsonObject.getString("email")
+                                val Message = jsonObject.getString("Message")
+
+
+                                if (Flag == 1) {
 
                                     val bundle = Bundle()
-                                    bundle.putString("email", data.email)
+                                    bundle.putString("email", email)
 
                                     navController =
                                         Navigation.findNavController(
@@ -118,7 +127,7 @@ class ResetEmailFragment() : BaseFragment<FragmentResetEmailBinding, ResetEmailV
                                         options
                                     )
                                 } else {
-                                    data.Message?.let { it1 -> showToast(it1) }
+                                     showToast(Message)
                                 }
 
 

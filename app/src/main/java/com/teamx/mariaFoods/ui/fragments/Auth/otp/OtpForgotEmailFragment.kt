@@ -15,6 +15,7 @@ import com.teamx.mariaFoods.databinding.FragmentOtpForgotEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -96,7 +97,12 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            if (data.Flag == 1) {
+                            val jsonObject = JSONObject(data.toString())
+
+                            val Flag = jsonObject.getInt("Flag")
+                            val Message = jsonObject.getString("Message")
+
+                            if (Flag == 1) {
 
                                 val bundle = Bundle()
                                 bundle.putString("email", email)
@@ -109,7 +115,7 @@ class OtpForgotEmailFragment() : BaseFragment<FragmentOtpForgotEmailBinding, Otp
                                     )
                                 navController.navigate(R.id.resetPasswordFragment, bundle, options)
                             } else {
-                                data.Message?.let { it1 -> showToast(it1) }
+                         showToast(Message)
                             }
                         }
                     }

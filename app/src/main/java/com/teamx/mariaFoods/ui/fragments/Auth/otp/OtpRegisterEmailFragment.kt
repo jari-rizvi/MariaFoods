@@ -15,6 +15,7 @@ import com.teamx.mariaFoods.databinding.FragmentOtpRegisterEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -85,7 +86,12 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
-                            if (data.Flag == 1) {
+                           val jsonObject = JSONObject(data.toString())
+
+                            val Flag = jsonObject.getInt("Flag")
+                            val Message = jsonObject.getString("Message")
+
+                            if (Flag == 1) {
 
                                 navController =
                                     Navigation.findNavController(
@@ -94,7 +100,7 @@ class OtpRegisterEmailFragment() : BaseFragment<FragmentOtpRegisterEmailBinding,
                                     )
                                 navController.navigate(R.id.dashboardFragment, null, options)
                             } else {
-                                data.Message?.let { it1 -> showToast(it1) }
+                              showToast(Message)
                             }
                         }
                     }

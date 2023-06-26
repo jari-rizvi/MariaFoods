@@ -17,6 +17,7 @@ import com.teamx.mariaFoods.ui.fragments.Auth.login.LoginViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class SignupPhoneFragment :
@@ -136,9 +137,15 @@ class SignupPhoneFragment :
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
-                                if (data.Flag == 1) {
+                                val jsonObject = JSONObject(data.toString())
+
+                                val Flag = jsonObject.getInt("Flag")
+                                val phone = jsonObject.getString("phone")
+                                val Message = jsonObject.getString("Message")
+
+                                if (Flag == 1) {
                                     val bundle = Bundle()
-                                    bundle.putString("phone", data.phone)
+                                    bundle.putString("phone", phone)
                                     navController =
                                         Navigation.findNavController(
                                             requireActivity(),
@@ -147,7 +154,7 @@ class SignupPhoneFragment :
                                     navController.navigate(R.id.otpRegisterFragment, bundle, options)
                                 }
                                 else{
-                                    data.Message?.let { it1 -> showToast(it1) }
+                                     showToast(Message)
                                 }
 
 
