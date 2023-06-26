@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.editAddress
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class Data(
     val address_1: String?,

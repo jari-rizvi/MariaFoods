@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.banners
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class BannerListData(
     val Flag: Int?,

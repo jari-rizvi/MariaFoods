@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.models
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class ProductModel(
     val id: Int?,

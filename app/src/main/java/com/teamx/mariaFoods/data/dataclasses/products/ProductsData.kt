@@ -1,7 +1,6 @@
 package com.teamx.mariaFoods.data.dataclasses.products
 
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class ProductsData(
     val Flag: Int?,

@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.sucessData
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class SuccessData(
     val Flag: Int?,

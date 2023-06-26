@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.login
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class User(
     var avatar: String,

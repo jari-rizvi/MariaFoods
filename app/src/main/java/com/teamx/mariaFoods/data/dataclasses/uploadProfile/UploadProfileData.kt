@@ -1,6 +1,5 @@
 package com.teamx.mariaFoods.data.dataclasses.uploadProfile
-import com.google.errorprone.annotations.Keep
-
+import androidx.annotation.Keep
 @Keep
 data class UploadProfileData(
     val Flag: Int?,
