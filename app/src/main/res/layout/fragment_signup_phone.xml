@@ -39,6 +39,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/auth_image"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,8 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Not Registered?"
-                android:visibility="gone
-"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
@@ -152,7 +152,7 @@
                 android:focusable="true"
                 app:ccp_arrowColor="@color/orange"
                 app:ccp_autoDetectCountry="true"
-                app:ccp_defaultNameCode="PK"
+                app:ccp_defaultNameCode="AE"
                 app:ccp_showNameCode="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

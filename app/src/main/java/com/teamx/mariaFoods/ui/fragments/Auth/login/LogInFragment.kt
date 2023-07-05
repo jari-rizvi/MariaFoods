@@ -353,57 +353,57 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     }
 
 
-    private fun signInGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        launcher.launch(signInIntent)
-    }
-
-    private val launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                handleResults(task)
-            }
+        private fun signInGoogle() {
+            val signInIntent = googleSignInClient.signInIntent
+            launcher.launch(signInIntent)
         }
 
-    private fun handleResults(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful) {
-            val account: GoogleSignInAccount? = task.result
-            if (account != null) {
-                updateUI(account)
-            }
-        } else {
-            Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
-        }
-    }
+        private val launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
 
-    private fun updateUI(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.d(ContentValues.TAG, "gmailtoken: ${account.idToken}")
-
-                val params = JsonObject()
-                try {
-                    params.addProperty("token", account.idToken)
-                    params.addProperty("provider", "google")
-                    params.addProperty("platform", "android")
-                    params.addProperty("fcm_token", fcmToken)
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    handleResults(task)
                 }
+            }
 
-                mViewModel.socialLogins(params)
-
+        private fun handleResults(task: Task<GoogleSignInAccount>) {
+            if (task.isSuccessful) {
+                val account: GoogleSignInAccount? = task.result
+                if (account != null) {
+                    updateUI(account)
+                }
             } else {
-                Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
-                Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
-
-
+                Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-    }
+
+        private fun updateUI(account: GoogleSignInAccount) {
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            auth.signInWithCredential(credential).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(ContentValues.TAG, "gmailtoken: ${account.idToken}")
+
+                    val params = JsonObject()
+                    try {
+                        params.addProperty("token", account.idToken)
+                        params.addProperty("provider", "google")
+                        params.addProperty("platform", "android")
+                        params.addProperty("fcm_token", fcmToken)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                    mViewModel.socialLogins(params)
+
+                } else {
+                    Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
+                    Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
+
+
+                }
+            }
+        }
 
 
 //    override fun onActivityResult(requestCode: Int?, resultCode: Int?, data: Intent?) {

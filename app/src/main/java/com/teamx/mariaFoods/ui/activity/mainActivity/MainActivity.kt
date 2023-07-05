@@ -42,6 +42,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
     private var navController: NavController? = null
 
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         Timber.tag("321321").d("onRestoreInstanceState: ")
@@ -145,7 +146,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
         val navState = navController!!.saveState()!!
 
         mViewModel.bundleB.postValue(navState)
-
+        mViewDataBinding.bottomnavigationbar.menu.getItem(0)?.isChecked = true
 
         setupBottomNavMenu(navController!!)
 
@@ -154,14 +155,14 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
                 R.id.dashboardFragment -> {
                     bottomNav?.visibility = View.VISIBLE
-                }
-                R.id.checkoutFragment -> {
-                    bottomNav?.visibility = View.VISIBLE
+                    mViewDataBinding.bottomnavigationbar.menu.getItem(0)?.isChecked = true
                 }
                 R.id.orderHistoryFragment -> {
+                    mViewDataBinding.bottomnavigationbar.menu.getItem(1)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
                 R.id.profileFragment -> {
+                    mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
                 else -> {
@@ -203,6 +204,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
                 R.id.dashboard -> {
                     navController.navigate(R.id.dashboardFragment, null)
+
                 }
                 R.id.order -> {
                     navController.navigate(R.id.orderHistoryFragment, null)

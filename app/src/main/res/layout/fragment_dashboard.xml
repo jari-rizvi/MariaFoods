@@ -22,8 +22,7 @@
 
             <include
                 android:id="@+id/bottomSheetLayout"
-                layout="@layout/bottom_sheet_slots"
-                />
+                layout="@layout/bottom_sheet_slots" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -214,7 +213,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout5"
             android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="0dp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
@@ -240,38 +239,39 @@
             <TextView
                 android:id="@+id/textView7"
                 style="@style/montserrat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_2sdp"
                 android:text="@string/_100_halal_n_chicken"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:layout_constraintVertical_bias="0.15" />
+                app:layout_constraintVertical_bias="0.05" />
 
             <TextView
                 android:id="@+id/textView8"
                 style="@style/open_sans_secondary_medium_small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="@dimen/_8ssp"
+                android:layout_margin="@dimen/_2sdp"
+                android:text="@string/our_chicken_is_sourced_from_trusted_halal_suppliers"
+                android:textSize="@dimen/_7ssp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
-                app:layout_constraintVertical_bias="0.2" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout6"
             android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -292,37 +292,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.1"
-                app:srcCompat="@drawable/temperature_control" />
+                app:srcCompat="@drawable/food_quality_and_safety" />
 
             <TextView
                 android:id="@+id/tempControl"
                 style="@style/montserrat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/temperature_controlled"
+                android:layout_marginHorizontal="@dimen/_2sdp"
+                android:maxLines="2"
+                android:text="@string/food_quality_and_safety"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/imageView5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                app:layout_constraintVertical_bias="0.15" />
+                app:layout_constraintVertical_bias="0.05" />
 
             <TextView
                 android:id="@+id/textView9"
                 style="@style/open_sans_secondary_medium_small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="@dimen/_8ssp"
+                android:layout_margin="@dimen/_2sdp"
+                android:text="@string/highest_standard_assured_by_on_site_veterinarian_expertise"
+                android:textSize="@dimen/_7ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tempControl"
-                app:layout_constraintTop_toBottomOf="@+id/tempControl"
-                app:layout_constraintVertical_bias="0.2" />
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tempControl" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -330,7 +333,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout7"
             android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
@@ -355,32 +358,33 @@
             <TextView
                 android:id="@+id/textView10"
                 style="@style/montserrat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_2sdp"
                 android:text="@string/trusted_customers"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/imageView6"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView6"
-                app:layout_constraintVertical_bias="0.15" />
+                app:layout_constraintVertical_bias="0.05" />
 
             <TextView
                 android:id="@+id/textView11"
                 style="@style/open_sans_secondary_medium_small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="@dimen/_8ssp"
+                android:layout_margin="@dimen/_2sdp"
+                android:text="@string/we_take_pride_in_the_trust_our_customers_place_in_us"
+                android:textSize="@dimen/_7ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toBottomOf="@+id/textView10"
-                app:layout_constraintVertical_bias="0.2" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -388,7 +392,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout8"
             android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
@@ -413,32 +417,32 @@
             <TextView
                 android:id="@+id/textView12"
                 style="@style/montserrat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_2sdp"
                 android:text="Fast \nDelivery"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/imageView7"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7"
-                app:layout_constraintVertical_bias="0.15" />
+                app:layout_constraintVertical_bias="0.05" />
 
             <TextView
                 android:id="@+id/textView13"
                 style="@style/open_sans_secondary_medium_small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="@dimen/_8ssp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:text="@string/we_have_a_fast_and_efficient_delivery_system_for_your_convenience"
+                android:textSize="@dimen/_7ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/textView12"
-                app:layout_constraintVertical_bias="0.2" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

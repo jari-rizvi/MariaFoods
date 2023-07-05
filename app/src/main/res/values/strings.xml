@@ -63,5 +63,10 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="buy_now">Buy Now</string>
+    <string name="our_chicken_is_sourced_from_trusted_halal_suppliers">Our chicken is sourced from trusted Halal suppliers</string>
+    <string name="highest_standard_assured_by_on_site_veterinarian_expertise">Highest standard assured by on-site Veterinarian expertise.</string>
+    <string name="we_take_pride_in_the_trust_our_customers_place_in_us">We take pride in the trust our customers place in us.</string>
+    <string name="we_have_a_fast_and_efficient_delivery_system_for_your_convenience">We have fast and efficient delivery system for your convenience.</string>
+    <string name="food_quality_and_safety">Food Quality And Safety</string>
 
 </resources>

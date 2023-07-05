@@ -34,7 +34,7 @@ class ProductAdapter(
 
         holder.binding.productName.text = product.name
 
-        holder.binding.price.text = "${product.max_price}"
+        holder.binding.price.text = "${product.max_price} AED"
 
 //       val quanti = product.qty ?: 1
         if ( product.qty < 1) {

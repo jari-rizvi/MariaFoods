@@ -38,7 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 
 @AndroidEntryPoint
 class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>() {
@@ -75,7 +75,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     var paymentIntentClientSecret: String = ""
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     var stripPublicKey: String =
-        "pk_test_51NIUy0Cth47xs3WC9tm8vZi0P6SmxOKYLjDhg3BWm5OR0Xg4GfmU90akrrwObn64iRo6qx1DaQ1QDYikZsCo4ljL00X9Maixp9"
+        "pk_live_51NIUy0Cth47xs3WC4Q9ty9wNEA1QKq4G3FmPg5meLMbZR4wMVoeXwoZNV082ZOjV6ou6Sg4gin6lWRV7xC48s14800xP6kGFu7"
 
     fun presentPaymentSheet() {
         paymentSheet.presentWithPaymentIntent(
@@ -107,7 +107,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 print("Completed")
                 Timber.tag("Completed").d("helllo there")
                 /* verifyPaymentSheet(paymentSheetResult.error)*/
-                showSnackBar("Completed")
+//                showSnackBar("Completed")
 
                 bottomSheetBehavior =
                     BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)

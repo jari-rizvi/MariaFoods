@@ -14,7 +14,7 @@ import pub.devrel.easypermissions.EasyPermissions
 
 abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity() {
 
-    private lateinit var mViewDataBinding: T
+    public lateinit var mViewDataBinding: T
     protected lateinit var mViewModel: V
 
     private val SOME_PERMISSION = 0
