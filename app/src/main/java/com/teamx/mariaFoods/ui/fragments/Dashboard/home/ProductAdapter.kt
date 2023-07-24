@@ -44,7 +44,7 @@ class ProductAdapter(
 
 
 
-        holder.binding.productDescription.text = product.description
+        holder.binding.productDescription.text = product.short_description
 
 
         holder.binding.screenViewpager

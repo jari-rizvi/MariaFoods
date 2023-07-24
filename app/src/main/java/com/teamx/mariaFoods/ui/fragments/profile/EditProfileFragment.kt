@@ -1,5 +1,6 @@
 package com.teamx.mariaFoods.ui.fragments.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>(),
@@ -52,6 +54,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -65,15 +68,47 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             }
         }
 
+
+
+//        val aa: String = mViewDataBinding.email.text.toString()
+//        val bb: String = mViewDataBinding.phone.text.toString()
+//
+//        if(aa.isEmpty() || bb.isEmpty()){
+//            mViewDataBinding.email.isEnabled = true
+//            mViewDataBinding.phone.isEnabled = true
+//        }
+//        else{
+//            mViewDataBinding.email.isEnabled = false
+//            mViewDataBinding.phone.isEnabled = false
+//        }
+
+
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
-
-                mViewDataBinding.email.setText(user.email.toString())
+//                mViewDataBinding.email.setText(user.email.toString())
                 mViewDataBinding.fName.setText(user.first_name.toString())
                 mViewDataBinding.lName.setText(user.last_name.toString())
+                mViewDataBinding.email.setText(user.email.toString())
                 mViewDataBinding.phone.setText(user.phone.toString())
+//                mViewDataBinding.phone.setText(user.phone.toString())
+
+                mViewDataBinding.email.isEnabled = user.email.isNullOrEmpty()
+
+                mViewDataBinding.phone.isEnabled = user.phone.isNullOrEmpty()
+
 
             }
+
+
+
+
+//            if (mViewDataBinding.email.text.isNotEmpty()) {
+//                mViewDataBinding.email.isClickable = false
+//                mViewDataBinding.email.isEnabled = false
+//                mViewDataBinding.email.isFocusable = false
+//                mViewDataBinding.email.isFocusableInTouchMode = false
+//
+//            }
         }
 
         mViewDataBinding.showPassword.setOnClickListener {
@@ -177,13 +212,15 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             popUpStack()
         }
 
+
+
     }
 
     private fun initialization() {
         email = mViewDataBinding.email.text.toString().trim()
         lastName = mViewDataBinding.lName.text.toString().trim()
         FirstName = mViewDataBinding.fName.text.toString().trim()
-//        phone = mViewDataBinding.bottomSheetLayout1.etPhone.text.toString().trim()
+        phone = mViewDataBinding.phone.text.toString().trim()
 //        ccp = mViewDataBinding.bottomSheetLayout1.countryCode
 //        ccp!!.setOnCountryChangeListener(this)
 
@@ -199,6 +236,8 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             try {
                 params.addProperty("first_name", FirstName)
                 params.addProperty("last_name", lastName)
+                params.addProperty("email", email)
+                params.addProperty("phone", phone)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

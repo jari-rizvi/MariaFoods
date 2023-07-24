@@ -35,6 +35,7 @@ class CheckoutViewModel @Inject constructor(
 
 
     fun getDefaultStripeCard() {
+
         viewModelScope.launch {
             _getDefaultStripeCardsResponse.postValue(Resource.loading(null))
             if (networkHelper.isNetworkConnected()) {

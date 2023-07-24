@@ -79,7 +79,8 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
-@Headers("secret: dev")
+
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.CHANGE_PHONE)
     suspend fun changePhone(
         @Body params: JsonObject?,
@@ -100,6 +101,13 @@ interface ApiService {
     @Headers("secret: dev")
     @POST(NetworkCallPoints.OTP_VERIFY_FORGOT_EMAIL)
     suspend fun otpVerifForgotEmail(@Body params: JsonObject?): Response<SuccessData>
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.SETTING_NOTIFICATION)
+    suspend fun settingNotification(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<SuccessData>
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.RESEND_OTP_VERIFY)
@@ -140,7 +148,8 @@ interface ApiService {
     suspend fun getCart(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<GetCartData>
-  @Headers("secret: dev")
+
+    @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CARDS)
     suspend fun getCards(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
@@ -158,7 +167,8 @@ interface ApiService {
         @Body params: JsonObject?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<CheckoutData>
- @Headers("secret: dev")
+
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.CANCEL_ORDER)
     suspend fun cancelOrder(
         @Body params: JsonObject?,
@@ -208,12 +218,14 @@ interface ApiService {
         @Query("id") id: Int?,
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<EditAddressData>
-  @Headers("secret: dev")
+
+    @Headers("secret: dev")
     @GET(NetworkCallPoints.TERMS_CONDITION)
     suspend fun termsCondition(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<TermsConditonData>
- @Headers("secret: dev")
+
+    @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_HELP)
     suspend fun getHelp(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"

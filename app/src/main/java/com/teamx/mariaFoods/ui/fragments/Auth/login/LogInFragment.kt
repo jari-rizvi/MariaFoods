@@ -76,8 +76,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.server_client_id)).requestEmail().build()
-
-//        googleSignInClient = GoogleSignIn.getClient(requireActivity() , gso)
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
 
@@ -117,9 +115,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
             Log.d("TokeeennnFcm", "onViewCreated: $fcmToken")
 
-
         })
-
 
         mViewModel.socialLoginResponse.observe(requireActivity()) {
             when (it.status) {
@@ -156,14 +152,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             }
         }
 
-
-//        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-////        updateUI(account)
-//
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.server_client_id)).requestEmail().build()
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
 
     }
@@ -298,6 +286,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                         params.addProperty("fcm_token", fcmToken)
                     } catch (e: JSONException) {
                         e.printStackTrace()
+
                     }
 
                     mViewModel.socialLogins(params)
@@ -361,7 +350,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
         private val launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     handleResults(task)
                 }
@@ -405,50 +393,5 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             }
         }
 
-
-//    override fun onActivityResult(requestCode: Int?, resultCode: Int?, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-//        if (requestCode == RC_SIGN_IN) {
-//            // The Task returned from this call is always completed, no need to attach
-//            // a listener.
-//            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-//            handleSignInResult(task)
-//        }
-//    }
-//
-//    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-//        try {
-//            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
-//
-//            val idToken = account.idToken
-//
-//            Log.d(ContentValues.TAG, "gmailtoken: $idToken")
-//
-//            val params = JsonObject()
-//            try {
-//                params.addProperty("token", idToken)
-//                params.addProperty("provider", "google")
-//                params.addProperty("platform", "android")
-//                params.addProperty("fcm_token", fcmToken)
-//            } catch (e: JSONException) {
-//                e.printStackTrace()
-//            }
-//
-//            mViewModel.socialLogins(params)
-//
-//            Timber.tag("TAG").d("signInResult:failed code=")
-//
-//
-////            updateUI(account)
-//        } catch (e: ApiException) {
-//            e.printStackTrace()
-//            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//            Log.w(ContentValues.TAG, "signInResult:failed code=" + e.statusCode)
-////            updateUI(null)
-//        }
-//    }
 
 }

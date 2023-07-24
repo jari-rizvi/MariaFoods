@@ -41,29 +41,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView65"
+                style="@style/open_sans_secondary_medium_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Not Registered?"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="@dimen/_13ssp"
-                style="@style/open_sans_secondary_medium_medium"
-                app:layout_constraintVertical_bias="0.1"
-                app:layout_constraintHorizontal_bias="0.95"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/imgLogo"
+                app:layout_constraintHorizontal_bias="0.95"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
             <ImageView
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintBottom_toBottomOf="@+id/textView65"
                 app:layout_constraintEnd_toStartOf="@+id/textView65"
+                app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView65"
                 app:srcCompat="@drawable/back_arrow" />
@@ -83,9 +84,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/shape_top_round_fill_white"
+            android:elevation="@dimen/_1sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-android:elevation="@dimen/_1sdp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline"
@@ -158,14 +159,14 @@ associated mobile number"
                 android:backgroundTint="@color/orange"
                 android:gravity="center"
                 android:text="NEXT"
-                app:layout_constraintVertical_bias="0.1"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pinView" />
+                app:layout_constraintTop_toBottomOf="@+id/pinView"
+                app:layout_constraintVertical_bias="0.1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

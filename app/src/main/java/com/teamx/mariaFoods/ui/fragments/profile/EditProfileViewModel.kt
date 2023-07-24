@@ -30,6 +30,7 @@ class EditProfileViewModel @Inject constructor(
     private val _editProfileResponse = MutableLiveData<Resource<SignupData>>()
     val editProfileResponse: LiveData<Resource<SignupData>>
         get() = _editProfileResponse
+
     fun editProfiles(param: JsonObject) {
         viewModelScope.launch {
             _editProfileResponse.postValue(Resource.loading(null))
@@ -44,7 +45,12 @@ class EditProfileViewModel @Inject constructor(
                             _editProfileResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
 
                         } else {
-                            _editProfileResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _editProfileResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
 
                         }
                     }
@@ -52,6 +58,49 @@ class EditProfileViewModel @Inject constructor(
                     _editProfileResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _editProfileResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+    private val _settingNotificationlResponse = MutableLiveData<Resource<SuccessData>>()
+    val settingNotificationlResponse: LiveData<Resource<SuccessData>>
+        get() = _settingNotificationlResponse
+
+    fun settingNotificationl(param: JsonObject) {
+        viewModelScope.launch {
+            _settingNotificationlResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.settingNotification(param).let {
+                        if (it.isSuccessful) {
+                            _settingNotificationlResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 400 || it.code() == 422) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _settingNotificationlResponse.postValue(
+                                Resource.error(
+                                    jsonObj.getJSONArray(
+                                        "errors"
+                                    )[0].toString()
+                                )
+                            )
+                        } else {
+                            _settingNotificationlResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _settingNotificationlResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _settingNotificationlResponse.postValue(
+                Resource.error(
+                    "No internet connection",
+                    null
+                )
+            )
         }
     }
 
@@ -79,7 +128,12 @@ class EditProfileViewModel @Inject constructor(
                             Log.d("TAG", "loginPhone: ${it.code()}")
                         } else {
                             Log.d("TAG", "loginPhone: else")
-                            _changePasswordResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _changePasswordResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -116,7 +170,12 @@ class EditProfileViewModel @Inject constructor(
                             Log.d("TAG", "loginPhone: ${it.code()}")
                         } else {
                             Log.d("TAG", "loginPhone: else")
-                            _changePhoneResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _changePhoneResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -130,8 +189,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
 
-
-   private val _changePhoneVerifyResponse = MutableLiveData<Resource<SuccessData>>()
+    private val _changePhoneVerifyResponse = MutableLiveData<Resource<SuccessData>>()
     val changePhoneVerifyResponse: LiveData<Resource<SuccessData>>
         get() = _changePhoneVerifyResponse
 
@@ -150,11 +208,22 @@ class EditProfileViewModel @Inject constructor(
                             val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
 
                             Log.d("TAG", "loginPhone: ${it.code()}")
-                            _changePhoneVerifyResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+                            _changePhoneVerifyResponse.postValue(
+                                Resource.error(
+                                    jsonObj.getJSONArray(
+                                        "errors"
+                                    )[0].toString()
+                                )
+                            )
                             Log.d("TAG", "loginPhone: ${it.code()}")
                         } else {
                             Log.d("TAG", "loginPhone: else")
-                            _changePhoneVerifyResponse.postValue(Resource.error("Some thing went wrong", null))
+                            _changePhoneVerifyResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
                         }
                     }
                 } catch (e: Exception) {
@@ -205,29 +274,30 @@ class EditProfileViewModel @Inject constructor(
     private val _logoutResponse = MutableLiveData<Resource<SuccessData>>()
     val logoutResponse: LiveData<Resource<SuccessData>>
         get() = _logoutResponse
+
     fun logout() {
         viewModelScope.launch {
             _logoutResponse.postValue(Resource.loading(null))
             Log.d("TAG", "logoutPhone: first")
-            Log.e("TAG", "logoutPhone: 1111111", )
+            Log.e("TAG", "logoutPhone: 1111111")
             if (networkHelper.isNetworkConnected()) {
                 try {
                     mainRepository.logout().let {
                         if (it.isSuccessful) {
                             _logoutResponse.postValue(Resource.success(it.body()!!))
                             Log.d("TAG", "logoutPhone: first1")
-                            Log.e("TAG", "logoutPhone: 1111111", )
+                            Log.e("TAG", "logoutPhone: 1111111")
 
                         } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
                             _logoutResponse.postValue(Resource.error(it.message(), null))
                             Log.d("TAG", "logoutPhone: first2")
-                            Log.e("TAG", "logoutPhone: 1111111", )
+                            Log.e("TAG", "logoutPhone: 1111111")
 
 
                         } else {
                             _logoutResponse.postValue(Resource.error("Some thing went wrong", null))
                             Log.d("TAG", "logoutPhone: first3")
-                            Log.e("TAG", "logoutPhone: 1111111", )
+                            Log.e("TAG", "logoutPhone: 1111111")
 
                         }
                     }

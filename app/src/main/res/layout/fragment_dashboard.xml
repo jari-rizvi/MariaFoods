@@ -31,7 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_180sdp"
+            android:layout_height="@dimen/_200sdp"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,8 +96,8 @@
 
             <ImageView
                 android:id="@+id/imageViewlogo"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_65sdp"
                 android:src="@drawable/logoo_mar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -212,10 +212,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout5"
-            android:layout_width="@dimen/_70sdp"
+            android:layout_width="@dimen/_65sdp"
             android:layout_height="0dp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
+            android:layout_marginStart="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout6"
             app:layout_constraintHorizontal_bias="0.5"
@@ -270,7 +271,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout6"
-            android:layout_width="@dimen/_70sdp"
+            android:layout_width="@dimen/_65sdp"
             android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
@@ -332,7 +333,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout7"
-            android:layout_width="@dimen/_70sdp"
+            android:layout_width="@dimen/_65sdp"
             android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
@@ -391,10 +392,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout8"
-            android:layout_width="@dimen/_70sdp"
+            android:layout_width="@dimen/_65sdp"
             android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

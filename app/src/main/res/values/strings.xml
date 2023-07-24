@@ -27,9 +27,9 @@
     <string name="re_order">Re-Order</string>
     <string name="server_client_id">1087608872383-af1p1hkv0kphpc46ju1ogk8kerc05ff3.apps.googleusercontent.com</string>
 <!--    <string name="server_client_id">1087608872383-fj43ipvm49paqunt2p4ruf0i1r54nk4o.apps.googleusercontent.com</string>-->
-    <string name="facebook_app_id">178571151835229</string>
+    <string name="facebook_app_id">686300939989231</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">a01a5e7db91fe42a420a349e2024445d</string>
+    <string name="facebook_client_token">f125bddb37fc45120ace9080d7b2b574</string>
     <string name="schedule_delivery">Schedule Delivery</string>
     <string name="order_now">Order Now</string>
     <string name="select_quantity">Select Quantity</string>

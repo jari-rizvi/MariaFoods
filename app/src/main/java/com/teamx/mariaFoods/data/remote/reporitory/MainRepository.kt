@@ -24,6 +24,7 @@ class MainRepository @Inject constructor(
     suspend fun changePhoneVerify(@Body param: JsonObject) = apiService.changePhoneVerify(param)
     suspend fun otpVerify(@Body param: JsonObject) = apiService.otpVerify(param)
     suspend fun otpVerifForgotEmail(@Body param: JsonObject) = apiService.otpVerifForgotEmail(param)
+    suspend fun settingNotification(@Body param: JsonObject) = apiService.settingNotification(param)
 
     suspend fun getBanners() = apiService.getBanners()
     suspend fun getProducts() = apiService.getProducts()

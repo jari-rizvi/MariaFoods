@@ -39,6 +39,7 @@ class NetworkCallPoints {
 
         //Get Notification
         const val GET_NOTIFICATION = "users/get-notifications"
+        const val SETTING_NOTIFICATION = "settings/fcm-on-off"
 
         //Ger Addresses
         const val GET_ADDRESS = "users/address/get-addresses"

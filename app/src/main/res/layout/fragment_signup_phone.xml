@@ -143,16 +143,15 @@
 
 
             <com.hbb20.CountryCodePicker
-                android:id="@+id/country_code"
+                android:id="@+id/countryCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/contact_input_background"
                 android:clickable="true"
                 android:focusable="true"
-                app:ccp_arrowColor="@color/orange"
-                app:ccp_autoDetectCountry="true"
                 app:ccp_defaultNameCode="AE"
+                app:ccp_arrowColor="@color/orange"
                 app:ccp_showNameCode="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -173,11 +172,11 @@
                 android:inputType="phone"
                 android:singleLine="true"
                 android:textColor="#666666"
-                app:layout_constraintBottom_toBottomOf="@+id/country_code"
+                app:layout_constraintBottom_toBottomOf="@+id/countryCode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/country_code"
-                app:layout_constraintTop_toTopOf="@+id/country_code" />
+                app:layout_constraintStart_toEndOf="@+id/countryCode"
+                app:layout_constraintTop_toTopOf="@+id/countryCode" />
 
 
             <TextView

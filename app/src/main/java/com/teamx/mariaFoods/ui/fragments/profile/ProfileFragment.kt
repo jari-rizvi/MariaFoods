@@ -13,6 +13,7 @@ import androidx.navigation.navOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
@@ -29,6 +30,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONException
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -81,6 +83,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                     Timber.tag("TAG").d("updateProfile:1 ")
                     loadingDialog.show()
                 }
+
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
@@ -113,6 +116,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
                     }
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -201,6 +205,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                             mViewDataBinding.btnEditProfile.text = "Guest User"
                             mViewDataBinding.textView49.text = "Login"
                             mViewDataBinding.textView42.visibility = View.GONE
+                            mViewDataBinding.textView43.visibility = View.GONE
                             mViewDataBinding.btnAddress.visibility = View.GONE
                             mViewDataBinding.btnPayment.visibility = View.GONE
                             mViewDataBinding.trackOrder.visibility = View.GONE
@@ -259,11 +264,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
                 user1 = user
 
-                mViewDataBinding.btnEditProfile.text = user.first_name?.toString()
-                mViewDataBinding.textView42.text = user.email?.toString()
+                mViewDataBinding.btnEditProfile.text = user.first_name.toString()
+                mViewDataBinding.textView42.text = user.email.toString()
+                mViewDataBinding.textView43.text = user.phone.toString()
                 Picasso.get().load("https://dev.dogtvfoods.com/${user.avatar}")
                     .into(mViewDataBinding.profilePicture)
+
             }
+
         }
 
 //        val accessToken = AccessToken.getCurrentAccessToken()
@@ -371,6 +379,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                         Resource.Status.LOADING -> {
                             loadingDialog.show()
                         }
+
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
@@ -394,6 +403,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
                             }
                         }
+
                         Resource.Status.ERROR -> {
                             loadingDialog.dismiss()
                             DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -406,7 +416,76 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
             }
         }
 
+       val switch = mViewDataBinding.swOnOff
+        FcmNotification()
 
+        switch.setOnClickListener {
+            if (switch.isChecked) {
+
+                val params = JsonObject()
+                try {
+                    params.addProperty("status", 1)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+
+                }
+
+                mViewModel.settingNotificationl(params)
+                Log.d("TAG", "onViewCreated: ClickedSe$params")
+
+
+            } else {
+                val params = JsonObject()
+                try {
+                    params.addProperty("status", 0)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+
+                }
+
+                mViewModel.settingNotificationl(params)
+                Log.d("TAG", "onViewCreated: ClickedSe$params")
+
+            }
+        }
+
+
+    }
+
+    fun FcmNotification() {
+
+
+        if (!mViewModel.settingNotificationlResponse.hasActiveObservers()) {
+            mViewModel.settingNotificationlResponse.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+                                showToast(data.Message.toString())
+                            } else {
+                                data.Message?.let { it1 -> showToast(it1) }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.settingNotificationlResponse.removeObservers(viewLifecycleOwner)
+                }
+            }
+
+        }
     }
 
 

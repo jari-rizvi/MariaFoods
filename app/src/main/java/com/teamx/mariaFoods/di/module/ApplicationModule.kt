@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder
 import com.teamx.mariaFoods.BuildConfig
 import com.teamx.mariaFoods.constants.AppConstants
 import com.teamx.mariaFoods.data.local.datastore.DataStoreProvider
-import com.teamx.mariaFoods.data.local.db.AppDatabase
 import com.teamx.mariaFoods.data.remote.ApiService
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import dagger.Module
@@ -57,20 +56,8 @@ class ApplicationModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext appContext: Context) =
-        AppDatabase.getDatabase(appContext)
-
-    @Singleton
-    @Provides
     fun provideDataStore(@ApplicationContext appContext: Context) = DataStoreProvider(appContext)
 
-    @Singleton
-    @Provides
-    fun provideDao(db: AppDatabase) = db.appDao()
-
-    @Singleton
-    @Provides
-    fun provideCartDao(db: AppDatabase) = db.cartDao()
 
     @Singleton
     @Provides

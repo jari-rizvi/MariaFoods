@@ -69,6 +69,12 @@ class DataStoreProvider(context: Context) {
     suspend fun removeAll() {
         context.dataStore.edit {
             it.remove(TOKEN)
+            it.remove(FIRSTNAME)
+            it.remove(EMAIL)
+            it.remove(NUMBER)
+            it.remove(LASTNAME)
+            it.remove(AVATAR)
+            it.remove(ID)
         }
 
     }

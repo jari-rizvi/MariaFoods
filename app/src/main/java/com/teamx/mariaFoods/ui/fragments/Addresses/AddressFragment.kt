@@ -58,7 +58,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
-    private  var name: String? = ""
+    private var name: String? = ""
     private lateinit var country: String
     private lateinit var city: String
     private var address1: String? = ""
@@ -131,8 +131,10 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     when (newState) {
                         BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                             View.GONE
+
                         BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                             View.VISIBLE
+
                         else -> "Persistent Bottom Sheet"
                     }
                 }
@@ -179,6 +181,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                             Resource.Status.LOADING -> {
                                 loadingDialog.show()
                             }
+
                             Resource.Status.SUCCESS -> {
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
@@ -214,6 +217,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                                 }
                             }
+
                             Resource.Status.ERROR -> {
                                 loadingDialog.dismiss()
                                 DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -237,6 +241,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
@@ -257,6 +262,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -315,8 +321,17 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
         }
         fusedLocationClient.lastLocation.addOnSuccessListener {
             val location = Location("provider").apply {
-                latitude = it.latitude
-                longitude = it.longitude
+                latitude =
+                    try {
+                        it.latitude
+                    } catch (e: Exception) {
+                        0.0
+                    }
+                longitude = try {
+                    it.longitude
+                } catch (e: Exception) {
+                    0.0
+                }
             }
 
             getAddressFromLocation(requireActivity(), location)
@@ -426,8 +441,10 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                         View.GONE
+
                     BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                         View.VISIBLE
+
                     else -> "Persistent Bottom Sheet"
                 }
             }
@@ -473,6 +490,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                         Resource.Status.LOADING -> {
                             loadingDialog.show()
                         }
+
                         Resource.Status.SUCCESS -> {
                             loadingDialog.dismiss()
                             it.data?.let { data ->
@@ -490,6 +508,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                             }
                         }
+
                         Resource.Status.ERROR -> {
                             loadingDialog.dismiss()
                             DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -510,6 +529,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.LOADING -> {
                     loadingDialog.show()
                 }
+
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
@@ -543,6 +563,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                     }
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -564,6 +585,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
                 Resource.Status.LOADING -> {
                     loadingDialog.show()
                 }
+
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
@@ -575,6 +597,7 @@ class AddressFragment : BaseFragment<FragmentAddressBinding, AddressViewModel>()
 
                     }
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)

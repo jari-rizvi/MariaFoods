@@ -72,13 +72,13 @@
                 style="@style/montserrat_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:layout_marginHorizontal="@dimen/_60sdp"
-                android:maxLines="1"
-                android:gravity="center"
                 android:drawableEnd="@drawable/edit"
                 android:drawablePadding="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:gravity="center"
                 android:maxLength="30"
+                android:maxLines="1"
                 android:text="Emily Jackson"
                 android:textColor="@color/orange"
                 android:textSize="@dimen/_14ssp"
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="emilyjackson@hotmail.com"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/btnEditProfile"
                 app:layout_constraintStart_toStartOf="@+id/btnEditProfile"
@@ -202,7 +202,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/btnPayment"
+            android:id="@+id/btnNotifi"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -211,6 +211,76 @@
             android:elevation="@dimen/_1sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnAddress"
+            app:layout_constraintVertical_bias="0"
+            tools:layout_editor_absoluteX="19dp">
+
+            <TextView
+                android:id="@+id/textView455"
+                style="@style/montserrat_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:text="@string/notifications"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/swOnOff"
+                app:layout_constraintStart_toEndOf="@+id/imageView44"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteY="10dp" />
+
+            <ImageView
+                android:id="@+id/imageView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/notifications" />
+
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swOnOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_75sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:clickable="false"
+                android:padding="@dimen/_20sdp"
+                android:thumb="@drawable/custom_thumb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:track="@drawable/custom_track" />
+
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/imageView156"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.9"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:srcCompat="@drawable/forward_arrow_orange"-->
+            <!--                tools:layout_editor_absoluteY="10dp" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnPayment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/card_background"
+            android:elevation="@dimen/_1sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnNotifi"
             app:layout_constraintVertical_bias="0"
             tools:layout_editor_absoluteX="19dp">
 
