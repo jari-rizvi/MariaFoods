@@ -3,8 +3,8 @@ package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.Picasso
 import com.teamx.mariaFoods.data.dataclasses.products.Data
 import com.teamx.mariaFoods.databinding.ItemProductsBinding
 
@@ -46,38 +46,8 @@ class ProductAdapter(
 
         holder.binding.productDescription.text = product.short_description
 
+        Picasso.get().load(product.feature_image).into(holder.binding.img)
 
-        holder.binding.screenViewpager
-
-        val productBannerArrayList: List<String?>? = productBannner.product_images
-
-        val arrayList = ArrayList<String>()
-
-        productBannerArrayList?.forEach {
-
-            if (it != null) {
-                arrayList.add(it)
-            }
-        }
-
-
-
-        ProductBannerAdapter = ProductBannersAdapter(arrayList)
-        holder.binding.screenViewpager.adapter = ProductBannerAdapter
-
-        TabLayoutMediator(
-            holder.binding.tabIndicator, holder.binding.screenViewpager
-        ) { tab, position ->
-            tab.text = productBannerArrayList!![position].toString()
-        }.attach()
-
-
-        tabLayoutMediator = TabLayoutMediator(
-            holder.binding.tabIndicator, holder.binding.screenViewpager
-        ) { tab: TabLayout.Tab, position: Int ->
-            holder.binding.screenViewpager.setCurrentItem(tab.position, true)
-        }
-        tabLayoutMediator!!.attach()
 
         holder.itemView.setOnClickListener {
             onTopProductListener.onproductClick(position)
