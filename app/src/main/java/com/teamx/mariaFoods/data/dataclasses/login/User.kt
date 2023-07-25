@@ -10,7 +10,7 @@ data class User(
     val fcm: Int,
     val last_name: String,
     val name: String,
-    val phone: String,
+    val phone: String = "",
     val provider_id: String,
     val with_email_and_pass:Boolean
 )

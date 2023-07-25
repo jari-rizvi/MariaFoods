@@ -264,9 +264,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
 
                 user1 = user
 
-                mViewDataBinding.btnEditProfile.text = user.first_name.toString()
-                mViewDataBinding.textView42.text = user.email.toString()
-                mViewDataBinding.textView43.text = user.phone.toString()
+                mViewDataBinding.btnEditProfile.text = user.first_name
+                mViewDataBinding.textView42.text = user.email
+                mViewDataBinding.textView43.text = user.phone
                 Picasso.get().load("https://dev.dogtvfoods.com/${user.avatar}")
                     .into(mViewDataBinding.profilePicture)
 
@@ -416,7 +416,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
             }
         }
 
-       val switch = mViewDataBinding.swOnOff
+        val switch = mViewDataBinding.swOnOff
         FcmNotification()
 
         switch.setOnClickListener {

@@ -29,11 +29,6 @@ class TimeAdapter(
 
         holder.binding.checkedTextView.isChecked = timeSlots.isChecked
 
-
-
-
-
-
         holder.itemView.setOnClickListener {
             onTimeListener.ontimeClick(position)
         }

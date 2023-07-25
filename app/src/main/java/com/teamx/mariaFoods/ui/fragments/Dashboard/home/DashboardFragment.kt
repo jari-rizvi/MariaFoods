@@ -139,6 +139,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                     Resource.Status.LOADING -> {
                                         loadingDialog.show()
                                     }
+
                                     Resource.Status.SUCCESS -> {
                                         loadingDialog.dismiss()
                                         it.data?.let { data ->
@@ -156,6 +157,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                             }
                                         }
                                     }
+
                                     Resource.Status.ERROR -> {
                                         loadingDialog.dismiss()
                                         DialogHelperClass.errorDialog(
@@ -194,6 +196,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
@@ -209,6 +212,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -228,6 +232,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
@@ -275,6 +280,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -303,8 +309,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     when (newState) {
                         BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                             View.GONE
+
                         BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                             View.VISIBLE
+
                         else -> "Persistent Bottom Sheet"
                     }
                 }
@@ -315,8 +323,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
         }
-
-
 
 
     }
@@ -413,8 +419,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                         View.GONE
+
                     BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                         View.VISIBLE
+
                     else -> "Persistent Bottom Sheet"
                 }
             }
@@ -551,55 +559,56 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                 } else {*/
 
-            val params = JsonObject()
-            try {
-                params.addProperty("product_variation_id", id)
-                params.addProperty("quantity", qty)
-                params.addProperty("order_day", days)
-                params.addProperty("time_slot", time)
-                params.addProperty("guest_id", randomId)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
+        val params = JsonObject()
+        try {
+            params.addProperty("product_variation_id", id)
+            params.addProperty("quantity", qty)
+            params.addProperty("order_day", days)
+            params.addProperty("time_slot", time)
+            params.addProperty("guest_id", randomId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
 
-            Log.e("UserData", params.toString())
+        Log.e("UserData", params.toString())
 
-            mViewModel.addCart(params)
+        mViewModel.addCart(params)
 
-            if (!mViewModel.addtocart.hasActiveObservers()) {
-                mViewModel.addtocart.observe(requireActivity()) {
-                    when (it.status) {
-                        Resource.Status.LOADING -> {
-                            loadingDialog.show()
-                        }
-                        Resource.Status.SUCCESS -> {
-                            loadingDialog.dismiss()
-                            it.data?.let { data ->
-                                if (data.Flag == 1) {
-                                    navController = Navigation.findNavController(
-                                        requireActivity(), R.id.nav_host_fragment
-                                    )
-                                    navController.navigate(R.id.checkoutFragment, null, options)
+        if (!mViewModel.addtocart.hasActiveObservers()) {
+            mViewModel.addtocart.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
 
-
-                                } else {
-                                    data.Message?.let { it1 -> showToast(it1) }
-                                }
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+                                navController = Navigation.findNavController(
+                                    requireActivity(), R.id.nav_host_fragment
+                                )
+                                navController.navigate(R.id.checkoutFragment, null, options)
 
 
+                            } else {
+                                data.Message?.let { it1 -> showToast(it1) }
                             }
-                        }
-                        Resource.Status.ERROR -> {
-                            loadingDialog.dismiss()
-                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+
+
                         }
                     }
-                    if (isAdded) {
-                        mViewModel.addtocart.removeObservers(viewLifecycleOwner)
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
                     }
                 }
+                if (isAdded) {
+                    mViewModel.addtocart.removeObservers(viewLifecycleOwner)
+                }
             }
-
+        }
 
 
     }

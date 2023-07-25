@@ -18,7 +18,7 @@
             android:id="@+id/checkedTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/checked_item"
+            android:background="@drawable/checked_item_time"
             android:checked="false"
             android:textColor="@color/tab_categories"
             app:layout_constraintBottom_toBottomOf="parent"
