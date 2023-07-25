@@ -247,7 +247,6 @@
                 android:layout_marginStart="@dimen/_75sdp"
                 android:layout_marginEnd="@dimen/_3sdp"
                 android:clickable="false"
-                android:padding="@dimen/_20sdp"
                 android:thumb="@drawable/custom_thumb"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

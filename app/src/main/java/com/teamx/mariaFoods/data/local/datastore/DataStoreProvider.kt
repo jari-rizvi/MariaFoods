@@ -31,6 +31,7 @@ class DataStoreProvider(context: Context) {
         val EMAIL = stringPreferencesKey(AppConstants.DataStore.EMAIL)
         val VERIFIED = intPreferencesKey(AppConstants.DataStore.VERIFIED)
         val ID = intPreferencesKey(AppConstants.DataStore.ID)
+        val FCM = intPreferencesKey(AppConstants.DataStore.FCM)
         val NAME = stringPreferencesKey(AppConstants.DataStore.NAME)
         val PROVIDER_ID = stringPreferencesKey(AppConstants.DataStore.PROVIDER_ID)
 
@@ -102,6 +103,7 @@ class DataStoreProvider(context: Context) {
             val phone = preferences[NUMBER] ?: ""
             val verified = preferences[VERIFIED] ?: 0
             val _id = preferences[ID] ?: 0
+            val fcm = preferences[FCM] ?: 0
             val name = preferences[NAME] ?: ""
             val avatar = preferences[AVATAR] ?: ""
             val provider_id = preferences[PROVIDER_ID] ?: ""
@@ -112,6 +114,7 @@ class DataStoreProvider(context: Context) {
                 phone = phone,
                 email_or_otp_verified = verified,
                 id = _id,
+                fcm = fcm,
                 avatar = avatar,
                 name = name,
                 provider_id = provider_id as String,
@@ -129,6 +132,7 @@ class DataStoreProvider(context: Context) {
             it[AVATAR] = user.avatar
             it[VERIFIED] = user.email_or_otp_verified
             it[ID] = user.id
+            it[FCM] = user.fcm
             it[NAME] = user.name
             it[PROVIDER_ID] = user.provider_id
         }

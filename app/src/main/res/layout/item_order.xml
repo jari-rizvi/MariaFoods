@@ -51,7 +51,7 @@
             android:maxLines="1"
             android:text="TextView"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toTopOf="@+id/ProductQuantity"
+            app:layout_constraintBottom_toTopOf="@+id/orderId"
             app:layout_constraintEnd_toStartOf="@+id/date"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout10"
@@ -62,17 +62,33 @@
         <TextView
             android:id="@+id/ProductPrice"
             style="@style/montserrat_bold"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:maxLines="1"
-            android:text="TextView"
+            android:text=""
             android:textColor="@color/orange"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/ProductQuantity"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/ProductQuantity"
             app:layout_constraintTop_toBottomOf="@+id/ProductQuantity" />
+
+        <TextView
+            android:id="@+id/orderId"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/productName"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/productName"
+            app:layout_constraintTop_toBottomOf="@+id/productName" />
+
 
         <TextView
             android:id="@+id/ProductQuantity"
@@ -81,21 +97,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:maxLines="1"
-            android:text="TextView"
+            android:text=""
             android:textColor="#A7A7A7"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toTopOf="@+id/ProductPrice"
-            app:layout_constraintEnd_toEndOf="@+id/productName"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@+id/productName"
-            app:layout_constraintTop_toBottomOf="@+id/productName" />
+            app:layout_constraintEnd_toEndOf="@+id/orderId"
+            app:layout_constraintStart_toStartOf="@+id/orderId"
+            app:layout_constraintTop_toBottomOf="@+id/orderId" />
 
         <TextView
             android:id="@+id/btnReOrder"
             style="@style/montserrat_bold"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
             android:background="@drawable/card_background"
             android:backgroundTint="@color/orange"
             android:gravity="center"
@@ -104,9 +119,8 @@
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
+            app:layout_constraintTop_toBottomOf="@+id/orderStatus" />
 
         <TextView
             android:id="@+id/btnCnclOrder"
@@ -117,10 +131,10 @@
             android:background="@drawable/card_border"
             android:gravity="center"
             android:text="Cancel Order"
-            android:visibility="gone"
             android:textAlignment="center"
             android:textColor="@color/orange"
             android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
@@ -165,7 +179,6 @@
             android:id="@+id/orderStatus"
             style="@style/open_sans_regular_small"
             android:layout_width="wrap_content"
-            android:padding="@dimen/_4sdp"
             android:layout_height="wrap_content"
             android:background="@drawable/card_background_small"
             android:backgroundTint="#FFD7C7"
@@ -173,7 +186,8 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="Pendfdfing"
+            android:padding="@dimen/_4sdp"
+            android:text=""
             android:textColor="@color/orange"
             app:layout_constraintBottom_toBottomOf="@+id/ProductPrice"
             app:layout_constraintEnd_toEndOf="parent"

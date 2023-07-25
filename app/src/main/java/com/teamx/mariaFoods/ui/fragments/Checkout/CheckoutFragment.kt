@@ -27,21 +27,26 @@ import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.getAddress.Data
 import com.teamx.mariaFoods.data.dataclasses.getCart.Cart
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentCheckoutBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import timber.log.Timber
 import java.io.IOException
 import java.util.Locale
 
 @AndroidEntryPoint
-class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>() {
+class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>(), DialogHelperClass.Companion.DialogLoginCallBack {
 
     override val layoutId: Int
         get() = R.layout.fragment_checkout
@@ -69,6 +74,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     private var addressid: String? = ""
     private lateinit var address1: String
     private var paymentid: String? = ""
+    var token: String?? = null
 
 
     lateinit var paymentSheet: PaymentSheet
@@ -145,9 +151,16 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
     }
 
 
+    var Guser_id = ""
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
+
+        //GuestUserId
+        Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
+        Log.d("TAG", "onViewCredsdsdsated: $Guser_id")
 
         options = navOptions {
             anim {
@@ -201,48 +214,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
-        mViewModel.getDefaultStripeCard()
 
-        if (!mViewModel.getDefaultStripeCardsResponse.hasActiveObservers()) {
-            mViewModel.getDefaultStripeCardsResponse.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-
-
-                            try {
-                                mViewDataBinding.paymentName.text =
-                                    "*** *** *** ${data.data.card.last4}"
-                                if (data.data.card.brand == "visa") {
-                                    mViewDataBinding.paymentVisa.visibility = View.VISIBLE
-                                } else if (data.data.card.brand == "mastercard") {
-                                    mViewDataBinding.paymentaster.visibility = View.VISIBLE
-
-                                }
-
-                              paymentid  = data.data.id
-
-                            } catch (e: Exception) {
-
-                            }
-
-
-                        }
-                    }
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                    }
-                }
-                if (isAdded) {
-                    mViewModel.getDefaultStripeCardsResponse.removeObservers(viewLifecycleOwner)
-                }
-            }
-        }
 
         mViewDataBinding.textView20.setOnClickListener {
             if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
@@ -572,73 +544,92 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
         mViewDataBinding.btnPlaceOrder.setOnClickListener {
 
-            val params = JsonObject()
-            try {
-                params.addProperty("payment_method", "STRIPE")
-                params.addProperty("shipping_address", addressid)
-                if(!paymentid.isNullOrEmpty()){
-                    params.addProperty("payment_method_id", paymentid)
+
+            if (token.isNullOrBlank()) {
+                DialogHelperClass.LoginDialog(
+                    requireContext(), this, true
+                )
+
+            } else {
+
+                val params = JsonObject()
+                try {
+                    params.addProperty("payment_method", "STRIPE")
+                    params.addProperty("shipping_address", addressid)
+                    if (!paymentid.isNullOrEmpty()) {
+                        params.addProperty("payment_method_id", paymentid)
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
 
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
+                mViewModel.checkout(params)
+                mViewModel.checkout.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
 
-            mViewModel.checkout(params)
-            mViewModel.checkout.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-                            paymentIntentClientSecret = data.client_secreat!!
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                paymentIntentClientSecret = data.client_secreat!!
 
-                            if(!paymentid.isNullOrEmpty()){
-                                bottomSheetBehavior =
-                                    BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
+                                if (!paymentid.isNullOrEmpty()) {
+                                    bottomSheetBehavior =
+                                        BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
 
-                                bottomSheetBehavior.addBottomSheetCallback(object :
-                                    BottomSheetBehavior.BottomSheetCallback() {
-                                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                                    bottomSheetBehavior.addBottomSheetCallback(object :
+                                        BottomSheetBehavior.BottomSheetCallback() {
+                                        override fun onSlide(
+                                            bottomSheet: View,
+                                            slideOffset: Float
+                                        ) {
 
-                                    }
-
-                                    override fun onStateChanged(bottomSheet: View, newState: Int) {
-                                        when (newState) {
-                                            BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                                                View.GONE
-                                            BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                                                View.VISIBLE
-                                            else -> "Persistent Bottom Sheet"
                                         }
-                                    }
-                                })
 
-                                val state =
-                                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
-                                    else BottomSheetBehavior.STATE_EXPANDED
-                                bottomSheetBehavior.state = state
-                            }
-                            else{
-                                presentPaymentSheet()
-                            }
+                                        override fun onStateChanged(
+                                            bottomSheet: View,
+                                            newState: Int
+                                        ) {
+                                            when (newState) {
+                                                BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                                                    View.GONE
 
+                                                BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                                                    View.VISIBLE
+
+                                                else -> "Persistent Bottom Sheet"
+                                            }
+                                        }
+                                    })
+
+                                    val state =
+                                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                                        else BottomSheetBehavior.STATE_EXPANDED
+                                    bottomSheetBehavior.state = state
+                                } else {
+                                    presentPaymentSheet()
+                                }
+
+                            }
+                        }
+
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    if (isAdded) {
+                        mViewModel.addressList.removeObservers(viewLifecycleOwner)
                     }
                 }
-                if (isAdded) {
-                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
-                }
+
+
+            }
             }
 
-
-        }
 
 
         mViewDataBinding.bottomSheetLayout.btnLocation.setOnClickListener {
@@ -649,43 +640,152 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
-        mViewModel.getAddress()
+        if (isAdded) {
+            CoroutineScope(Dispatchers.Main).launch {
 
-        mViewModel.addressList.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
+                dataStoreProvider.token.collect {
+                    Log.d("Databsae Token", "CoroutineScope ${it}")
 
-                        mViewDataBinding.containerAddress.visibility = View.GONE
-                        data.data.forEach {
-                            if (it.is_default == 1) {
-                                mViewDataBinding.containerAddress.visibility = View.VISIBLE
-                                addressArrayList.add(it)
-                                mViewDataBinding.address.text = it.address_1
-                                mViewDataBinding.postal.text = "Postal Code " + it.postal
-                                addressid = it.id.toString()
+                    Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                    token = it
+
+                    NetworkCallPoints.TOKENER = token.toString()
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            Log.d("Databsae Token", "token ${token}")
+
+                        } else {
+
+
+                            mViewModel.getAddress()
+
+                            mViewModel.addressList.observe(requireActivity()) {
+                                when (it.status) {
+                                    Resource.Status.LOADING -> {
+                                        loadingDialog.show()
+                                    }
+                                    Resource.Status.SUCCESS -> {
+                                        loadingDialog.dismiss()
+                                        it.data?.let { data ->
+
+                                            mViewDataBinding.containerAddress.visibility = View.GONE
+                                            data.data.forEach {
+                                                if (it.is_default == 1) {
+                                                    mViewDataBinding.containerAddress.visibility = View.VISIBLE
+                                                    addressArrayList.add(it)
+                                                    mViewDataBinding.address.text = it.address_1
+                                                    mViewDataBinding.postal.text = "Postal Code " + it.postal
+                                                    addressid = it.id.toString()
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+                                    Resource.Status.ERROR -> {
+                                        loadingDialog.dismiss()
+                                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                    }
+                                }
+                                if (isAdded) {
+                                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
+                                }
                             }
-                        }
 
+                            mViewModel.getDefaultStripeCard()
+
+                            if (!mViewModel.getDefaultStripeCardsResponse.hasActiveObservers()) {
+                                mViewModel.getDefaultStripeCardsResponse.observe(requireActivity()) {
+                                    when (it.status) {
+                                        Resource.Status.LOADING -> {
+                                            loadingDialog.show()
+                                        }
+                                        Resource.Status.SUCCESS -> {
+                                            loadingDialog.dismiss()
+                                            it.data?.let { data ->
+
+
+                                                try {
+                                                    mViewDataBinding.paymentName.text =
+                                                        "*** *** *** ${data.data.card.last4}"
+                                                    if (data.data.card.brand == "visa") {
+                                                        mViewDataBinding.paymentVisa.visibility = View.VISIBLE
+                                                    } else if (data.data.card.brand == "mastercard") {
+                                                        mViewDataBinding.paymentaster.visibility = View.VISIBLE
+
+                                                    }
+
+                                                    paymentid  = data.data.id
+
+                                                } catch (e: Exception) {
+
+                                                }
+
+
+                                            }
+                                        }
+                                        Resource.Status.ERROR -> {
+                                            loadingDialog.dismiss()
+                                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                        }
+                                    }
+                                    if (isAdded) {
+                                        mViewModel.getDefaultStripeCardsResponse.removeObservers(viewLifecycleOwner)
+                                    }
+                                }
+                            }
+
+                            mViewModel.getCart()
+
+//                            mViewModel.addressList.observe(requireActivity()) {
+//                                when (it.status) {
+//                                    Resource.Status.LOADING -> {
+//                                        loadingDialog.show()
+//                                    }
+//                                    Resource.Status.SUCCESS -> {
+//                                        loadingDialog.dismiss()
+//                                        it.data?.let { data ->
+//
+//                                            data.data.forEach {
+//                                                if (it.is_default == 1) {
+//                                                    addressArrayList.add(it)
+//                                                    val address = data.data[0].address_1
+//                                                    mViewDataBinding.textView4.text =
+//                                                        address?.dropLast(30)
+//                                                } else {
+//                                                    mViewDataBinding.textView4.text = ""
+//
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    Resource.Status.ERROR -> {
+//                                        loadingDialog.dismiss()
+//                                        DialogHelperClass.errorDialog(
+//                                            requireContext(), it.message!!
+//                                        )
+//                                    }
+//                                }
+//                                if (isAdded) {
+//                                    mViewModel.addressList.removeObservers(viewLifecycleOwner)
+//                                }
+//                            }
+
+                        }
                     }
 
                 }
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                }
+
+
             }
-            if (isAdded) {
-                mViewModel.addressList.removeObservers(viewLifecycleOwner)
-            }
+
+
         }
 
 
-        mViewModel.getCart()
+        mViewModel.getGuestCart(Guser_id.toInt())
 
 
         if (!mViewModel.getCartList.hasActiveObservers()) {
@@ -840,6 +940,16 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
         return addressText
+    }
+
+    override fun CnfrmClicked() {
+        navController = Navigation.findNavController(
+            requireActivity(), R.id.nav_host_fragment
+        )
+        navController.navigate(R.id.logInFragment, null, options)
+    }
+
+    override fun CnclClicked() {
     }
 
 }

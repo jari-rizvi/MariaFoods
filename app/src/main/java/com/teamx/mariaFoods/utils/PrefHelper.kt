@@ -10,6 +10,8 @@ class PrefHelper private constructor() {
     companion object {
         private val sharePref = PrefHelper()
         private lateinit var sharedPreferences: SharedPreferences
+        private val USER_ID = "userId"
+
 
 
         fun getInstance(context: Context): PrefHelper {
@@ -42,6 +44,15 @@ class PrefHelper private constructor() {
         sharedPreferences.edit().putString(AppConstants.DataStore.EMAIL, email).apply()
         sharedPreferences.edit().putString(AppConstants.DataStore.AVATAR, avatar).apply()
         sharedPreferences.edit().putString(AppConstants.DataStore.NUMBER, number).apply()
+    }
+
+
+    val getUserId: String?
+        get() = sharedPreferences.getString(USER_ID, "")
+
+
+    fun savaUserId(userId: String) {
+        sharedPreferences.edit().putString(USER_ID, userId).apply()
     }
 
 

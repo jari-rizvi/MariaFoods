@@ -7,6 +7,7 @@ data class User(
     val email_or_otp_verified: Int,
     val first_name: String,
     val id: Int,
+    val fcm: Int,
     val last_name: String,
     val name: String,
     val phone: String,

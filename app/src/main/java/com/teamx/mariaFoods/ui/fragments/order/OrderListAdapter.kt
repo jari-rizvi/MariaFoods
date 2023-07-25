@@ -3,7 +3,6 @@ package com.teamx.mariaFoods.ui.fragments.order
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teamx.mariaFoods.data.dataclasses.notificationModel.Jari1
@@ -48,6 +47,12 @@ class OrderListAdapter(
         } catch (e: Exception) {
             ""
         }
+
+        holder.bind.orderId.text = try {
+            "OrderId: ${orderList.orderId}"
+        } catch (e: Exception) {
+            ""
+        }
         holder.bind.ProductPrice.text = try {
             orderList.price
         } catch (e: Exception) {
@@ -59,13 +64,13 @@ class OrderListAdapter(
             ""
         }
 
-        if (orderList.delivery_status == "order-placed") {
-            holder.bind.btnCnclOrder.visibility = View.VISIBLE
-        }
-        else{
-            holder.bind.btnCnclOrderFalse.visibility = View.VISIBLE
-
-        }
+//        if (orderList.delivery_status == "order-placed") {
+//            holder.bind.btnCnclOrder.visibility = View.VISIBLE
+//        }
+//        else{
+//            holder.bind.btnCnclOrderFalse.visibility = View.VISIBLE
+//
+//        }
 
         holder.bind.btnReOrder.setOnClickListener {
             onTopCategoriesListener.oneReorderClick(position)

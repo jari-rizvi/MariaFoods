@@ -24,4 +24,4 @@ data class Item1(val name: String?, val jariis: List<Jari1>)
 
 
 @Keep
-data class Jari1(val id: Int?, val name: String?, val quantity: String?, val price: String?,val created_at: String?, val delivery_status: String?)
+data class Jari1(val id: Int?,val orderId: String?, val name: String?, val quantity: String?, val price: String?,val created_at: String?, val delivery_status: String?)

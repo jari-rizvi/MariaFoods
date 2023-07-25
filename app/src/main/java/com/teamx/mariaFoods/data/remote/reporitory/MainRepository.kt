@@ -32,6 +32,7 @@ class MainRepository @Inject constructor(
     suspend fun getNotification() = apiService.getNotification()
     suspend fun getAddress() = apiService.getAddress()
     suspend fun getCart() = apiService.getCart()
+    suspend fun getGuestCart(@Query("guest_id") guest_id: Int) = apiService.getGuestCart(guest_id)
     suspend fun getCards() = apiService.getCards()
     suspend fun getDefaultCard() = apiService.getDefaultCard()
     suspend fun checkout(@Body param: JsonObject) = apiService.checkout(param)

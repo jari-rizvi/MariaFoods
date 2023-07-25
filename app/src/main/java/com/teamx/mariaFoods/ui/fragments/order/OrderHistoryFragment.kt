@@ -124,6 +124,7 @@ class OrderHistoryFragment :
                                                             jari.add(
                                                                 Jari1(
                                                                     id = items.getInt("id"),
+                                                                    orderId = items.getString("orderId"),
                                                                     name = items.getJSONObject("product").getString("name"),
                                                                     price = items.getJSONObject("product").getDouble("max_price").toString(),
                                                                     quantity = items.getInt("order_quantity").toString(),

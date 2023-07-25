@@ -29,6 +29,7 @@ object AppConstants {
         DataStore.USER_NAME_KEY,
         DataStore.TOKEN,
         DataStore.AVATAR,
+        DataStore.FCM,
         DataStore.NUMBER,
         DataStore.LASTNAME,
         DataStore.FIRSTNAME,
@@ -47,6 +48,7 @@ object AppConstants {
             const val EMAIL = "email"
             const val VERIFIED = "email_or_otp_verified"
             const val ID = "_ID"
+            const val FCM = "FCM"
             const val NAME = "NAME"
             const val PROVIDER_ID = "PROVIDER_ID"
             const val AVATAR = "avatar"

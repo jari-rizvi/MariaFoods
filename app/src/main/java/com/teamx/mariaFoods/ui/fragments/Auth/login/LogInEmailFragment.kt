@@ -28,6 +28,7 @@ import com.teamx.mariaFoods.data.dataclasses.login.User
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginEmailBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -188,12 +189,29 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
         password = mViewDataBinding.password.text.toString().trim()
     }
 
+
+    var Guser_id = ""
+
     override fun subscribeToNetworkLiveData() {
         super.subscribeToNetworkLiveData()
 
         initialization()
+        Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
+        Log.d("TAG", "onViewCredsdsdsated: $Guser_id")
 
         if (!userEmail!!.isEmpty() || !password!!.isEmpty()) {
+
+            val paramsGuest = JsonObject()
+            try {
+                paramsGuest.addProperty("email", userEmail)
+                paramsGuest.addProperty("password", password)
+                paramsGuest.addProperty("guest_id", Guser_id)
+                paramsGuest.addProperty("fcm_token", fcmToken)
+                paramsGuest.addProperty("through", "email&pass")
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
 
             val params = JsonObject()
             try {
@@ -205,79 +223,162 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                 e.printStackTrace()
             }
 
-            mViewModel.loginEmail(params)
+            if (Guser_id.isNullOrEmpty()) {
+                mViewModel.loginEmail(params)
+                if (!mViewModel.loginResponse.hasActiveObservers()) {
+                    mViewModel.loginResponse.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
 
-            if (!mViewModel.loginResponse.hasActiveObservers()) {
-                mViewModel.loginResponse.observe(requireActivity()) {
-                    when (it.status) {
-                        Resource.Status.LOADING -> {
-                            loadingDialog.show()
-                        }
-                        Resource.Status.SUCCESS -> {
-                            Log.d("UserData", it.data.toString())
-                            loadingDialog.dismiss()
-                            it.data?.let { data ->
+                            Resource.Status.SUCCESS -> {
+                                Log.d("UserData", it.data.toString())
+                                loadingDialog.dismiss()
+                                it.data?.let { data ->
 
-                                val jsonObject = JSONObject(data.toString())
+                                    val jsonObject = JSONObject(data.toString())
 
-                                val Flag = jsonObject.getInt("Flag")
-                                val AccessToken = jsonObject.getString("AccessToken")
-                                val Message = jsonObject.getString("Message")
-                                val User = jsonObject.getJSONObject("User")
-                                if (Flag == 1) {
-                                    lifecycleScope.launch(Dispatchers.IO) {
-                                        dataStoreProvider.saveUserToken(AccessToken)
+                                    val Flag = jsonObject.getInt("Flag")
+                                    val AccessToken = jsonObject.getString("AccessToken")
+                                    val Message = jsonObject.getString("Message")
+                                    val User = jsonObject.getJSONObject("User")
+                                    if (Flag == 1) {
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(AccessToken)
 
 
-                                        val user = User(
-                                            id = User.getInt("id"),
-                                            first_name = User.getString("first_name"),
-                                            last_name = User.getString("last_name"),
-                                            email = User.getString("email"),
-                                            phone = User.getString("phone"),
-                                            email_or_otp_verified = User.getInt("email_or_otp_verified"),
-                                            provider_id = User.getString("provider_id"),
-                                            avatar = User.getString("avatar"),
-                                            name = User.getString("name"),
-                                            with_email_and_pass = User.getBoolean("with_email_and_pass")
+                                            val user = User(
+                                                id = User.getInt("id"),
+                                                first_name = User.getString("first_name"),
+                                                last_name = User.getString("last_name"),
+                                                email = User.getString("email"),
+                                                phone = User.getString("phone"),
+                                                email_or_otp_verified = User.getInt("email_or_otp_verified"),
+                                                fcm = User.getInt("fcm"),
+                                                provider_id = User.getString("provider_id"),
+                                                avatar = User.getString("avatar"),
+                                                name = User.getString("name"),
+                                                with_email_and_pass = User.getBoolean("with_email_and_pass")
                                             )
 
-                                        val firstname = user.first_name
-                                        val lastname = user.last_name
-                                        val email = user.email
-                                        val number = user.phone
-                                        dataStoreProvider.saveUserDetails(
-                                            user
+                                            val firstname = user.first_name
+                                            val lastname = user.last_name
+                                            val email = user.email
+                                            val number = user.phone
+                                            dataStoreProvider.saveUserDetails(
+                                                user
+                                            )
+
+                                        }
+
+                                        navController = Navigation.findNavController(
+                                            requireActivity(), R.id.nav_host_fragment
+                                        )
+                                        navController.navigate(R.id.dashboardFragment, null, options)
+
+
+                                    } else {
+                                        showToast(
+                                            Message
                                         )
 
                                     }
 
-                                    navController = Navigation.findNavController(
-                                        requireActivity(), R.id.nav_host_fragment
-                                    )
-                                    navController.navigate(R.id.dashboardFragment, null, options)
-
-
-                                } else {
-                                     showToast(
-                                         Message
-                                        )
 
                                 }
+                            }
 
-
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
                             }
                         }
-                        Resource.Status.ERROR -> {
-                            loadingDialog.dismiss()
-                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                        if (isAdded) {
+                            mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
                         }
                     }
-                    if (isAdded) {
-                        mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
+                }
+            } else {
+                mViewModel.loginEmail(paramsGuest)
+                if (!mViewModel.loginResponse.hasActiveObservers()) {
+                    mViewModel.loginResponse.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
+
+                            Resource.Status.SUCCESS -> {
+                                Log.d("UserData", it.data.toString())
+                                loadingDialog.dismiss()
+                                it.data?.let { data ->
+
+                                    val jsonObject = JSONObject(data.toString())
+
+                                    val Flag = jsonObject.getInt("Flag")
+                                    val AccessToken = jsonObject.getString("AccessToken")
+                                    val Message = jsonObject.getString("Message")
+                                    val User = jsonObject.getJSONObject("User")
+                                    if (Flag == 1) {
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(AccessToken)
+
+
+                                            val user = User(
+                                                id = User.getInt("id"),
+                                                first_name = User.getString("first_name"),
+                                                last_name = User.getString("last_name"),
+                                                email = User.getString("email"),
+                                                phone = User.getString("phone"),
+                                                email_or_otp_verified = User.getInt("email_or_otp_verified"),
+                                                fcm = User.getInt("fcm"),
+                                                provider_id = User.getString("provider_id"),
+                                                avatar = User.getString("avatar"),
+                                                name = User.getString("name"),
+                                                with_email_and_pass = User.getBoolean("with_email_and_pass")
+                                            )
+
+                                            val firstname = user.first_name
+                                            val lastname = user.last_name
+                                            val email = user.email
+                                            val number = user.phone
+                                            dataStoreProvider.saveUserDetails(
+                                                user
+                                            )
+
+                                        }
+
+                                        navController = Navigation.findNavController(
+                                            requireActivity(), R.id.nav_host_fragment
+                                        )
+                                        navController.navigate(R.id.checkoutFragment, null, options)
+
+
+                                    } else {
+                                        showToast(
+                                            Message
+                                        )
+
+                                    }
+
+
+                                }
+                            }
+
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                            }
+                        }
+                        if (isAdded) {
+                            mViewModel.loginResponse.removeObservers(viewLifecycleOwner)
+                        }
                     }
                 }
             }
+
+
+
 
         }
     }

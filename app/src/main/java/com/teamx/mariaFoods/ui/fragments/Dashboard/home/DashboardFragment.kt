@@ -34,6 +34,7 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -43,10 +44,11 @@ import org.json.JSONException
 import java.lang.Math.abs
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), OnProductListener,
-    OnCartListener, OnTimeListener, DialogHelperClass.Companion.DialogLoginCallBack {
+    OnCartListener, OnTimeListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_dashboard
@@ -102,6 +104,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             navController.navigate(R.id.notificationFragment, null, options)
         }
 
+
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
 
@@ -109,7 +112,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
             }
         }
-
 
 
         if (isAdded) {
@@ -313,6 +315,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
         }
+
+
+
 
     }
 
@@ -533,12 +538,18 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     override fun onAddToCartListener(id: Int) {
 
-        if (token.isNullOrBlank()) {
-            DialogHelperClass.LoginDialog(
-                requireContext(), this, true
-            )
+        val randomId = generateRandomId()
+        Log.d("TAG", "onViewCredsdsdsated: $randomId")
+        PrefHelper.getInstance(requireContext()).savaUserId(randomId.toString())
 
-        } else {
+
+        /*
+                if (token.isNullOrBlank()) {
+                    DialogHelperClass.LoginDialog(
+                        requireContext(), this, true
+                    )
+
+                } else {*/
 
             val params = JsonObject()
             try {
@@ -546,6 +557,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 params.addProperty("quantity", qty)
                 params.addProperty("order_day", days)
                 params.addProperty("time_slot", time)
+                params.addProperty("guest_id", randomId)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -587,21 +599,14 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     }
                 }
             }
-        }
 
 
-    }
-
-    override fun CnfrmClicked() {
-        navController = Navigation.findNavController(
-            requireActivity(), R.id.nav_host_fragment
-        )
-        navController.navigate(R.id.logInFragment, null, options)
 
     }
 
-    override fun CnclClicked() {
-
+    fun generateRandomId(): Int {
+        val random = Random.Default
+        return random.nextInt(10000, 100000)
     }
 
 
