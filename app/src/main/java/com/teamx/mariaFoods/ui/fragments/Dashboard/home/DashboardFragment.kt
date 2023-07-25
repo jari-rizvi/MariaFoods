@@ -489,7 +489,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         productArrayList[position].qty = qty
         productAdapter.notifyDataSetChanged()
 
-        Log.d("qyuuu", "onAddClickListener: $qty")
 
     }
 

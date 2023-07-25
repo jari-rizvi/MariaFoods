@@ -40,13 +40,12 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>() {
             }
         }
 
-
         mViewDataBinding.imageView11.setOnClickListener {
             popUpStack()
         }
 
-
         mViewModel.getHelp()
+
         mViewModel.helpResponse.observe(requireActivity()) {
             when (it.status) {
                 Resource.Status.LOADING -> {
@@ -75,8 +74,6 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>() {
                         }
 
                         web_view.isSoundEffectsEnabled = true
-
-
                     }
 
 

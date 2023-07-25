@@ -267,6 +267,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                 mViewDataBinding.btnEditProfile.text = user.first_name
                 mViewDataBinding.textView42.text = user.email
                 mViewDataBinding.textView43.text = user.phone
+
                 Picasso.get().load("https://dev.dogtvfoods.com/${user.avatar}")
                     .into(mViewDataBinding.profilePicture)
 
