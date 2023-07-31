@@ -316,6 +316,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                                     val jsonObject = JSONObject(data.toString())
 
                                     val Flag = jsonObject.getInt("Flag")
+
                                     val AccessToken = jsonObject.getString("AccessToken")
                                     val Message = jsonObject.getString("Message")
                                     val User = jsonObject.getJSONObject("User")

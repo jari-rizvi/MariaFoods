@@ -15,6 +15,7 @@ import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentSignupPhoneBinding
 import com.teamx.mariaFoods.ui.fragments.Auth.login.LoginViewModel
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 
@@ -36,6 +37,7 @@ class SignupPhoneFragment :
     private var ccp: CountryCodePicker? = null
     private var countryCode: String? = null
     private var countryName: String? = null
+    var Guser_id = ""
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,6 +52,8 @@ class SignupPhoneFragment :
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+
+        Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
 
         mViewDataBinding.countryCode.registerCarrierNumberEditText(mViewDataBinding.etPhone)
 
@@ -122,13 +126,21 @@ class SignupPhoneFragment :
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
+            val paramsGuest = JsonObject()
+            try {
+                paramsGuest.addProperty("phone", mViewDataBinding.countryCode.fullNumberWithPlus)
+                paramsGuest.addProperty("through", "phone")
+                paramsGuest.addProperty("guest_id", Guser_id)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
 
             Log.e("UserData", params.toString())
 
-            mViewModel.loginPhone(params)
 
-            if (!mViewModel.loginPhoneResponse.hasActiveObservers()) {
-                mViewModel.loginPhoneResponse.observe(requireActivity()) {
+            if (Guser_id.isNullOrEmpty()) {
+                mViewModel.loginPhone(params)
+                if (!mViewModel.loginPhoneResponse.hasActiveObservers()) { mViewModel.loginPhoneResponse.observe(requireActivity()) {
                     when (it.status) {
                         Resource.Status.LOADING -> {
                             loadingDialog.show()
@@ -162,7 +174,47 @@ class SignupPhoneFragment :
                         mViewModel.loginPhoneResponse.removeObservers(viewLifecycleOwner)
                     }
                 }
+                }
+            } else {
+                mViewModel.loginPhone(paramsGuest)
+                if (!mViewModel.loginPhoneResponse.hasActiveObservers()) { mViewModel.loginPhoneResponse.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+                                if (data.Flag == 1) {
+                                    val bundle = Bundle()
+                                    bundle.putString("phone", data.phone)
+                                    navController =
+                                        Navigation.findNavController(
+                                            requireActivity(),
+                                            R.id.nav_host_fragment
+                                        )
+                                    navController.navigate(R.id.otpRegisterFragment, bundle, options)
+                                }
+                                else{
+                                    data.Message?.let { it1 -> showToast(it1) }
+                                }
+
+
+                            }
+                        }
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                        }
+                    }
+                    if (isAdded) {
+                        mViewModel.loginPhoneResponse.removeObservers(viewLifecycleOwner)
+                    }
+                }
+                }
             }
+
+//            mViewModel.loginPhone(params)
 
         }
     }

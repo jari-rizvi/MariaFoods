@@ -32,6 +32,7 @@ import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentLoginBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,6 +61,8 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
+    var Guser_id = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -72,6 +75,9 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                 popExit = R.anim.nav_default_pop_exit_anim
             }
         }
+        Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
+        Log.d("TAG", "GuesdId: $Guser_id")
+
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -117,11 +123,12 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
         })
 
-        mViewModel.socialLoginResponse.observe(requireActivity()) {
+      /*  mViewModel.socialLoginResponse.observe(requireActivity()) {
             when (it.status) {
                 Resource.Status.LOADING -> {
                     loadingDialog.show()
                 }
+
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
 
@@ -142,6 +149,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
 
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -150,8 +158,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             if (isAdded) {
                 mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
             }
-        }
-
+        }*/
 
 
     }
@@ -247,7 +254,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             }).executeAsync()
     }
 
-//    private fun signIn() {
+    //    private fun signIn() {
 //        val signInIntent = mGoogleSignInClient!!.signInIntent
 //
 //        startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -278,6 +285,17 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
                     val idTokenFb = result.accessToken.token
 
+                    val paramsGuest = JsonObject()
+                    try {
+                        paramsGuest.addProperty("token", idTokenFb)
+                        paramsGuest.addProperty("provider", "facebook")
+                        paramsGuest.addProperty("guest_id", Guser_id)
+                        paramsGuest.addProperty("fcm_token", fcmToken)
+                        paramsGuest.addProperty("platform", "android")
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
                     val params = JsonObject()
                     try {
                         params.addProperty("token", idTokenFb)
@@ -289,7 +307,87 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
                     }
 
-                    mViewModel.socialLogins(params)
+                    if (Guser_id.isNullOrEmpty()) {
+                        mViewModel.socialLogins(params)
+                        mViewModel.socialLoginResponse.observe(requireActivity()) {
+                            when (it.status) {
+                                Resource.Status.LOADING -> {
+                                    loadingDialog.show()
+                                }
+
+                                Resource.Status.SUCCESS -> {
+                                    loadingDialog.dismiss()
+
+                                    it.data?.let { data ->
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                            dataStoreProvider.saveUserDetails(
+                                                data.User
+                                            )
+                                        }
+
+
+                                        navController =
+                                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                        navController.navigate(R.id.dashboardFragment, null, options)
+
+                                    }
+
+
+                                }
+
+                                Resource.Status.ERROR -> {
+                                    loadingDialog.dismiss()
+                                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                }
+                            }
+                            if (isAdded) {
+                                mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                            }
+                        }
+
+                    } else {
+                        mViewModel.socialLogins(paramsGuest)
+                        mViewModel.socialLoginResponse.observe(requireActivity()) {
+                            when (it.status) {
+                                Resource.Status.LOADING -> {
+                                    loadingDialog.show()
+                                }
+
+                                Resource.Status.SUCCESS -> {
+                                    loadingDialog.dismiss()
+
+                                    it.data?.let { data ->
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                            dataStoreProvider.saveUserDetails(
+                                                data.User
+                                            )
+                                        }
+
+
+                                        navController =
+                                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                        navController.navigate(R.id.checkoutFragment, null, options)
+
+                                    }
+
+
+                                }
+
+                                Resource.Status.ERROR -> {
+                                    loadingDialog.dismiss()
+                                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                }
+                            }
+                            if (isAdded) {
+                                mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                            }
+                        }
+
+                    }
+
+//                    mViewModel.socialLogins(params)
 
                 }
 
@@ -325,7 +423,97 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                         e.printStackTrace()
                     }
 
-                    mViewModel.socialLogins(params)
+                    val paramsGuest = JsonObject()
+                    try {
+                        paramsGuest.addProperty("token", idTokenFb)
+                        paramsGuest.addProperty("platform", "android")
+                        paramsGuest.addProperty("provider", "facebook")
+                        paramsGuest.addProperty("guest_id", Guser_id)
+                        paramsGuest.addProperty("fcm_token", fcmToken)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                    if (Guser_id.isNullOrEmpty()) {
+                        mViewModel.socialLogins(params)
+                        mViewModel.socialLoginResponse.observe(requireActivity()) {
+                            when (it.status) {
+                                Resource.Status.LOADING -> {
+                                    loadingDialog.show()
+                                }
+
+                                Resource.Status.SUCCESS -> {
+                                    loadingDialog.dismiss()
+
+                                    it.data?.let { data ->
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                            dataStoreProvider.saveUserDetails(
+                                                data.User
+                                            )
+                                        }
+
+
+                                        navController =
+                                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                        navController.navigate(R.id.dashboardFragment, null, options)
+
+                                    }
+
+
+                                }
+
+                                Resource.Status.ERROR -> {
+                                    loadingDialog.dismiss()
+                                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                }
+                            }
+                            if (isAdded) {
+                                mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                            }
+                        }
+                    } else {
+                        mViewModel.socialLogins(paramsGuest)
+                        mViewModel.socialLoginResponse.observe(requireActivity()) {
+                            when (it.status) {
+                                Resource.Status.LOADING -> {
+                                    loadingDialog.show()
+                                }
+
+                                Resource.Status.SUCCESS -> {
+                                    loadingDialog.dismiss()
+
+                                    it.data?.let { data ->
+                                        lifecycleScope.launch(Dispatchers.IO) {
+                                            dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                            dataStoreProvider.saveUserDetails(
+                                                data.User
+                                            )
+                                        }
+
+
+                                        navController =
+                                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                        navController.navigate(R.id.checkoutFragment, null, options)
+
+                                    }
+
+
+                                }
+
+                                Resource.Status.ERROR -> {
+                                    loadingDialog.dismiss()
+                                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                }
+                            }
+                            if (isAdded) {
+                                mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                            }
+                        }
+
+                    }
+
+//                    mViewModel.socialLogins(params)
 
                 }
 
@@ -342,56 +530,74 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     }
 
 
-        private fun signInGoogle() {
-            val signInIntent = googleSignInClient.signInIntent
-            launcher.launch(signInIntent)
-        }
+    private fun signInGoogle() {
+        val signInIntent = googleSignInClient.signInIntent
+        launcher.launch(signInIntent)
+    }
 
-        private val launcher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                    handleResults(task)
-                }
-            }
-
-        private fun handleResults(task: Task<GoogleSignInAccount>) {
-            if (task.isSuccessful) {
-                val account: GoogleSignInAccount? = task.result
-                if (account != null) {
-                    updateUI(account)
-                }
-            } else {
-                Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                handleResults(task)
             }
         }
 
-        private fun updateUI(account: GoogleSignInAccount) {
-            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-            auth.signInWithCredential(credential).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.d(ContentValues.TAG, "gmailtoken: ${account.idToken}")
+    private fun handleResults(task: Task<GoogleSignInAccount>) {
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            if (account != null) {
+                updateUI(account)
+            }
+        } else {
+            Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
 
-                    val params = JsonObject()
-                    try {
-                        params.addProperty("token", account.idToken)
-                        params.addProperty("provider", "google")
-                        params.addProperty("platform", "android")
-                        params.addProperty("fcm_token", fcmToken)
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
+    private fun updateUI(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.d(ContentValues.TAG, "gmailtoken: ${account.idToken}")
 
+                val params = JsonObject()
+                try {
+                    params.addProperty("token", account.idToken)
+                    params.addProperty("provider", "google")
+                    params.addProperty("platform", "android")
+                    params.addProperty("fcm_token", fcmToken)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                val paramsGuest = JsonObject()
+                try {
+                    paramsGuest.addProperty("token", account.idToken)
+                    paramsGuest.addProperty("provider", "google")
+                    paramsGuest.addProperty("guest_id", Guser_id)
+                    paramsGuest.addProperty("platform", "android")
+                    paramsGuest.addProperty("fcm_token", fcmToken)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                if (Guser_id.isNullOrEmpty()) {
                     mViewModel.socialLogins(params)
-
                 } else {
-                    Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
-                    Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
-
+                    mViewModel.socialLogins(paramsGuest)
 
                 }
+
+                mViewModel.socialLogins(params)
+
+            } else {
+                Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
+                Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
+
+
             }
         }
+    }
 
 
 }
