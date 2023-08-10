@@ -584,10 +584,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         loadingDialog.dismiss()
                         it.data?.let { data ->
                             if (data.Flag == 1) {
+
+
+                                val bundle = Bundle()
+                                bundle.putString("days", days.toString())
+                                bundle.putString("time", time.toString())
+
                                 navController = Navigation.findNavController(
                                     requireActivity(), R.id.nav_host_fragment
                                 )
-                                navController.navigate(R.id.checkoutFragment, null, options)
+                                navController.navigate(R.id.checkoutFragment, bundle, options)
 
 
                             } else {

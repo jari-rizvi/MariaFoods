@@ -22,7 +22,6 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
 
-
         val cart: Cart = arrayList[position]
 
         holder.binding.productName.text = cart.product.name

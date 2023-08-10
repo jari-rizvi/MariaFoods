@@ -112,7 +112,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
                                                     a.forEach {
                                                         val object1 = data.getJSONArray(it)
                                                         val jari = ArrayList<Jari>()
-                                                        for (i in 0..object1.length() - 1) {
+                                                        for (i in 0..object1.length() -  1) {
                                                             val items =
                                                                 JSONObject(object1[i].toString())
                                                             jari.add(

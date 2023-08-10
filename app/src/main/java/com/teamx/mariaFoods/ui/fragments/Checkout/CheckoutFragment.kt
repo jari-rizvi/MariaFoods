@@ -46,7 +46,8 @@ import java.io.IOException
 import java.util.Locale
 
 @AndroidEntryPoint
-class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>(), DialogHelperClass.Companion.DialogLoginCallBack {
+class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel>(),
+    DialogHelperClass.Companion.DialogLoginCallBack {
 
     override val layoutId: Int
         get() = R.layout.fragment_checkout
@@ -102,12 +103,14 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 print("Canceled")
                 showSnackBar("Cancel")
             }
+
             is PaymentSheetResult.Failed -> {
                 print("Error: ${paymentSheetResult.error}")
                 Log.d("ErrroAaaTAG", "onPaymentSheetResult: ${paymentSheetResult.error}")
                 Timber.tag("Error").d("helllo there")
                 showSnackBar("Error")
             }
+
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
                 print("Completed")
@@ -128,8 +131,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                         when (newState) {
                             BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                                 View.GONE
+
                             BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                                 View.VISIBLE
+
                             else -> "Persistent Bottom Sheet"
                         }
                     }
@@ -240,6 +245,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
@@ -252,6 +258,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -292,7 +299,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
         }
 
-
+        if (Guser_id.isNotEmpty()) {
+            mViewDataBinding.btnAddAdrress.visibility = View.GONE
+            mViewDataBinding.imageView13.visibility = View.GONE
+            mViewDataBinding.textView25.visibility = View.GONE
+        }
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
@@ -322,6 +333,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                             Resource.Status.LOADING -> {
                                 loadingDialog.show()
                             }
+
                             Resource.Status.SUCCESS -> {
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
@@ -340,6 +352,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                                 }
                             }
+
                             Resource.Status.ERROR -> {
                                 loadingDialog.dismiss()
                                 DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -371,6 +384,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                             MainActivity.bottomNav?.visibility = View.GONE
 
                         }
+
                         BottomSheetBehavior.STATE_COLLAPSED -> {
 //                            if(addressArrayList.size > 0){
 //                                mViewDataBinding.address.text = "${addressArrayList[0].address_1}"
@@ -379,6 +393,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                             MainActivity.bottomNav?.visibility = View.VISIBLE
                         }
+
                         else -> "Persistent Bottom Sheet"
                     }
                 }
@@ -409,8 +424,10 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     when (newState) {
                         BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
                             View.GONE
+
                         BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
                             View.VISIBLE
+
                         else -> "Persistent Bottom Sheet"
                     }
                 }
@@ -463,6 +480,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                             Resource.Status.LOADING -> {
                                 loadingDialog.show()
                             }
+
                             Resource.Status.SUCCESS -> {
                                 loadingDialog.dismiss()
                                 it.data?.let { data ->
@@ -477,6 +495,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                                 }
                             }
+
                             Resource.Status.ERROR -> {
                                 loadingDialog.dismiss()
                                 DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -497,6 +516,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
@@ -526,6 +546,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -628,7 +649,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
             }
-            }
+        }
 
 
 
@@ -666,6 +687,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                     Resource.Status.LOADING -> {
                                         loadingDialog.show()
                                     }
+
                                     Resource.Status.SUCCESS -> {
                                         loadingDialog.dismiss()
                                         it.data?.let { data ->
@@ -673,10 +695,12 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                             mViewDataBinding.containerAddress.visibility = View.GONE
                                             data.data.forEach {
                                                 if (it.is_default == 1) {
-                                                    mViewDataBinding.containerAddress.visibility = View.VISIBLE
+                                                    mViewDataBinding.containerAddress.visibility =
+                                                        View.VISIBLE
                                                     addressArrayList.add(it)
                                                     mViewDataBinding.address.text = it.address_1
-                                                    mViewDataBinding.postal.text = "Postal Code " + it.postal
+                                                    mViewDataBinding.postal.text =
+                                                        "Postal Code " + it.postal
                                                     addressid = it.id.toString()
                                                 }
                                             }
@@ -684,9 +708,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                         }
 
                                     }
+
                                     Resource.Status.ERROR -> {
                                         loadingDialog.dismiss()
-                                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                        DialogHelperClass.errorDialog(
+                                            requireContext(),
+                                            it.message!!
+                                        )
                                     }
                                 }
                                 if (isAdded) {
@@ -702,6 +730,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                         Resource.Status.LOADING -> {
                                             loadingDialog.show()
                                         }
+
                                         Resource.Status.SUCCESS -> {
                                             loadingDialog.dismiss()
                                             it.data?.let { data ->
@@ -711,13 +740,15 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                                     mViewDataBinding.paymentName.text =
                                                         "*** *** *** ${data.data.card.last4}"
                                                     if (data.data.card.brand == "visa") {
-                                                        mViewDataBinding.paymentVisa.visibility = View.VISIBLE
+                                                        mViewDataBinding.paymentVisa.visibility =
+                                                            View.VISIBLE
                                                     } else if (data.data.card.brand == "mastercard") {
-                                                        mViewDataBinding.paymentaster.visibility = View.VISIBLE
+                                                        mViewDataBinding.paymentaster.visibility =
+                                                            View.VISIBLE
 
                                                     }
 
-                                                    paymentid  = data.data.id
+                                                    paymentid = data.data.id
 
                                                 } catch (e: Exception) {
 
@@ -726,13 +757,19 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                                             }
                                         }
+
                                         Resource.Status.ERROR -> {
                                             loadingDialog.dismiss()
-                                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                            DialogHelperClass.errorDialog(
+                                                requireContext(),
+                                                it.message!!
+                                            )
                                         }
                                     }
                                     if (isAdded) {
-                                        mViewModel.getDefaultStripeCardsResponse.removeObservers(viewLifecycleOwner)
+                                        mViewModel.getDefaultStripeCardsResponse.removeObservers(
+                                            viewLifecycleOwner
+                                        )
                                     }
                                 }
                             }
@@ -794,10 +831,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.LOADING -> {
                         loadingDialog.show()
                     }
+
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
-
+                            cartArrayList.clear()
 
                             data.data.carts.forEach {
 
@@ -814,6 +852,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                         }
                     }
+
                     Resource.Status.ERROR -> {
                         loadingDialog.dismiss()
                         DialogHelperClass.errorDialog(requireContext(), it.message!!)

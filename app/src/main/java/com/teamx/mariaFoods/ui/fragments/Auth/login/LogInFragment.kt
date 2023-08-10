@@ -556,6 +556,8 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d(ContentValues.TAG, "gmailtoken: ${account.idToken}")
@@ -581,15 +583,98 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                     e.printStackTrace()
                 }
 
+
+
                 if (Guser_id.isNullOrEmpty()) {
+                    mViewModel.socialLogins(params)
+                    mViewModel.socialLoginResponse.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
+
+                            Resource.Status.SUCCESS -> {
+                                loadingDialog.dismiss()
+
+                                it.data?.let { data ->
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                        dataStoreProvider.saveUserDetails(
+                                            data.User
+                                        )
+                                    }
+
+
+                                    navController =
+                                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                    navController.navigate(R.id.dashboardFragment, null, options)
+
+                                }
+
+
+                            }
+
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                            }
+                        }
+                        if (isAdded) {
+                            mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                        }
+                    }
+
+                } else {
+                    mViewModel.socialLogins(paramsGuest)
+                    mViewModel.socialLoginResponse.observe(requireActivity()) {
+                        when (it.status) {
+                            Resource.Status.LOADING -> {
+                                loadingDialog.show()
+                            }
+
+                            Resource.Status.SUCCESS -> {
+                                loadingDialog.dismiss()
+
+                                it.data?.let { data ->
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        dataStoreProvider.saveUserToken(data.AccessToken!!)
+                                        dataStoreProvider.saveUserDetails(
+                                            data.User
+                                        )
+                                    }
+
+
+                                    navController =
+                                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                    navController.navigate(R.id.checkoutFragment, null, options)
+
+                                }
+
+
+                            }
+
+                            Resource.Status.ERROR -> {
+                                loadingDialog.dismiss()
+                                DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                            }
+                        }
+                        if (isAdded) {
+                            mViewModel.socialLoginResponse.removeObservers(viewLifecycleOwner)
+                        }
+                    }
+
+
+
+             /*   if (Guser_id.isNullOrEmpty()) {
                     mViewModel.socialLogins(params)
                 } else {
                     mViewModel.socialLogins(paramsGuest)
 
-                }
+                }*/
 
-                mViewModel.socialLogins(params)
+//                mViewModel.socialLogins(params)
 
+            }
             } else {
                 Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
                 Log.d(ContentValues.TAG, "gmailtoken: ${it.exception.toString()}")
