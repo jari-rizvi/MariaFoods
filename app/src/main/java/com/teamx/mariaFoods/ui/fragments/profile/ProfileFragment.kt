@@ -1,5 +1,6 @@
 package com.teamx.mariaFoods.ui.fragments.profile
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -34,6 +35,7 @@ import org.json.JSONException
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewModel>() {
@@ -208,7 +210,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                             mViewDataBinding.textView43.visibility = View.GONE
                             mViewDataBinding.btnAddress.visibility = View.GONE
                             mViewDataBinding.btnPayment.visibility = View.GONE
-                            mViewDataBinding.trackOrder.visibility = View.GONE
+                            mViewDataBinding.shareApp.visibility = View.GONE
                             mViewDataBinding.btnLogput.setOnClickListener {
                                 navController = Navigation.findNavController(
                                     requireActivity(), R.id.nav_host_fragment
@@ -242,6 +244,39 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                 requireActivity(), R.id.nav_host_fragment
             )
             navController.navigate(R.id.termsCondtionFragment, null, options)
+        }
+
+        mViewDataBinding.shareApp.setOnClickListener {
+
+
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Android Studio Pro")
+            var shareMessage = "\nLet me recommend you this application\n\n"
+            shareMessage =
+                """
+                   ${shareMessage + "https://play.google.com/store/apps/details?id=com.teamx.mariaFoods"}
+                   """.trimIndent()
+            intent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            intent.type = "text/plain"
+            startActivity(Intent.createChooser(intent, "choose one"))
+
+
+
+         /*   try {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
+                var shareMessage = "\nLet me recommend you this application\n\n"
+                shareMessage =
+                    """
+                   ${shareMessage + "https://play.google.com/store/apps/details?id=com.teamx.mariaFoods" + BuildConfig.APPLICATION_ID}
+                   """.trimIndent()
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                startActivity(Intent.createChooser(shareIntent, "choose one"))
+            } catch (e: Exception) {
+                //e.toString();
+            }*/
         }
 
         mViewDataBinding.btnHelp.setOnClickListener {

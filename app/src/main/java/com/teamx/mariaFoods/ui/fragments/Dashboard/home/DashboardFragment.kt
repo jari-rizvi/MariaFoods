@@ -104,6 +104,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             navController.navigate(R.id.notificationFragment, null, options)
         }
 
+
+
         mViewDataBinding.fav.setOnClickListener {
             navController = Navigation.findNavController(
                 requireActivity(), R.id.nav_host_fragment

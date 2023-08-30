@@ -43,6 +43,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             }
         }
 
+        mViewDataBinding.btnBack.setOnClickListener {
+            popUpStack()
+        }
 
         mViewModel.getWishList()
 

@@ -323,7 +323,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/trackOrder"
+            android:id="@+id/shareApp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
@@ -332,8 +332,7 @@
             android:elevation="@dimen/_1sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnPayment"
-            app:layout_constraintVertical_bias="0"
-            tools:layout_editor_absoluteX="19dp">
+            app:layout_constraintVertical_bias="0">
 
             <TextView
                 android:id="@+id/textView46"
@@ -341,7 +340,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
-                android:text="@string/track_order"
+                android:text="@string/share_the_app"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView16"
@@ -359,8 +358,7 @@
                 app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/track_order"
-                tools:layout_editor_absoluteY="11dp" />
+                app:srcCompat="@drawable/share"/>
 
             <ImageView
                 android:id="@+id/imageView16"
@@ -384,7 +382,7 @@
             android:background="@drawable/card_background"
             android:elevation="@dimen/_1sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trackOrder"
+            app:layout_constraintTop_toBottomOf="@+id/shareApp"
             app:layout_constraintVertical_bias="0"
             tools:layout_editor_absoluteX="19dp">
 
