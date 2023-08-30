@@ -453,12 +453,15 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 Resource.Status.SUCCESS -> {
                     loadingDialog.dismiss()
                     it.data?.let { data ->
+                        if (productArrayList.isNotEmpty()) {
 
-                        productArrayList.get(favPosition).isFav = false
-                        productAdapter.notifyDataSetChanged()
+
+                            productArrayList.get(favPosition).isFav = false
+                            productAdapter.notifyDataSetChanged()
+                        }
                     }
-                }
 
+                }
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
