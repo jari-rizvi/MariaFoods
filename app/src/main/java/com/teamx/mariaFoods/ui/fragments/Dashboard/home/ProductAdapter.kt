@@ -1,10 +1,12 @@
 package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
+import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.data.dataclasses.products.Data
 import com.teamx.mariaFoods.databinding.ItemProductsBinding
 
@@ -48,6 +50,16 @@ class ProductAdapter(
 
         Picasso.get().load(product.feature_image).into(holder.binding.img)
 
+        if(product.isFav){
+            Log.d("true", "onBindViewHolder: ${product.isFav}")
+            holder.binding.btnFav.setImageResource(R.drawable.wishlist_selected)
+        }
+        else{
+            holder.binding.btnFav.setImageResource(R.drawable.wishlist_circle)
+            Log.d("true", "onBindViewHolder: ${product.isFav}")
+
+        }
+
 
         holder.itemView.setOnClickListener {
             onTopProductListener.onproductClick(position)
@@ -58,7 +70,7 @@ class ProductAdapter(
         }
 
         holder.binding.btnFav.setOnClickListener {
-            onTopProductListener.onAddFavClick(position)
+            onTopProductListener.onAddFavClick(position,product.isFav)
         }
 
 

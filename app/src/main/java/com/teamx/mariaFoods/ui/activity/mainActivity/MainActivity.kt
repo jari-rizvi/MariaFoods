@@ -133,6 +133,49 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
             );
         }
 
+     /*   mViewModel.getCart()
+        Timber.tag("123123").d("onCreate: ")
+        bottomNav = findViewById(R.id.bottomnavigationbar)
+
+        if (!mViewModel.getCartList.hasActiveObservers()) {
+
+            mViewModel.getCartList.observe(this) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+
+                    }
+
+                    Resource.Status.SUCCESS -> {
+
+                        it.data.let {
+                            val size = it?.data?.qty ?: 0
+                            it?.let {
+                                bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
+                                    backgroundColor = Color.RED
+                                    badgeTextColor = Color.WHITE
+                                    maxCharacterCount = 3
+                                    number = size
+                                    isVisible = size != 0
+                                }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+
+                        Timber.tag("343434").d("end")
+                        DialogHelperClass.errorDialog(this, it.message!!)
+                    }
+                }
+
+            }
+        }*/
+
+
+
+
 
         Log.d("321321", "onCreate: ")
 

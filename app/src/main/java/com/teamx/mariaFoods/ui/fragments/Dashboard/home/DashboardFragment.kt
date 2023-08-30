@@ -30,6 +30,7 @@ import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.banners.Data
 import com.teamx.mariaFoods.data.dataclasses.products.OrderDay
 import com.teamx.mariaFoods.data.dataclasses.products.TimeSlot
+import com.teamx.mariaFoods.data.dataclasses.wishList.GetWishlist
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentDashboardBinding
 import com.teamx.mariaFoods.ui.activity.mainActivity.MainActivity
@@ -70,6 +71,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     lateinit var timeArrayList: ArrayList<TimeSlot>
     lateinit var dTimeArrayList: ArrayList<TimeSlot>
 
+    var favArrayList: GetWishlist? = null
+
+
     lateinit var dayAdapter: DateAdapter
     lateinit var dayArrayList: ArrayList<OrderDay>
 
@@ -82,7 +86,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     private lateinit var handler: Handler
     lateinit var addressArrayList: java.util.ArrayList<com.teamx.mariaFoods.data.dataclasses.getAddress.Data>
-
+    var addFavId = 2
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -232,8 +236,59 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 }
             }
         }
-
+        mViewModel.getWishList()
         mViewModel.getProducts()
+        if (!mViewModel.getWishlistResponse.hasActiveObservers()) {
+            mViewModel.getWishlistResponse.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            favArrayList = data
+                            Log.d("true", "onBindViewHolder: ${data}")
+                            Log.d("true", "onBindViewHolder: ${favArrayList}")
+
+                            productArrayList?.forEach {
+                                if (it != null) {
+
+                                    favArrayList?.data?.forEach { itt ->
+                                        if (itt.id == it.id) {
+                                            it.isFav = true
+
+                                        }
+
+                                        Log.d("true", "onBindViewHolder: ${it.id}")
+                                        Log.d("true", "onBindViewHolder: ${itt.id}")
+                                    }
+                                    Log.d("true", "onBindViewHolder: ${it.isFav}")
+//                                    productArrayList.add(it
+                                }
+                            }
+                            productAdapter.notifyDataSetChanged()
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(
+                            requireContext(),
+                            it.message!!
+                        )
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.getWishlistResponse.removeObservers(
+                        viewLifecycleOwner
+                    )
+                }
+            }
+        }
+
+
 
         if (!mViewModel.products.hasActiveObservers()) {
             mViewModel.products.observe(requireActivity()) {
@@ -248,6 +303,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                             data.data?.forEach {
                                 if (it != null) {
+
+                                    favArrayList?.data?.forEach { itt ->
+                                        if (itt.product_id == it.id) {
+                                            it.isFav = true
+                                        }
+                                    }
+                                    Log.d("true", "onBindViewHolder: ${it.isFav}")
                                     productArrayList.add(it)
                                 }
                             }
@@ -304,6 +366,52 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         timeRecyclerview()
         daysRecyclerview()
 
+
+        if (!mViewModel.addtowishlist.hasActiveObservers()) {
+            mViewModel.addtowishlist.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+                            if (data.Flag == 1) {
+
+
+                                data.data.id == addFavId
+
+
+//                                favPosition
+                                Log.d("favPosition", "onViewCreated: $data")
+
+
+                                productArrayList[favPosition].isFav = true
+                                productAdapter.notifyItemChanged(favPosition)
+                                /*    navController = Navigation.findNavController(
+                                        requireActivity(), R.id.nav_host_fragment
+                                    )
+                                    navController.navigate(R.id.favouriteFragment,null,  options)*/
+
+                            } else {
+                                data.Message?.let { it1 -> showToast(it1) }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+
+            }
+        }
+
         mViewDataBinding.bottomSheetLayout.btnBook.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
@@ -331,6 +439,32 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
+        }
+
+
+
+
+        mViewModel.deletewishlist.observe(requireActivity()) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    loadingDialog.show()
+                }
+
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+
+                        productArrayList.get(favPosition).isFav = false
+                        productAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                }
+            }
+
         }
 
 
@@ -443,7 +577,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         bottomSheetBehavior.state = state
     }
 
-    override fun onAddFavClick(position: Int) {
+    var favPosition = -1
+
+    override fun onAddFavClick(position: Int, isFav: Boolean) {
+
+        favPosition = position
+        if (!isFav) {
 
         val id_ = productArrayList[position].id
 
@@ -455,42 +594,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
 
         mViewModel.addWishList(params)
-
-        if (!mViewModel.addtowishlist.hasActiveObservers()) {
-            mViewModel.addtowishlist.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-                            if (data.Flag == 1) {
-
-                                navController = Navigation.findNavController(
-                                    requireActivity(), R.id.nav_host_fragment
-                                )
-                                navController.navigate(R.id.favouriteFragment,null,  options)
-
-                            } else {
-                                data.Message?.let { it1 -> showToast(it1) }
-                            }
-
-
-                        }
-                    }
-
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                    }
-                }
-                if (isAdded) {
-                    mViewModel.addtowishlist.removeObservers(viewLifecycleOwner)
+        } else {
+            var id = 0
+            favArrayList?.data?.forEach{
+                if(it.product_id == productArrayList.get(position).id){
+                    id = it.id
                 }
             }
+            mViewModel.deleteWishList(id)
         }
+
 
     }
 

@@ -19,6 +19,8 @@ data class Data(
     val stock_qty: Int?,
     val variation: Variation?,
     var isChecked: Boolean?,
-    var qty : Int =  1
+    var qty : Int =  1,
+    var isFav: Boolean = false
+
 
 )

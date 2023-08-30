@@ -11,6 +11,8 @@ import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
+import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
+import com.teamx.mariaFoods.data.dataclasses.wishList.GetWishlist
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -194,6 +196,83 @@ class Dashboard @Inject constructor(
                     _addtowishlistResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _addtowishlistResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+
+    private val _getWishlistResponse = MutableLiveData<Resource<GetWishlist>>()
+    val getWishlistResponse: LiveData<Resource<GetWishlist>>
+        get() = _getWishlistResponse
+
+
+    fun getWishList() {
+        viewModelScope.launch {
+            _getWishlistResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.getWishList().let {
+                        if (it.isSuccessful) {
+                            _getWishlistResponse.postValue(Resource.success(it.body()!!))
+
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _getWishlistResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+
+                        } else {
+                            _getWishlistResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong", null
+                                )
+                            )
+
+                        }
+                    }
+                } catch (e: Exception) {
+                    _getWishlistResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _getWishlistResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+    private val _deletewishlistResponse = MutableLiveData<Resource<SuccessData>>()
+    val deletewishlist: LiveData<Resource<SuccessData>>
+        get() = _deletewishlistResponse
+
+    fun deleteWishList(id: Int?) {
+        viewModelScope.launch {
+            _deletewishlistResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.deleteWishlist(id).let {
+                        if (it.isSuccessful) {
+                            _deletewishlistResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _deletewishlistResponse.postValue(
+                                Resource.error(
+                                    jsonObj.getJSONArray(
+                                        "errors"
+                                    )[0].toString()
+                                )
+                            )
+                        } else {
+                            _deletewishlistResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong", null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _deletewishlistResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _deletewishlistResponse.postValue(
+                Resource.error(
+                    "No internet connection", null
+                )
+            )
         }
     }
 }

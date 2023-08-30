@@ -223,6 +223,13 @@ interface ApiService {
     ): Response<SuccessData>
 
     @Headers("secret: dev")
+    @HTTP(method = "DELETE", path = NetworkCallPoints.REMOVE_WISHLIST)
+    suspend fun deleteWishlist(
+        @Query("wishlist_id") id: Int?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<SuccessData>
+
+    @Headers("secret: dev")
     @POST(NetworkCallPoints.ADD_ADDRESS)
     suspend fun addAddress(
         @Body params: JsonObject?,
