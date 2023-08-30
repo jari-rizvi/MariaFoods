@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
+import com.teamx.mariaFoods.data.dataclasses.wishList.Approduct
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentFavouriteBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
@@ -25,7 +28,8 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
 
     private lateinit var options: NavOptions
 
-
+    lateinit var favouriteAdapter: FavouriteAdapter
+    lateinit var favouriteArrayList: ArrayList<Approduct>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -52,6 +56,11 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
+                            data.data.forEach {
+                                favouriteArrayList.add(it.approduct)
+                            }
+
+                            favouriteAdapter.notifyDataSetChanged()
 
 
                         }
@@ -74,9 +83,19 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
         }
 
 
-
+        favRecyclerview()
     }
 
+    private fun favRecyclerview() {
+        favouriteArrayList = ArrayList()
+
+        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        mViewDataBinding.favRecycler.layoutManager = linearLayoutManager
+
+        favouriteAdapter = FavouriteAdapter(favouriteArrayList)
+        mViewDataBinding.favRecycler.adapter = favouriteAdapter
+
+    }
 
 
 }

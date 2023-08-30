@@ -26,7 +26,7 @@ class FavouriteAdapter(
 
         holder.binding.productName.text = list.name
 
-        holder.binding.desc.text = list.description
+        holder.binding.desc.text = list.short_description
 
         holder.binding.price.text = list.max_price.toString()
 
