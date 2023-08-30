@@ -64,6 +64,10 @@ class NetworkCallPoints {
         const val CHECKOUT = "products/order/checkout"
         const val ADD_COUPON = "products/apply-coupon"
 
+        //WishList
+        const val GET_WISHLIST = "products/get-wishlist"
+        const val ADD_WISHLIST = "products/add-to-wishlist"
+
         //Terms&Condition
         const val TERMS_CONDITION = "app/get-terms-and-conditions"
         const val GET_HELP = "app/get-help"

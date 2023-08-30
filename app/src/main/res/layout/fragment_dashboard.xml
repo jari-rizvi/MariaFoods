@@ -24,9 +24,7 @@
                 android:id="@+id/bottomSheetLayout"
                 layout="@layout/bottom_sheet_slots" />
 
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -92,6 +90,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.2"
                 app:srcCompat="@drawable/notifications" />
+
+            <ImageView
+                android:id="@+id/fav"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_25sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.75"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.2"
+                app:srcCompat="@drawable/wishlist_circle" />
 
 
             <ImageView
@@ -214,9 +224,9 @@
             android:id="@+id/constraintLayout5"
             android:layout_width="@dimen/_65sdp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_6sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
-            android:layout_marginStart="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout6"
             app:layout_constraintHorizontal_bias="0.5"
@@ -260,9 +270,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
                 android:text="@string/our_chicken_is_sourced_from_trusted_halal_suppliers"
                 android:textSize="@dimen/_7ssp"
-                android:layout_marginHorizontal="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -317,9 +327,9 @@
                 android:id="@+id/textView9"
                 style="@style/open_sans_secondary_medium_small"
                 android:layout_width="0dp"
-                android:layout_marginHorizontal="@dimen/_4sdp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_2sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
                 android:text="@string/highest_standard_assured_by_on_site_veterinarian_expertise"
                 android:textSize="@dimen/_7ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -394,9 +404,9 @@
             android:id="@+id/constraintLayout8"
             android:layout_width="@dimen/_65sdp"
             android:layout_height="@dimen/_100sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:background="@drawable/card_background"
             android:elevation="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -453,14 +463,10 @@
             android:id="@+id/productRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
-            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout7"
             tools:listitem="@layout/item_products" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

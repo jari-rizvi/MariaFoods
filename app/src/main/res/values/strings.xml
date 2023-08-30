@@ -68,5 +68,8 @@
     <string name="we_take_pride_in_the_trust_our_customers_place_in_us">We take pride in the trust our customers place in us.</string>
     <string name="we_have_a_fast_and_efficient_delivery_system_for_your_convenience">We have fast and efficient delivery system for your convenience.</string>
     <string name="food_quality_and_safety">Food Quality And Safety</string>
+    <string name="favourite">Favourite</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="wishlist">Wishlist</string>
 
 </resources>

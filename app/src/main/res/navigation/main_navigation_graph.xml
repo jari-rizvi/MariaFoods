@@ -95,4 +95,8 @@
         android:id="@+id/helpFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.help.HelpFragment"
         android:label="HelpFragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" />
 </navigation>

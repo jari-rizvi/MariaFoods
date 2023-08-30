@@ -38,6 +38,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
+            <ImageView
+                android:id="@+id/btnFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintBottom_toBottomOf="@+id/img"
+                app:layout_constraintEnd_toEndOf="@+id/img"
+                app:layout_constraintStart_toStartOf="@+id/img"
+                app:layout_constraintTop_toTopOf="@+id/img"
+                app:srcCompat="@drawable/wishlist_circle" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

@@ -104,6 +104,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             navController.navigate(R.id.notificationFragment, null, options)
         }
 
+        mViewDataBinding.fav.setOnClickListener {
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.notificationFragment, null, options)
+        }
+
 
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
@@ -432,6 +439,57 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
             else BottomSheetBehavior.STATE_EXPANDED
         bottomSheetBehavior.state = state
+    }
+
+    override fun onAddFavClick(position: Int) {
+
+        val id_ = productArrayList[position].id
+
+        val params = JsonObject()
+        try {
+            params.addProperty("product_id", id_)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        mViewModel.addWishList(params)
+
+        if (!mViewModel.addtowishlist.hasActiveObservers()) {
+            mViewModel.addtowishlist.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+
+                                navController = Navigation.findNavController(
+                                    requireActivity(), R.id.nav_host_fragment
+                                )
+                                navController.navigate(R.id.favouriteFragment,null,  options)
+
+                            } else {
+                                data.Message?.let { it1 -> showToast(it1) }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.addtowishlist.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
+
     }
 
     override fun onPause() {

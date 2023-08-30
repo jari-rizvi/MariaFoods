@@ -11,6 +11,7 @@ object AppConstants {
             //            const val BASE_URL = "https://raseefapi.teamxmv.com/api/"
 //            const val BASE_URL = "http://192.168.100.23:8000/api/v1/"
             const val BASE_URL = "https://dev.dogtvfoods.com/api/v1/"
+//            const val BASE_URL = "https://staging.dogtvfoods.com/api/v1/"
 
         }
     }

@@ -209,17 +209,13 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                 R.id.order -> {
                     navController.navigate(R.id.orderHistoryFragment, null)
                 }
+                R.id.cart -> {
+                    navController.navigate(R.id.checkoutFragment, null)
+                }
                 R.id.profile -> {
                     navController.navigate(R.id.profileFragment, null)
                 }
             }
-
-            Log.d("321321", "saveCurrentState:$idN ")
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, newFragment)
-//                .commitNowAllowingStateLoss()
-
-
             return@setOnItemSelectedListener true
         }
 

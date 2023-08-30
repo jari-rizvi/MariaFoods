@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
+import com.teamx.mariaFoods.data.dataclasses.addWishlist.AddWishListData
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
@@ -156,6 +157,43 @@ class Dashboard @Inject constructor(
                     _addtocartResponse.postValue(Resource.error("${e.message}", null))
                 }
             } else _addtocartResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+
+
+
+
+    private val _addtowishlistResponse = MutableLiveData<Resource<AddWishListData>>()
+    val addtowishlist: LiveData<Resource<AddWishListData>>
+        get() = _addtowishlistResponse
+
+    fun addWishList(param: JsonObject) {
+        viewModelScope.launch {
+            _addtowishlistResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.addWishList(param).let {
+                        if (it.isSuccessful) {
+                            _addtowishlistResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+                            Log.d("TAG", "loginPhone: ${it.code()}")
+                            _addtowishlistResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
+//                            _addtowishlistResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _addtowishlistResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _addtowishlistResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _addtowishlistResponse.postValue(Resource.error("No internet connection", null))
         }
     }
 }

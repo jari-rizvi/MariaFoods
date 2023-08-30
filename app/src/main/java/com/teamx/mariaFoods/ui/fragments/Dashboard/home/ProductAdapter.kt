@@ -57,6 +57,10 @@ class ProductAdapter(
             onTopProductListener.onScheduleClick(position)
         }
 
+        holder.binding.btnFav.setOnClickListener {
+            onTopProductListener.onAddFavClick(position)
+        }
+
 
         holder.binding.btnAdd.setOnClickListener {
             onCartListener?.onAddClickListener(position)

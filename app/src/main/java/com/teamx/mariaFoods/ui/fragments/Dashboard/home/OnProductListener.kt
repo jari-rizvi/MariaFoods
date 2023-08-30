@@ -4,5 +4,6 @@ interface OnProductListener {
 
     fun onproductClick(position : Int)
     fun onScheduleClick(position : Int)
+    fun onAddFavClick(position : Int)
 
 }

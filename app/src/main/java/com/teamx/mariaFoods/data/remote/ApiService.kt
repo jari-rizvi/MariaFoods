@@ -3,6 +3,7 @@ package com.teamx.mariaFoods.data.remote
 import com.google.gson.JsonObject
 import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.constants.NetworkCallPoints.Companion.TOKENER
+import com.teamx.mariaFoods.data.dataclasses.addWishlist.AddWishListData
 import com.teamx.mariaFoods.data.dataclasses.addtocart.AddToCartData
 import com.teamx.mariaFoods.data.dataclasses.banners.BannerListData
 import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
@@ -20,6 +21,7 @@ import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.dataclasses.termsCondition.TermsConditonData
 import com.teamx.mariaFoods.data.dataclasses.uploadProfile.UploadProfileData
+import com.teamx.mariaFoods.data.dataclasses.wishList.GetWishlist
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -162,6 +164,20 @@ interface ApiService {
     suspend fun getCards(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<StripeCardsData>
+
+    @Headers("secret: dev")
+    @GET(NetworkCallPoints.GET_WISHLIST)
+    suspend fun getWishList(
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<GetWishlist>
+
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.ADD_WISHLIST)
+    suspend fun addWishList(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<AddWishListData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_DEFAULT_CARDS)
