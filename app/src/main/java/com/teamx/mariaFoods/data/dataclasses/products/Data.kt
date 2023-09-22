@@ -20,7 +20,8 @@ data class Data(
     val variation: Variation?,
     var isChecked: Boolean?,
     var qty : Int =  1,
-    var isFav: Boolean = false
+//    var isFav: Boolean = false,
+    var is_wishlist: Boolean = false
 
 
 )

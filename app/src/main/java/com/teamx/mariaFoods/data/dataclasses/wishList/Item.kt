@@ -1,6 +1,6 @@
 package com.teamx.mariaFoods.data.dataclasses.wishList
 
-data class Approduct(
+data class Item(
     val description: String,
     val discount_end_date: Int,
     val discount_start_date: Int,
@@ -8,6 +8,7 @@ data class Approduct(
     val discount_value: Int,
     val feature_image: String,
     val id: Int,
+    val is_wishlist: Boolean,
     val max_price: Int,
     val min_price: Int,
     val name: String,

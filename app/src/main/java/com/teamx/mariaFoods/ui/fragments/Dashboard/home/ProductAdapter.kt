@@ -50,13 +50,13 @@ class ProductAdapter(
 
         Picasso.get().load(product.feature_image).into(holder.binding.img)
 
-        if(product.isFav){
-            Log.d("true", "onBindViewHolder: ${product.isFav}")
+        if(product.is_wishlist){
+            Log.d("true", "onBindViewHolder: ${product.is_wishlist}")
             holder.binding.btnFav.setImageResource(R.drawable.wishlist_selected)
         }
         else{
             holder.binding.btnFav.setImageResource(R.drawable.wishlist_circle)
-            Log.d("true", "onBindViewHolder: ${product.isFav}")
+            Log.d("true", "onBindViewHolder: ${product.is_wishlist}")
 
         }
 
@@ -70,7 +70,7 @@ class ProductAdapter(
         }
 
         holder.binding.btnFav.setOnClickListener {
-            onTopProductListener.onAddFavClick(position,product.isFav)
+            onTopProductListener.onAddFavClick(position,product.is_wishlist)
         }
 
 

@@ -257,14 +257,14 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                                     favArrayList?.data?.forEach { itt ->
                                         if (itt.id == it.id) {
-                                            it.isFav = true
+                                            it.is_wishlist = true
 
                                         }
 
                                         Log.d("true", "onBindViewHolder: ${it.id}")
                                         Log.d("true", "onBindViewHolder: ${itt.id}")
                                     }
-                                    Log.d("true", "onBindViewHolder: ${it.isFav}")
+                                    Log.d("true", "onBindViewHolder: ${it.is_wishlist}")
 //                                    productArrayList.add(it
                                 }
                             }
@@ -306,10 +306,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                                     favArrayList?.data?.forEach { itt ->
                                         if (itt.product_id == it.id) {
-                                            it.isFav = true
+                                            it.is_wishlist = true
                                         }
                                     }
-                                    Log.d("true", "onBindViewHolder: ${it.isFav}")
+                                    Log.d("true", "onBindViewHolder: ${it.is_wishlist}")
                                     productArrayList.add(it)
                                 }
                             }
@@ -380,15 +380,21 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                             if (data.Flag == 1) {
 
+                                try {
 
-                                data.data.id == addFavId
+                                    data.data.id == addFavId
+                                }
+                                catch (e:Exception){
+
+                                }
+
 
 
 //                                favPosition
                                 Log.d("favPosition", "onViewCreated: $data")
 
 
-                                productArrayList[favPosition].isFav = true
+                                productArrayList[favPosition].is_wishlist = true
                                 productAdapter.notifyItemChanged(favPosition)
                                 /*    navController = Navigation.findNavController(
                                         requireActivity(), R.id.nav_host_fragment
@@ -441,9 +447,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             bottomSheetBehavior.state = state
         }
 
-
-
-
         mViewModel.deletewishlist.observe(requireActivity()) {
             when (it.status) {
                 Resource.Status.LOADING -> {
@@ -456,12 +459,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         if (productArrayList.isNotEmpty()) {
 
 
-                            productArrayList.get(favPosition).isFav = false
+                            productArrayList.get(favPosition).is_wishlist = false
                             productAdapter.notifyDataSetChanged()
                         }
                     }
 
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -587,24 +591,30 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         favPosition = position
         if (!isFav) {
 
-        val id_ = productArrayList[position].id
+            val id_ = productArrayList[position].id
 
-        val params = JsonObject()
-        try {
-            params.addProperty("product_id", id_)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-        mViewModel.addWishList(params)
-        } else {
-            var id = 0
-            favArrayList?.data?.forEach{
-                if(it.product_id == productArrayList.get(position).id){
-                    id = it.id
-                }
+            val params = JsonObject()
+            try {
+                params.addProperty("product_id", id_)
+            } catch (e: JSONException) {
+                e.printStackTrace()
             }
-            mViewModel.deleteWishList(id)
+            try {
+                mViewModel.addWishList(params)
+            } catch (e: Exception) {
+
+            }
+
+
+        } else {
+            val id_ = productArrayList[position].id
+
+            try {
+                mViewModel.deleteWishList(id_)
+            } catch (e: Exception) {
+
+            }
+
         }
 
 

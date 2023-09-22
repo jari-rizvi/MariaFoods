@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import com.teamx.mariaFoods.data.dataclasses.wishList.Approduct
+import com.teamx.mariaFoods.data.dataclasses.wishList.Item
 import com.teamx.mariaFoods.databinding.ItemFavouriteListBinding
 
 
 class FavouriteAdapter(
-    val arrayList: ArrayList<Approduct>
+    val arrayList: ArrayList<Item>
 ) : RecyclerView.Adapter<FavouriteAdapter.FavouriteListViewHolder>() {
 
 
@@ -22,7 +22,7 @@ class FavouriteAdapter(
 
     override fun onBindViewHolder(holder: FavouriteListViewHolder, position: Int) {
 
-        val list: Approduct = arrayList[position]
+        val list: Item = arrayList[position]
 
         holder.binding.productName.text = list.name
 
