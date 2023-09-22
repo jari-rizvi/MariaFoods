@@ -236,6 +236,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 }
             }
         }
+
         mViewModel.getWishList()
         mViewModel.getProducts()
         if (!mViewModel.getWishlistResponse.hasActiveObservers()) {
@@ -454,14 +455,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                     loadingDialog.dismiss()
                     it.data?.let { data ->
                         if (productArrayList.isNotEmpty()) {
-
-
                             productArrayList.get(favPosition).isFav = false
                             productAdapter.notifyDataSetChanged()
                         }
                     }
 
                 }
+
                 Resource.Status.ERROR -> {
                     loadingDialog.dismiss()
                     DialogHelperClass.errorDialog(requireContext(), it.message!!)
@@ -469,7 +469,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             }
 
         }
-
 
     }
 
@@ -587,20 +586,20 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         favPosition = position
         if (!isFav) {
 
-        val id_ = productArrayList[position].id
+            val id_ = productArrayList[position].id
 
-        val params = JsonObject()
-        try {
-            params.addProperty("product_id", id_)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
+            val params = JsonObject()
+            try {
+                params.addProperty("product_id", id_)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
 
-        mViewModel.addWishList(params)
+            mViewModel.addWishList(params)
         } else {
             var id = 0
-            favArrayList?.data?.forEach{
-                if(it.product_id == productArrayList.get(position).id){
+            favArrayList?.data?.forEach {
+                if (it.product_id == productArrayList.get(position).id) {
                     id = it.id
                 }
             }

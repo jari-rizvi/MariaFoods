@@ -138,9 +138,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
 
                 fcmToken = task.result
 
-                // Log and toast
-//                val msg = getString(R.string.about_us, token)
-//                Log.d("TAG", msg)
+
             })
 
         } else {

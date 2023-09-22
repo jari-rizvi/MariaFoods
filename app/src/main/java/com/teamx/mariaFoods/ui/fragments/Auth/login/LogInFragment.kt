@@ -326,7 +326,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
                                             )
                                         }
 
-
                                         navController =
                                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                                         navController.navigate(R.id.dashboardFragment, null, options)
