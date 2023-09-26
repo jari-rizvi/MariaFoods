@@ -28,7 +28,7 @@ class CarttAdapter(
 
         holder.binding.productName.text = cart.product.name
 
-        holder.binding.textView18.text = "${cart.product.max_price}"
+        holder.binding.textView18.text = "${cart.product.max_price}AED"
 
 
         Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)

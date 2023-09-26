@@ -70,6 +70,9 @@ class NetworkCallPoints {
         const val ADD_WISHLIST = "products/add-to-wishlist"
         const val REMOVE_WISHLIST = "products/remove-wishlist"
 
+
+        const val CHANGE_SLOT = "products/change-slot"
+
         //Terms&Condition
         const val TERMS_CONDITION = "app/get-terms-and-conditions"
         const val GET_HELP = "app/get-help"

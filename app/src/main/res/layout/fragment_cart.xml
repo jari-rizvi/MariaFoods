@@ -21,13 +21,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <include
-                android:id="@+id/bottomSheetLayout"
-                layout="@layout/bottom_sheet_address" />
 
             <include
-                android:id="@+id/bottomSheetLayout1"
-                layout="@layout/bottom_sheet_update_address" />
+                android:id="@+id/bottomSheetLayout"
+                layout="@layout/bottom_sheet_slots" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

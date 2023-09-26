@@ -245,6 +245,14 @@ interface ApiService {
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<SuccessData>
 
+
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.CHANGE_SLOT)
+    suspend fun changeSlot(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<SuccessData>
+
     @Headers("secret: dev")
     @POST(NetworkCallPoints.UPDATE_ADDRESS)
     suspend fun updateAddress(

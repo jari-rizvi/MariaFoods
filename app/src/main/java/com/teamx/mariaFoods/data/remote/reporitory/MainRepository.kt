@@ -45,6 +45,7 @@ class MainRepository @Inject constructor(
     suspend fun deleteCard(@Query("id") id: String?) = apiService.deleteCard(id)
     suspend fun deleteWishlist(@Query("id") id: Int?) = apiService.deleteWishlist(id)
     suspend fun addAddress(@Body param: JsonObject) = apiService.addAddress(param)
+    suspend fun changeSlot(@Body param: JsonObject) = apiService.changeSlot(param)
     suspend fun updateAddress(@Body param: JsonObject) = apiService.updateAddress(param)
     suspend fun editAddress(@Query("id") id: Int) = apiService.editAddress(id)
     suspend fun termsCondition() = apiService.termsCondition()
