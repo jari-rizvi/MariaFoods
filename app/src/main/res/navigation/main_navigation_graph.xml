@@ -99,4 +99,8 @@
         android:id="@+id/favouriteFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.favourite.FavouriteFragment"
         android:label="FavouriteFragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>

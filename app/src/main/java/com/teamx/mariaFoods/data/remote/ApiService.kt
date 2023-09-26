@@ -16,6 +16,7 @@ import com.teamx.mariaFoods.data.dataclasses.getStripecards.StripeCardsData
 import com.teamx.mariaFoods.data.dataclasses.login.LoginData
 import com.teamx.mariaFoods.data.dataclasses.loginPhone.LoginPhoneData
 import com.teamx.mariaFoods.data.dataclasses.products.ProductsData
+import com.teamx.mariaFoods.data.dataclasses.removeCart.RemoveCartData
 import com.teamx.mariaFoods.data.dataclasses.resetPass.ResetPassData
 import com.teamx.mariaFoods.data.dataclasses.signup.SignupData
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
@@ -125,7 +126,7 @@ interface ApiService {
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.PRODUCTS)
-    suspend fun getProducts(): Response<ProductsData>
+    suspend fun getProducts(@Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"): Response<ProductsData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_ORDER_HISTORY)
@@ -150,6 +151,14 @@ interface ApiService {
     suspend fun getCart(
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<GetCartData>
+
+
+  @Headers("secret: dev")
+  @HTTP(method = "DELETE", path = NetworkCallPoints.REMOVE_CART)
+    suspend fun removeCart(
+      @Query("cart_id") cart_id: Int?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<RemoveCartData>
 
 
     @Headers("secret: dev")

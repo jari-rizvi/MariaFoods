@@ -1,16 +1,11 @@
 package com.teamx.mariaFoods.ui.fragments.Auth.login
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -68,7 +63,7 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
 
         FirebaseApp.initializeApp(requireContext())
         Firebase.initialize(requireContext())
-        askNotificationPermission()
+//        askNotificationPermission()
 
         mViewDataBinding.btnForgot.setOnClickListener {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
@@ -121,42 +116,13 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
 
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
-            Firebase.initialize(requireContext())
-            FirebaseApp.initializeApp(requireContext())
-            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("123123", "Fetching FCM registration token failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                // Get new FCM registration token
-
-                fcmToken = task.result
-
-                // Log and toast
-//                val msg = getString(R.string.about_us, token)
-//                Log.d("TAG", msg)
-            })
-
-        } else {
-//             Inform user that that your app will not show notifications.
-        }
-    }
-
-    private fun askNotificationPermission() {
-        // This is only necessary for API level >= 33 (TIRAMISU)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(), Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-
-
+    /*    private val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                // FCM SDK (and your app) can post notifications.
+                Firebase.initialize(requireContext())
+                FirebaseApp.initializeApp(requireContext())
                 FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
                     if (!task.isSuccessful) {
                         Log.w("123123", "Fetching FCM registration token failed", task.exception)
@@ -164,25 +130,54 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                     }
 
                     // Get new FCM registration token
+
                     fcmToken = task.result
 
-
                     // Log and toast
-//                val msg = getString(R.string.about_us, token)
-//                Log.d("TAG", msg)
+    //                val msg = getString(R.string.about_us, token)
+    //                Log.d("TAG", msg)
                 })
-                // FCM SDK (and your app) can post notifications.
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
 
             } else {
-                // Directly ask for t
-                //
-                //
-                // he permission
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    //             Inform user that that your app will not show notifications.
             }
         }
-    }
+
+        private fun askNotificationPermission() {
+            // This is only necessary for API level >= 33 (TIRAMISU)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(), Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+
+
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.w("123123", "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
+                        }
+
+                        // Get new FCM registration token
+                        fcmToken = task.result
+
+
+                        // Log and toast
+    //                val msg = getString(R.string.about_us, token)
+    //                Log.d("TAG", msg)
+                    })
+                    // FCM SDK (and your app) can post notifications.
+                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+
+                } else {
+                    // Directly ask for t
+                    //
+                    //
+                    // he permission
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        }*/
 
     private fun initialization() {
         userEmail = mViewDataBinding.email.text.toString().trim()
@@ -275,7 +270,11 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                                         navController = Navigation.findNavController(
                                             requireActivity(), R.id.nav_host_fragment
                                         )
-                                        navController.navigate(R.id.dashboardFragment, null, options)
+                                        navController.navigate(
+                                            R.id.dashboardFragment,
+                                            null,
+                                            options
+                                        )
 
 
                                     } else {
@@ -377,8 +376,6 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
                     }
                 }
             }
-
-
 
 
         }

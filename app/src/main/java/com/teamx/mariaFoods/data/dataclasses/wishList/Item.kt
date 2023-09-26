@@ -8,7 +8,7 @@ data class Item(
     val discount_value: Int,
     val feature_image: String,
     val id: Int,
-    val is_wishlist: Boolean,
+    var is_wishlist: Boolean,
     val max_price: Int,
     val min_price: Int,
     val name: String,

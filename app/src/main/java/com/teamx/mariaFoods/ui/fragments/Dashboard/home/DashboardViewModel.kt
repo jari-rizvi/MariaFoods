@@ -275,4 +275,16 @@ class Dashboard @Inject constructor(
             )
         }
     }
+
+
+
+    private val getFav: MutableLiveData<ProductsData> = MutableLiveData()
+
+    fun setUser(getFavs: ProductsData) {
+        getFav.value = getFavs
+    }
+
+    fun getUser(): LiveData<ProductsData> {
+        return getFav
+    }
 }

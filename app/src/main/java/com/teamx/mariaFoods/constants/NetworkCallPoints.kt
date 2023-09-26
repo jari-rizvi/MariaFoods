@@ -51,6 +51,7 @@ class NetworkCallPoints {
         //Add to cart
         const val ADD_CART = "products/add-to-cart"
         const val GET_CART = "products/get-cart"
+        const val REMOVE_CART = "products/remove-cart?"
 
 
         //Stripe

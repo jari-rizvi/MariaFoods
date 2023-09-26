@@ -774,7 +774,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                 }
                             }
 
-                            mViewModel.getCart()
+//                            mViewModel.getCart()
 
 //                            mViewModel.addressList.observe(requireActivity()) {
 //                                when (it.status) {
@@ -822,7 +822,36 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
-        mViewModel.getGuestCart(Guser_id.toInt())
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+                if (isAdded) {
+                    if (token.isNullOrBlank()) {
+                        mViewModel.getGuestCart(Guser_id.toInt())
+
+                    } else {
+
+                        mViewModel.getCart()
+
+                    }
+                }
+
+            }
+
+
+        }
+
+
+//        mViewModel.getGuestCart(Guser_id.toInt())
 
 
         if (!mViewModel.getCartList.hasActiveObservers()) {

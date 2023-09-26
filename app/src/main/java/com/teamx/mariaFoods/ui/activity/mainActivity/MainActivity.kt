@@ -208,6 +208,10 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+                R.id.cartFragment -> {
+                    mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
+                    bottomNav?.visibility = View.VISIBLE
+                }
                 else -> {
                     bottomNav?.visibility = View.GONE
                 }
@@ -247,6 +251,10 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
                 R.id.dashboard -> {
                     navController.navigate(R.id.dashboardFragment, null)
+
+                }
+                R.id.cart -> {
+                    navController.navigate(R.id.cartFragment, null)
 
                 }
                 R.id.order -> {

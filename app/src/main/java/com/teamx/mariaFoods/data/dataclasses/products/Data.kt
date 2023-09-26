@@ -17,11 +17,10 @@ data class Data(
     val short_description: String?,
     val slug: String?,
     val stock_qty: Int?,
+    var is_wishlist: Boolean,
     val variation: Variation?,
-    var isChecked: Boolean?,
     var qty : Int =  1,
-//    var isFav: Boolean = false,
-    var is_wishlist: Boolean = false
+    var isChecked: Boolean?
 
 
 )

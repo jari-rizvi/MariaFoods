@@ -117,6 +117,37 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             navController.navigate(R.id.favouriteFragment, null, options)
         }
 
+        mViewDataBinding.fab.setOnClickListener {
+            bottomSheetBehavior =
+                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
+
+            bottomSheetBehavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+                            View.GONE
+
+                        BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+                            View.VISIBLE
+
+                        else -> "Persistent Bottom Sheet"
+                    }
+                }
+            })
+
+            val state =
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                else BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.state = state
+        }
+
+
+
 
         lifecycleScope.launch {
             dataStoreProvider.userFlow.collect { user ->
@@ -236,57 +267,60 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 }
             }
         }
-        mViewModel.getWishList()
         mViewModel.getProducts()
-        if (!mViewModel.getWishlistResponse.hasActiveObservers()) {
-            mViewModel.getWishlistResponse.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
 
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-                            favArrayList = data
-                            Log.d("true", "onBindViewHolder: ${data}")
-                            Log.d("true", "onBindViewHolder: ${favArrayList}")
 
-                            productArrayList?.forEach {
-                                if (it != null) {
+        /*     mViewModel.getWishList()
 
-                                    favArrayList?.data?.forEach { itt ->
-                                        if (itt.id == it.id) {
-                                            it.is_wishlist = true
+             if (!mViewModel.getWishlistResponse.hasActiveObservers()) {
+                 mViewModel.getWishlistResponse.observe(requireActivity()) {
+                     when (it.status) {
+                         Resource.Status.LOADING -> {
+                             loadingDialog.show()
+                         }
 
-                                        }
+                         Resource.Status.SUCCESS -> {
+                             loadingDialog.dismiss()
+                             it.data?.let { data ->
+                                 favArrayList = data
+                                 Log.d("true", "onBindViewHolder: ${data}")
+                                 Log.d("true", "onBindViewHolder: ${favArrayList}")
 
-                                        Log.d("true", "onBindViewHolder: ${it.id}")
-                                        Log.d("true", "onBindViewHolder: ${itt.id}")
-                                    }
-                                    Log.d("true", "onBindViewHolder: ${it.is_wishlist}")
-//                                    productArrayList.add(it
-                                }
-                            }
-                            productAdapter.notifyDataSetChanged()
-                        }
-                    }
+                                 productArrayList?.forEach {
+                                     if (it != null) {
 
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(
-                            requireContext(),
-                            it.message!!
-                        )
-                    }
-                }
-                if (isAdded) {
-                    mViewModel.getWishlistResponse.removeObservers(
-                        viewLifecycleOwner
-                    )
-                }
-            }
-        }
+                                         favArrayList?.data?.forEach { itt ->
+                                             if (itt.id == it.id) {
+                                                 it.is_wishlist = true
+
+                                             }
+
+                                             Log.d("true", "onBindViewHolder: ${it.id}")
+                                             Log.d("true", "onBindViewHolder: ${itt.id}")
+                                         }
+                                         Log.d("true", "onBindViewHolder: ${it.is_wishlist}")
+     //
+                                     }
+                                 }
+                                 productAdapter.notifyDataSetChanged()
+                             }
+                         }
+
+                         Resource.Status.ERROR -> {
+                             loadingDialog.dismiss()
+                             DialogHelperClass.errorDialog(
+                                 requireContext(),
+                                 it.message!!
+                             )
+                         }
+                     }
+                     if (isAdded) {
+                         mViewModel.getWishlistResponse.removeObservers(
+                             viewLifecycleOwner
+                         )
+                     }
+                 }
+             }*/
 
 
 
@@ -303,12 +337,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                             data.data?.forEach {
                                 if (it != null) {
-
-                                    favArrayList?.data?.forEach { itt ->
+                                    /*favArrayList?.data?.forEach { itt ->
                                         if (itt.product_id == it.id) {
                                             it.is_wishlist = true
+                                            itt.item.is_wishlist = true
                                         }
-                                    }
+
+                                    }*/
                                     Log.d("true", "onBindViewHolder: ${it.is_wishlist}")
                                     productArrayList.add(it)
                                 }
@@ -362,6 +397,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 }
             }
         }
+
+
         setUpTransformer()
         timeRecyclerview()
         daysRecyclerview()
@@ -378,28 +415,23 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         loadingDialog.dismiss()
                         it.data?.let { data ->
 
+
                             if (data.Flag == 1) {
 
-                                try {
+                                /*   try {
 
-                                    data.data.id == addFavId
-                                }
-                                catch (e:Exception){
+                                       data.data.id == addFavId
+                                   }
+                                   catch (e:Exception){
 
-                                }
+                                   }*/
 
-
-
-//                                favPosition
-                                Log.d("favPosition", "onViewCreated: $data")
 
 
                                 productArrayList[favPosition].is_wishlist = true
+                                mViewModel.products.value?.data?.data?.get(favPosition)?.is_wishlist =
+                                    true
                                 productAdapter.notifyItemChanged(favPosition)
-                                /*    navController = Navigation.findNavController(
-                                        requireActivity(), R.id.nav_host_fragment
-                                    )
-                                    navController.navigate(R.id.favouriteFragment,null,  options)*/
 
                             } else {
                                 data.Message?.let { it1 -> showToast(it1) }
@@ -459,7 +491,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         if (productArrayList.isNotEmpty()) {
 
 
-                            productArrayList.get(favPosition).is_wishlist = false
+//                            productArrayList.get(favPosition).is_wishlist = false
                             productAdapter.notifyDataSetChanged()
                         }
                     }
@@ -556,33 +588,36 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     }
 
     override fun onScheduleClick(position: Int) {
-        bottomSheetBehavior =
-            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
-
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                        View.GONE
-
-                    BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                        View.VISIBLE
-
-                    else -> "Persistent Bottom Sheet"
-                }
-            }
-        })
-
-        val state =
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
-            else BottomSheetBehavior.STATE_EXPANDED
-        bottomSheetBehavior.state = state
     }
+
+//    override fun onScheduleClick(position: Int) {
+//        bottomSheetBehavior =
+//            BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout.bottomSheetSlots)
+//
+//        bottomSheetBehavior.addBottomSheetCallback(object :
+//            BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//            }
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                when (newState) {
+//                    BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
+//                        View.GONE
+//
+//                    BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
+//                        View.VISIBLE
+//
+//                    else -> "Persistent Bottom Sheet"
+//                }
+//            }
+//        })
+//
+//        val state =
+//            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+//            else BottomSheetBehavior.STATE_EXPANDED
+//        bottomSheetBehavior.state = state
+//    }
 
     var favPosition = -1
 
@@ -744,20 +779,67 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                 } else {*/
 
+        val paramsGUEST = JsonObject()
+        try {
+            paramsGUEST.addProperty("product_variation_id", id)
+            paramsGUEST.addProperty("quantity", qty)
+            paramsGUEST.addProperty("order_day", days)
+            paramsGUEST.addProperty("time_slot", time)
+            paramsGUEST.addProperty("guest_id", randomId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+
         val params = JsonObject()
         try {
             params.addProperty("product_variation_id", id)
             params.addProperty("quantity", qty)
             params.addProperty("order_day", days)
             params.addProperty("time_slot", time)
-            params.addProperty("guest_id", randomId)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
 
+
         Log.e("UserData", params.toString())
 
-        mViewModel.addCart(params)
+   /*     if (randomId.toString().isEmpty()) {
+            mViewModel.addCart(params)
+        } else {
+            mViewModel.addCart(paramsGUEST)
+
+        }*/
+
+
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+                if (isAdded) {
+                    if (token.isNullOrBlank()) {
+                        mViewModel.addCart(paramsGUEST)
+
+                    } else {
+
+                        mViewModel.addCart(params)
+                    }
+                }
+
+            }
+
+
+        }
+
+
 
         if (!mViewModel.addtocart.hasActiveObservers()) {
             mViewModel.addtocart.observe(requireActivity()) {
@@ -779,7 +861,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                 navController = Navigation.findNavController(
                                     requireActivity(), R.id.nav_host_fragment
                                 )
-                                navController.navigate(R.id.checkoutFragment, bundle, options)
+                                navController.navigate(R.id.cartFragment, bundle, options)
 
 
                             } else {
@@ -802,6 +884,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         }
 
 
+    }
+
+    override fun onRemoveToCartListener(id: Int) {
     }
 
     fun generateRandomId(): Int {
