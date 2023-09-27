@@ -31,11 +31,15 @@ class CarttAdapter(
         holder.binding.textView18.text = "${cart.product.max_price} AED"
 
 
-        Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
+        try {
+            Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         holder.itemView.setOnClickListener {}
 
-        if ( cart.qty < 1) {
+        if (cart.qty < 1) {
             cart.qty = 1
         }
         holder.binding.textView19.text = "${cart.qty}"
@@ -52,12 +56,12 @@ class CarttAdapter(
         }
 
         holder.binding.btnAdd.setOnClickListener {
-            onCartListener.onQuantityChange(position,cart.qty + 1)
+            onCartListener.onQuantityChange(position, cart.qty + 1)
 //            onCartListener?.onAddClickListener(position)
         }
 
         holder.binding.btnSub.setOnClickListener {
-            onCartListener.onQuantityChange(position,cart.qty - 1)
+            onCartListener.onQuantityChange(position, cart.qty - 1)
 //            onCartListener?.onSubClickListener(position)
         }
 

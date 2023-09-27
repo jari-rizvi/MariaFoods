@@ -16,12 +16,19 @@ data class Jari(val title: String?, val body: String?, val time: String?)
 
 
 @Keep
-data class DataExtented1(val item: Item1)
+data class MainDateOrderList(val item: MainOrderList)
 
 
 @Keep
-data class Item1(val name: String?, val jariis: List<Jari1>)
-
+data class MainOrderList(val name: String?,val jariis: List<HelperOrderList>)
 
 @Keep
-data class Jari1(val id: Int?,val orderId: String?, val name: String?, val quantity: String?, val price: String?,val created_at: String?, val delivery_status: String?)
+data class ProductOrderList(val name: String?,
+                            val quantity: String?,
+                            val price: String?,
+                            var created_at: String? = "",
+                            var delivery_status: String? = ""
+)
+
+@Keep
+data class HelperOrderList(val total: String?, val id: Int?, val orderId: String?, val name: String?, val quantity: String?, val price: String?, val created_at: String?, val delivery_status: String?, val productorderlist: List<ProductOrderList>)

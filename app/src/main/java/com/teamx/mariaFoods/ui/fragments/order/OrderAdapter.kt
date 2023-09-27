@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teamx.mariaFoods.MainApplication.Companion.context
-import com.teamx.mariaFoods.data.dataclasses.notificationModel.DataExtented1
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.MainDateOrderList
 import com.teamx.mariaFoods.databinding.ItemOrderMonthsBinding
 
 class OrderAdapter(
-    private val orderArrayList: ArrayList<DataExtented1>,
+    private val orderArrayList: ArrayList<MainDateOrderList>,
     private val onOrderListener: OnOrderListener
 ) : RecyclerView.Adapter<OrderViewHolder>(), OnOrderListener {
 
@@ -26,9 +26,9 @@ class OrderAdapter(
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
 
-        val noti: DataExtented1 = orderArrayList[position]
+        val noti: MainDateOrderList = orderArrayList[position]
 
-        val orderList: DataExtented1 = orderArrayList[position]
+        val orderList: MainDateOrderList = orderArrayList[position]
 
         holder.bind.textView54.text = try {
             noti.item.name
@@ -47,8 +47,8 @@ class OrderAdapter(
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         holder.binding.listtorder.layoutManager = linearLayoutManager
 
-
-        orderListAdapter = OrderListAdapter(noti.item.jariis,this)
+//        Log.d("TAG", "__OnViewCreated123123333:${noti.item.jariis.get(0).productorderlist.size} ")
+        orderListAdapter = OrderListAdapter(noti.item,this)
 
         holder.binding.listtorder.adapter = orderListAdapter
 

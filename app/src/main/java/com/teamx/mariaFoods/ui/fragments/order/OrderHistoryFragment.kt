@@ -13,9 +13,10 @@ import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseFragment
 import com.teamx.mariaFoods.constants.NetworkCallPoints
-import com.teamx.mariaFoods.data.dataclasses.notificationModel.DataExtented1
-import com.teamx.mariaFoods.data.dataclasses.notificationModel.Item1
-import com.teamx.mariaFoods.data.dataclasses.notificationModel.Jari1
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.HelperOrderList
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.MainDateOrderList
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.MainOrderList
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.ProductOrderList
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.FragmentOrderHistoryBinding
 import com.teamx.mariaFoods.utils.DialogHelperClass
@@ -28,7 +29,7 @@ import org.json.JSONObject
 
 @AndroidEntryPoint
 class OrderHistoryFragment :
-    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(), OnOrderListener{
+    BaseFragment<FragmentOrderHistoryBinding, OrderHistoryViewModel>(), OnOrderListener {
 
     override val layoutId: Int
         get() = R.layout.fragment_order_history
@@ -40,12 +41,13 @@ class OrderHistoryFragment :
 
     private lateinit var options: NavOptions
     lateinit var orderAdapter: OrderAdapter
-    lateinit var orderArrayList: ArrayList<DataExtented1>
+    lateinit var orderArrayList: ArrayList<MainDateOrderList>
 
-    lateinit var dayArrayList: ArrayList<Jari1>
+    lateinit var dayArrayList: ArrayList<HelperOrderList>
     var token: String? = null
 
-
+    val helperOrderLists = ArrayList<HelperOrderList>()
+    val productOrderList: ArrayList<ProductOrderList> = ArrayList()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
@@ -66,9 +68,6 @@ class OrderHistoryFragment :
             CoroutineScope(Dispatchers.Main).launch {
 
                 dataStoreProvider.token.collect {
-                    Log.d("Databsae Token", "CoroutineScope ${it}")
-
-                    Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
 
                     token = it
 
@@ -76,7 +75,6 @@ class OrderHistoryFragment :
 
                     if (isAdded) {
                         if (token.isNullOrBlank()) {
-                            Log.d("Databsae Token", "token ${token}")
 //                            navController = Navigation.findNavController(
 //                                requireActivity(),
 //                                R.id.nav_host_fragment
@@ -93,11 +91,11 @@ class OrderHistoryFragment :
                                         Resource.Status.LOADING -> {
                                             loadingDialog.show()
                                         }
+
                                         Resource.Status.SUCCESS -> {
                                             loadingDialog.dismiss()
                                             it.data?.let { data ->
 
-                                                Log.d("TAG", "onViewCreated33333: $data")
 
                                                 orderArrayList.clear()
 
@@ -107,35 +105,140 @@ class OrderHistoryFragment :
                                                 try {
                                                     val data = jsonObject.getJSONObject("data")
                                                     val a: ArrayList<String> = ArrayList()
+
                                                     var counter = 0
 
-                                                    val stringIterator: Iterator<String> = data.keys()
+                                                    val stringIterator: Iterator<String> =
+                                                        data.keys()
                                                     while (stringIterator.hasNext()) {
                                                         a.add(stringIterator.next())
-                                                        Log.d("TAG", "onViewCreated33333: ${a.size}")
-                                                        Log.d("TAG", "onViewCreated: ${a.get(0)}")
+
                                                     }
 
                                                     a.forEach {
                                                         val object1 = data.getJSONArray(it)
-                                                        val jari = ArrayList<Jari1>()
-                                                        for (i in 0..object1.length() - 1) {
-                                                            val items = JSONObject(object1[i].toString())
-                                                            jari.add(
-                                                                Jari1(
+
+                                                        helperOrderLists.clear()
+                                                        for (mission in 0 until object1.length()) {
+                                                            val items =
+                                                                JSONObject(object1[mission].toString())
+                                                            val productOrderList1 =
+                                                                items.getJSONArray("products")
+
+
+                                                            for (jk in 0 until productOrderList1.length()) {
+                                                                val items1 =
+                                                                    JSONObject(productOrderList1[jk].toString())
+
+                                                                productOrderList.add(
+                                                                    ProductOrderList(
+                                                                        name = items1.getString("name"),
+                                                                        quantity = items1.getDouble(
+                                                                            "qty"
+                                                                        )
+                                                                            .toString(),
+                                                                        price = items1.getDouble("max_price")
+                                                                            .toString()
+                                                                    )
+
+                                                                )
+                                                            }
+
+
+                                                            helperOrderLists.add(
+                                                                HelperOrderList(
+                                                                    total = items.getString("Total"),
                                                                     id = items.getInt("id"),
                                                                     orderId = items.getString("orderId"),
-                                                                    name = items.getJSONObject("product").getString("name"),
-                                                                    price = items.getJSONObject("product").getDouble("max_price").toString(),
-                                                                    quantity = items.getInt("order_quantity").toString(),
-                                                                    created_at = items.getString("created_at").toString(),
-                                                                    delivery_status = items.getString("delivery_status").toString()
+                                                                    name = """items.getJSONObject("product")
+                                                                        .getString("name")""",
+                                                                    price = """items.getJSONObject("product")
+                                                                        .getDouble("max_price")
+                                                                        .toString()""",
+                                                                    quantity = """items.getInt("order_quantity")
+                                                                        .toString()""",
+                                                                    created_at = items.getString("created_at")
+                                                                        .toString(),
+                                                                    delivery_status = items.getString(
+                                                                        "delivery_status"
+                                                                    ).toString(),
+                                                                    productorderlist = if (productOrderList1.length() != 0) {
+                                                                        val ioio =
+                                                                            ArrayList<ProductOrderList>()
+                                                                        for (jk in 0 until productOrderList1.length()) {
+                                                                            val items1 = JSONObject(
+                                                                                productOrderList1[jk].toString()
+                                                                            )
+
+                                                                            ioio.add(
+                                                                                ProductOrderList(
+                                                                                    name = items1.getString(
+                                                                                        "name"
+                                                                                    ),
+                                                                                    quantity = items1.getDouble(
+                                                                                        "qty"
+                                                                                    )
+                                                                                        .toString(),
+                                                                                    price = items1.getDouble(
+                                                                                        "max_price"
+                                                                                    )
+                                                                                        .toString()
+                                                                                )
+
+                                                                            )
+                                                                        }
+                                                                        ioio
+                                                                    } else {
+
+                                                                        ArrayList()
+                                                                    }
                                                                 )
                                                             )
-                                                        }
+//                                                            productOrderList.clear()
+//                                                            }
 
-                                                        Log.d("TAG", "onViewCreated123123222: ${jari.size}")
-                                                        orderArrayList.add(DataExtented1(Item1("$it", jari)))
+
+                                                            Log.d(
+                                                                "TAG",
+                                                                "onViewCreated123123222!!1: Step2@@${helperOrderLists.size}"
+                                                            )
+                                                            Log.d(
+                                                                "TAG",
+                                                                "onViewCreated123123222!!2: Step2@@${object1.length()}"
+                                                            )
+//                                                            if (jari.size == object1.length()) {
+
+//                                                            }
+                                                        }
+                                                        orderArrayList.add(
+                                                            MainDateOrderList(
+                                                                MainOrderList(
+                                                                    "$it",
+                                                                    helperOrderLists
+                                                                )
+                                                            )
+                                                        )
+//                                                        Log.d(
+//                                                            "@@@@@",
+//                                                            "onViewCreated:${jari.get(0).productorderlist.size} "
+//                                                        )
+                                                        //ye kam uncommit karna he
+//                                                        orderArrayList.add(
+//                                                            MainDateOrderList(
+//                                                                MainOrderList("$it", jari)
+//                                                            )
+//                                                        )
+
+                                                        //
+//                                                        Log.d(
+//                                                            "TAG",
+//                                                            "onViewCreated123123222@@####: ${
+//                                                                orderArrayList.get(
+//                                                                    counter
+//                                                                ).item.jariis.get(0).productorderlist.size
+//                                                            }"
+//                                                        )
+
                                                         counter++
 
                                                     }
@@ -149,9 +252,13 @@ class OrderHistoryFragment :
 
                                             }
                                         }
+
                                         Resource.Status.ERROR -> {
                                             loadingDialog.dismiss()
-                                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                                            DialogHelperClass.errorDialog(
+                                                requireContext(),
+                                                it.message!!
+                                            )
                                         }
                                     }
                                     if (isAdded) {
@@ -174,6 +281,7 @@ class OrderHistoryFragment :
         orderRecyclerview()
 
     }
+
     private fun orderRecyclerview() {
         orderArrayList = ArrayList()
 
@@ -207,35 +315,37 @@ class OrderHistoryFragment :
 
         mViewModel.cancelOrder(params)
 
-            mViewModel.cancelOrder.observe(requireActivity()) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        loadingDialog.show()
-                    }
-                    Resource.Status.SUCCESS -> {
-                        loadingDialog.dismiss()
-                        it.data?.let { data ->
-                            if (data.Flag == 1) {
-                                mViewModel.getOrder()
-                                data.Message?.let { it1 -> showToast(it1) }
+        mViewModel.cancelOrder.observe(requireActivity()) {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+                    loadingDialog.show()
+                }
+
+                Resource.Status.SUCCESS -> {
+                    loadingDialog.dismiss()
+                    it.data?.let { data ->
+                        if (data.Flag == 1) {
+                            mViewModel.getOrder()
+                            data.Message?.let { it1 -> showToast(it1) }
 
 
-                            } else {
-                                data.Message?.let { it1 -> showToast(it1) }
-                            }
-
+                        } else {
+                            data.Message?.let { it1 -> showToast(it1) }
                         }
-                    }
-                    Resource.Status.ERROR -> {
-                        loadingDialog.dismiss()
-                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+
                     }
                 }
-                if (isAdded) {
-                    mViewModel.cancelOrder.removeObservers(viewLifecycleOwner)
+
+                Resource.Status.ERROR -> {
+                    loadingDialog.dismiss()
+                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
                 }
             }
+            if (isAdded) {
+                mViewModel.cancelOrder.removeObservers(viewLifecycleOwner)
+            }
         }
-
     }
+
+}
 

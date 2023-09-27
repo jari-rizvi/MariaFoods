@@ -45,15 +45,16 @@
         <TextView
             android:id="@+id/productName"
             style="@style/montserrat_bold"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:maxLines="1"
             android:text="TextView"
+            android:layout_marginTop="@dimen/_10sdp"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toTopOf="@+id/orderId"
+            app:layout_constraintBottom_toTopOf="@+id/ProductQuantity"
             app:layout_constraintEnd_toStartOf="@+id/date"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout10"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout10"
             app:layout_constraintVertical_bias="0.1"
@@ -74,8 +75,24 @@
             app:layout_constraintStart_toStartOf="@+id/ProductQuantity"
             app:layout_constraintTop_toBottomOf="@+id/ProductQuantity" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/orderId"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/productName"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/productName"
+            app:layout_constraintTop_toBottomOf="@+id/productName" />-->
+
+
+        <TextView
+            android:id="@+id/ProductQuantity"
             style="@style/open_sans_secondary_medium_small"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
@@ -90,22 +107,7 @@
             app:layout_constraintTop_toBottomOf="@+id/productName" />
 
 
-        <TextView
-            android:id="@+id/ProductQuantity"
-            style="@style/open_sans_secondary_medium_small"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:maxLines="1"
-            android:text=""
-            android:textColor="#A7A7A7"
-            android:textSize="@dimen/_10ssp"
-            app:layout_constraintEnd_toEndOf="@+id/orderId"
-            app:layout_constraintStart_toStartOf="@+id/orderId"
-            app:layout_constraintTop_toBottomOf="@+id/orderId" />
-
-
-        <TextView
+   <!--     <TextView
             android:id="@+id/btnCnclOrder"
             style="@style/montserrat_bold"
             android:layout_width="@dimen/_100sdp"
@@ -117,7 +119,6 @@
             android:textAlignment="center"
             android:textColor="@color/orange"
             android:textSize="@dimen/_12ssp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
@@ -137,12 +138,8 @@
             android:textAlignment="center"
             android:textColor="#A7A7A7"
             android:textSize="@dimen/_12ssp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
-            app:layout_constraintTop_toTopOf="@+id/btnReOrder" />
+            app:layout_constraintHorizontal_bias="0.15"/>-->
 
 
         <TextView
@@ -161,8 +158,8 @@
         <TextView
             android:id="@+id/orderStatus"
             style="@style/open_sans_regular_small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_20sdp"
             android:background="@drawable/card_background_small"
             android:backgroundTint="#FFD7C7"
             android:elevation="@dimen/_1sdp"

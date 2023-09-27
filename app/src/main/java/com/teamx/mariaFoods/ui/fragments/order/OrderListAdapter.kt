@@ -1,19 +1,23 @@
 package com.teamx.mariaFoods.ui.fragments.order
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.teamx.mariaFoods.data.dataclasses.notificationModel.Jari1
+import com.teamx.mariaFoods.MainApplication
+import com.teamx.mariaFoods.data.dataclasses.notificationModel.MainOrderList
 import com.teamx.mariaFoods.databinding.ItemOrderBinding
 
 class OrderListAdapter(
-    private val orderArrayList: List<Jari1>,
+    private val orderProductArrayList: MainOrderList,
     private val onTopCategoriesListener: OnOrderListener
 ) : RecyclerView.Adapter<OrderListAdapter.OrdersViewHolder>() {
+
+    lateinit var orderProductListAdapter: OrderProductListAdapter
+
     init {
-        Log.d("TAG", "OnViewCreated123123333:${orderArrayList.size} ")
+        Log.d("TAG", "OnViewCreated123123333:${orderProductArrayList.jariis.size} ")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrdersViewHolder {
@@ -25,11 +29,34 @@ class OrderListAdapter(
 
     }
 
-    @SuppressLint("ResourceAsColor")
+
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
 
-        val orderList: Jari1 = orderArrayList[position]
+
+        val ord = orderProductArrayList.jariis[position].productorderlist
+//        ord.get(0).created_at = orderProductArrayList.jariis[position].created_at
+//        val orderList: Jari1 = orderProductArrayList[position]
+
+
+        holder.binding.orderProducts
+        holder.binding.total.text = orderProductArrayList.jariis[position].total
+
+
 //
+//        notiArrayList.addAll(noti.item.jaris)
+
+        val linearLayoutManager = LinearLayoutManager(MainApplication.context, RecyclerView.VERTICAL, false)
+        holder.binding.orderProducts.layoutManager = linearLayoutManager
+
+        Log.d("TAG", "OnViewCreated123123333@@:${ord.size} ")
+        Log.d("TAG", "OnViewCreated123123333@@:${orderProductArrayList.jariis.get(position).id} ")
+        orderProductListAdapter = OrderProductListAdapter(ord, onTopCategoriesListener)
+
+        holder.binding.orderProducts.adapter = orderProductListAdapter
+
+
+//        val orderProductList: Jari1 = orderProductArrayList[position]
+
 //        holder.bind.productName.text = try {
 //            orderList.name
 //        } catch (e: Exception) {
@@ -75,18 +102,16 @@ class OrderListAdapter(
         holder.bind.btnReOrder.setOnClickListener {
             onTopCategoriesListener.oneReorderClick(position)
         }
-//        holder.bind.btnCnclOrder.setOnClickListener {
-//            onTopCategoriesListener.oneCancelOrderClick(orderArrayList[position].id!!)
-//        }
+
 
     }
 
     override fun getItemCount(): Int {
-        return orderArrayList.size
+        return orderProductArrayList.jariis.size
     }
 
 
-    class OrdersViewHolder(private var binding: ItemOrderBinding) :
+    class OrdersViewHolder(var binding: ItemOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         val bind = binding
