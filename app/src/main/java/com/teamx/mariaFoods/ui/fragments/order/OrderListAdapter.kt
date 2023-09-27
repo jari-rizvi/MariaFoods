@@ -29,40 +29,40 @@ class OrderListAdapter(
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
 
         val orderList: Jari1 = orderArrayList[position]
-
-        holder.bind.productName.text = try {
-            orderList.name
-        } catch (e: Exception) {
-            ""
-        }
-
-        holder.bind.date.text = try {
-            orderList.created_at?.dropLast(18)
-        } catch (e: Exception) {
-            ""
-        }
-
-        holder.bind.ProductQuantity.text = try {
-            "Qty: ${orderList.quantity}"
-        } catch (e: Exception) {
-            ""
-        }
-
-        holder.bind.orderId.text = try {
-            "OrderId: ${orderList.orderId}"
-        } catch (e: Exception) {
-            ""
-        }
-        holder.bind.ProductPrice.text = try {
-            orderList.price
-        } catch (e: Exception) {
-            ""
-        }
-        holder.bind.orderStatus.text = try {
-            orderList.delivery_status
-        } catch (e: Exception) {
-            ""
-        }
+//
+//        holder.bind.productName.text = try {
+//            orderList.name
+//        } catch (e: Exception) {
+//            ""
+//        }
+//
+//        holder.bind.date.text = try {
+//            orderList.created_at?.dropLast(18)
+//        } catch (e: Exception) {
+//            ""
+//        }
+//
+//        holder.bind.ProductQuantity.text = try {
+//            "Qty: ${orderList.quantity}"
+//        } catch (e: Exception) {
+//            ""
+//        }
+//
+//        holder.bind.orderId.text = try {
+//            "OrderId: ${orderList.orderId}"
+//        } catch (e: Exception) {
+//            ""
+//        }
+//        holder.bind.ProductPrice.text = try {
+//            orderList.price
+//        } catch (e: Exception) {
+//            ""
+//        }
+//        holder.bind.orderStatus.text = try {
+//            orderList.delivery_status
+//        } catch (e: Exception) {
+//            ""
+//        }
 
 //        if (orderList.delivery_status == "order-placed") {
 //            holder.bind.btnCnclOrder.visibility = View.VISIBLE
@@ -75,9 +75,9 @@ class OrderListAdapter(
         holder.bind.btnReOrder.setOnClickListener {
             onTopCategoriesListener.oneReorderClick(position)
         }
-        holder.bind.btnCnclOrder.setOnClickListener {
-            onTopCategoriesListener.oneCancelOrderClick(orderArrayList[position].id!!)
-        }
+//        holder.bind.btnCnclOrder.setOnClickListener {
+//            onTopCategoriesListener.oneCancelOrderClick(orderArrayList[position].id!!)
+//        }
 
     }
 

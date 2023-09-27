@@ -1,6 +1,8 @@
 package com.teamx.mariaFoods.ui.fragments.cart
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import java.util.Stack
 
 @AndroidEntryPoint
 class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartListener,
@@ -144,7 +147,11 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                             cartAdapter.notifyDataSetChanged()
 
                             mViewDataBinding.subtotal.text = data.data.subTotal
-                            mViewDataBinding.date.text = data.data.slot.timeline
+                            try {
+                                mViewDataBinding.date.text = data.data.slot.timeline
+                            } catch (e: Exception) {
+
+                            }
                             /*    mViewDataBinding.discount.text = data.data.couponDiscount
                                 mViewDataBinding.vat.text = data.data.vat
                                 mViewDataBinding.deliveryfee.text = data.data.delivery_charges*/
@@ -257,7 +264,10 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                                         dataStoreProvider.token.collect {
                                             Log.d("Databsae Token", "CoroutineScope ${it}")
 
-                                            Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+                                            Log.d(
+                                                "dataStoreProvider",
+                                                "subscribeToNetworkLiveData: $it"
+                                            )
 
                                             token = it
 
@@ -395,6 +405,7 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
             mViewDataBinding.root.snackbar("atleast select one item")
             return
         }
+
         qty -= 1
         cartArrayList[position].qty = qty
         cartAdapter.notifyDataSetChanged()
@@ -441,6 +452,73 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
             }
         }
 
+    }
+
+    private val debounceDelayMillis = 1000 // Set your desired debounce delay in milliseconds
+    private val handler = Handler(Looper.getMainLooper())
+    private val actionStack = Stack<Int>()
+
+    override fun onQuantityChange(position: Int, quantity: Int) {
+//        val Pqty = cartArrayList[position]
+
+        handler.removeCallbacksAndMessages(null)
+
+        if (quantity > 0) {
+
+            if (!actionStack.contains(position)) {
+                actionStack.push(position)
+            }
+            cartArrayList[position].qty = quantity
+            cartAdapter.notifyItemChanged(position)
+
+            updateQtyResponse()
+
+        }
+    }
+
+    private fun updateQtyResponse() {
+
+        val params = JsonObject()
+
+        handler.postDelayed({
+            if (actionStack.isNotEmpty()) {
+                val cartmodel = cartArrayList[actionStack.pop()]
+                params.addProperty("cart_id", cartmodel.id)
+                params.addProperty("qty", cartmodel.qty)
+                mViewModel.increaseDecrease(params)
+
+                mViewModel.increaseDecreaseResponse.observe(requireActivity()) {
+                    when (it.status) {
+                        Resource.Status.LOADING -> {
+                            loadingDialog.show()
+                        }
+
+                        Resource.Status.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            it.data?.let { data ->
+
+                                if (actionStack.isNotEmpty()) {
+                                    val cartmodel1 = cartArrayList[actionStack.pop()]
+                                    params.addProperty("cart_id", cartmodel1.id)
+                                    params.addProperty("qty", cartmodel1.qty)
+                                    mViewModel.increaseDecrease(params)
+                                }
+//                                else {
+//                                    cartAdapter.notifyDataSetChanged()
+//                                }
+                            }
+                            mViewModel.increaseDecreaseResponse.removeObservers(viewLifecycleOwner)
+                        }
+
+                        Resource.Status.ERROR -> {
+                            loadingDialog.dismiss()
+                            mViewDataBinding.root.snackbar(it.message!!)
+                        }
+                    }
+                }
+            }
+
+        }, debounceDelayMillis.toLong())
     }
 
     override fun ontimeClick(position: Int) {

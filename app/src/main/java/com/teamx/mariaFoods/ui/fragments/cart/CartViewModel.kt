@@ -189,4 +189,55 @@ class CartViewModel @Inject constructor(
             } else _changeSlotResponse.postValue(Resource.error("No internet connection", null))
         }
     }
+
+
+    private val _increaseDecreaseResponse = MutableLiveData<Resource<SuccessData>>()
+    val increaseDecreaseResponse: LiveData<Resource<SuccessData>>
+        get() = _increaseDecreaseResponse
+
+    fun increaseDecrease(param: JsonObject) {
+        viewModelScope.launch {
+            _increaseDecreaseResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.increseDecrease(param).let {
+                        if (it.isSuccessful) {
+                            _increaseDecreaseResponse.postValue(Resource.success(it.body()!!))
+
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            _increaseDecreaseResponse.postValue(Resource.error(it.message(), null))
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+
+
+                            _increaseDecreaseResponse.postValue(
+                                Resource.error(
+                                    jsonObj.getJSONArray(
+                                        "errors"
+                                    )[0].toString()
+                                )
+                            )
+
+
+                        } else {
+                            _increaseDecreaseResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+
+
+                        }
+                    }
+                } catch (e: Exception) {
+                    _increaseDecreaseResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _increaseDecreaseResponse.postValue(
+                Resource.error(
+                    "No internet connection",
+                    null
+                )
+            )
+        }
+    }
 }

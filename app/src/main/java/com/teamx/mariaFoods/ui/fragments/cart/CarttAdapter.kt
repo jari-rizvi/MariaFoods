@@ -24,11 +24,11 @@ class CarttAdapter(
 
     override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
 
-        val cart: Cart = arrayList[position]
+        val cart = arrayList[position]
 
         holder.binding.productName.text = cart.product.name
 
-        holder.binding.textView18.text = "${cart.product.max_price}AED"
+        holder.binding.textView18.text = "${cart.product.max_price} AED"
 
 
         Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
@@ -40,15 +40,25 @@ class CarttAdapter(
         }
         holder.binding.textView19.text = "${cart.qty}"
 
+//        holder.binding.btnAdd.setOnClickListener {
+//            onCartListener?.onAddClickListener(position)
+//        }
+
+//        holder.binding.btnSub.setOnClickListener {
+//            onCartListener?.onSubClickListener(position)
+//        }
+        holder.binding.btnDelete.setOnClickListener {
+            onCartListener?.onRemoveToCartListener(position)
+        }
+
         holder.binding.btnAdd.setOnClickListener {
-            onCartListener?.onAddClickListener(position)
+            onCartListener.onQuantityChange(position,cart.qty + 1)
+//            onCartListener?.onAddClickListener(position)
         }
 
         holder.binding.btnSub.setOnClickListener {
-            onCartListener?.onSubClickListener(position)
-        }
-        holder.binding.btnDelete.setOnClickListener {
-            onCartListener?.onRemoveToCartListener(position)
+            onCartListener.onQuantityChange(position,cart.qty - 1)
+//            onCartListener?.onSubClickListener(position)
         }
 
 //        holder.binding.btnBuy.setOnClickListener {

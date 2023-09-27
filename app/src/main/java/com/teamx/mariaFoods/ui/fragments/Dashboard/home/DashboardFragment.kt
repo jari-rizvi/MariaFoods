@@ -889,6 +889,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     override fun onRemoveToCartListener(id: Int) {
     }
 
+    override fun onQuantityChange(position: Int, quantity: Int) {
+
+    }
+
     fun generateRandomId(): Int {
         val random = Random.Default
         return random.nextInt(10000, 100000)

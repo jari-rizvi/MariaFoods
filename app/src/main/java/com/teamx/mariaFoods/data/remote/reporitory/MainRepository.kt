@@ -51,6 +51,7 @@ class MainRepository @Inject constructor(
     suspend fun termsCondition() = apiService.termsCondition()
     suspend fun getHelp() = apiService.getHelp()
     suspend fun addCart(@Body param: JsonObject) = apiService.addCart(param)
+    suspend fun increseDecrease(@Body param: JsonObject) = apiService.increseDecrease(param)
     suspend fun setDefaultCard(@Body param: JsonObject) = apiService.setDefaultCard(param)
 
 

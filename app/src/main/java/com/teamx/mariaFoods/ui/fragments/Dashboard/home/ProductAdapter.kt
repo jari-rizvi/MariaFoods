@@ -81,6 +81,9 @@ class ProductAdapter(
         holder.binding.btnSub.setOnClickListener {
             onCartListener?.onSubClickListener(position)
         }
+
+
+
         holder.binding.btnBuy.setOnClickListener {
             product.variation!!.id?.let { it1 -> onCartListener?.onAddToCartListener(it1) }
         }

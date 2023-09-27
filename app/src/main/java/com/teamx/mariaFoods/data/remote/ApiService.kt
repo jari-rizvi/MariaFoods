@@ -286,6 +286,13 @@ interface ApiService {
         @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
     ): Response<AddToCartData>
 
+    @Headers("secret: dev")
+    @POST(NetworkCallPoints.INCRESE_DECREASE)
+    suspend fun increseDecrease(
+        @Body params: JsonObject?,
+        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
+    ): Response<SuccessData>
+
 
     @Headers("secret: dev")
     @POST(NetworkCallPoints.SET_DEFAULT_CARDS)

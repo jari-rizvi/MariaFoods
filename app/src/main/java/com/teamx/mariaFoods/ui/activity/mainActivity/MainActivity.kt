@@ -212,6 +212,10 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+                R.id.checkoutFragment -> {
+                    mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
+                    bottomNav?.visibility = View.VISIBLE
+                }
                 else -> {
                     bottomNav?.visibility = View.GONE
                 }

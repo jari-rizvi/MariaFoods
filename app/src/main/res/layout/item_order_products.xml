@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_3sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:background="@drawable/card_background"
+        android:elevation="@dimen/_1sdp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout10"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:background="@drawable/card_background"
+            android:elevation="@dimen/_1sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1">
+
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/card_background"
+                android:clipToOutline="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/banner_image"
+                tools:layout_editor_absoluteY="2dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/productName"
+            style="@style/montserrat_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:maxLines="1"
+            android:text="TextView"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toTopOf="@+id/orderId"
+            app:layout_constraintEnd_toStartOf="@+id/date"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout10"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout10"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/ProductPrice"
+            style="@style/montserrat_bold"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/orange"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@+id/ProductQuantity"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/ProductQuantity"
+            app:layout_constraintTop_toBottomOf="@+id/ProductQuantity" />
+
+        <TextView
+            android:id="@+id/orderId"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/productName"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/productName"
+            app:layout_constraintTop_toBottomOf="@+id/productName" />
+
+
+        <TextView
+            android:id="@+id/ProductQuantity"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/orderId"
+            app:layout_constraintStart_toStartOf="@+id/orderId"
+            app:layout_constraintTop_toBottomOf="@+id/orderId" />
+
+
+        <TextView
+            android:id="@+id/btnCnclOrder"
+            style="@style/montserrat_bold"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:background="@drawable/card_border"
+            android:gravity="center"
+            android:text="Cancel Order"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
+            app:layout_constraintTop_toTopOf="@+id/btnReOrder" />
+
+        <TextView
+            android:id="@+id/btnCnclOrderFalse"
+            style="@style/montserrat_bold"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:background="@drawable/card_border_grey"
+            android:clickable="false"
+            android:gravity="center"
+            android:text="Cancel Order"
+            android:textAlignment="center"
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReOrder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
+            app:layout_constraintTop_toTopOf="@+id/btnReOrder" />
+
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:text="TextView"
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/productName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/productName" />
+
+        <TextView
+            android:id="@+id/orderStatus"
+            style="@style/open_sans_regular_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_background_small"
+            android:backgroundTint="#FFD7C7"
+            android:elevation="@dimen/_1sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/_4sdp"
+            android:text=""
+            android:textColor="@color/orange"
+            app:layout_constraintBottom_toBottomOf="@+id/ProductPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ProductPrice"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
