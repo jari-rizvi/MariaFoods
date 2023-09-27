@@ -29,6 +29,7 @@ import com.teamx.mariaFoods.ui.fragments.Dashboard.home.OnCartListener
 import com.teamx.mariaFoods.ui.fragments.Dashboard.home.OnTimeListener
 import com.teamx.mariaFoods.ui.fragments.Dashboard.home.TimeAdapter
 import com.teamx.mariaFoods.utils.DialogHelperClass
+import com.teamx.mariaFoods.utils.PrefHelper
 import com.teamx.mariaFoods.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -73,6 +74,10 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
         super.onViewCreated(view, savedInstanceState)
         mViewDataBinding.lifecycleOwner = viewLifecycleOwner
 
+
+        Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
+
+
         options = navOptions {
             anim {
                 enter = R.anim.enter_from_left
@@ -114,7 +119,7 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
                 if (isAdded) {
                     if (token.isNullOrBlank()) {
-                        mViewModel.getGuestCart(Guser_id.toInt())
+                            mViewModel.getGuestCart(Guser_id.toInt())
 
                     } else {
 
@@ -173,7 +178,7 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
 
 
-        mViewModel.getProducts()
+//        mViewModel.getProducts()
         if (!mViewModel.products.hasActiveObservers()) {
             mViewModel.products.observe(requireActivity()) {
                 when (it.status) {

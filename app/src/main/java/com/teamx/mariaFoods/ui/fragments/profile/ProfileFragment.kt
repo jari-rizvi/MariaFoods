@@ -208,6 +208,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                             mViewDataBinding.textView49.text = "Login"
                             mViewDataBinding.textView42.visibility = View.GONE
                             mViewDataBinding.textView43.visibility = View.GONE
+                            mViewDataBinding.swOnOff.visibility = View.GONE
                             mViewDataBinding.btnAddress.visibility = View.GONE
                             mViewDataBinding.btnPayment.visibility = View.GONE
                             mViewDataBinding.shareApp.visibility = View.GONE

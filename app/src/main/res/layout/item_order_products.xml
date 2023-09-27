@@ -165,6 +165,7 @@
             android:elevation="@dimen/_1sdp"
             android:ellipsize="end"
             android:gravity="center"
+            android:visibility="gone"
             android:maxLines="1"
             android:padding="@dimen/_4sdp"
             android:text=""

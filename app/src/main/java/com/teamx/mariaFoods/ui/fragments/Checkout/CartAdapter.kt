@@ -30,7 +30,13 @@ class CartAdapter(
 
         holder.binding.ProductQuantity.text = "Qty: ${cart.qty}"
 
-        Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
+        try {
+
+            Picasso.get().load(cart.product.product_images[0]).into(holder.binding.imageView12)
+        }
+        catch (e:Exception){
+
+        }
 
         holder.itemView.setOnClickListener {}
 

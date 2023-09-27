@@ -164,9 +164,7 @@ interface ApiService {
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CART)
     suspend fun getGuestCart(
-        @Query("guest_id") guest_id: Int?,
-        @Header("Authorization") basicCredentials: String? = "Bearer $TOKENER"
-    ): Response<GetCartData>
+        @Query("guest_id") guest_id: Int?): Response<GetCartData>
 
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CARDS)
