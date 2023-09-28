@@ -508,6 +508,33 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                                     params.addProperty("qty", cartmodel1.qty)
                                     mViewModel.increaseDecrease(params)
                                 }
+                                var token: String?? = null
+                                CoroutineScope(Dispatchers.Main).launch {
+
+                                    dataStoreProvider.token.collect {
+                                        Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                                        Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                                        token = it
+
+                                        NetworkCallPoints.TOKENER = token.toString()
+
+                                        if (isAdded) {
+                                            if (token.isNullOrBlank()) {
+                                                mViewModel.getGuestCart(Guser_id.toInt())
+
+                                            } else {
+
+                                                mViewModel.getCart()
+                                            }
+                                        }
+
+                                    }
+
+
+                                }
+
 //                                else {
 //                                    cartAdapter.notifyDataSetChanged()
 //                                }

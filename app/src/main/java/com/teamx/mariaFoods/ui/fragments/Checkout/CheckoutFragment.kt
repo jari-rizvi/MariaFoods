@@ -293,8 +293,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                 if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
                 else BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = state
-
-            popUpStack()
+            navController = Navigation.findNavController(
+                requireActivity(), R.id.nav_host_fragment
+            )
+            navController.navigate(R.id.dashboardFragment, null, options)
+//            popUpStack()
 
 
         }

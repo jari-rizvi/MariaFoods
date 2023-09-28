@@ -102,6 +102,7 @@
             android:backgroundTint="@color/orange"
             android:gravity="center"
             android:text="@string/add_to_cart"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
