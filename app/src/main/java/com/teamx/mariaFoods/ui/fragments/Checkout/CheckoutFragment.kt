@@ -284,6 +284,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
 
+/*
         mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
             bottomSheetBehavior =
                 BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
@@ -301,6 +302,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
         }
+*/
 
         if (Guser_id.isNotEmpty()) {
             mViewDataBinding.btnAddAdrress.visibility = View.GONE
@@ -601,38 +603,15 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                 paymentIntentClientSecret = data.client_secreat!!
 
                                 if (!paymentid.isNullOrEmpty()) {
-                                    bottomSheetBehavior =
-                                        BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
 
-                                    bottomSheetBehavior.addBottomSheetCallback(object :
-                                        BottomSheetBehavior.BottomSheetCallback() {
-                                        override fun onSlide(
-                                            bottomSheet: View,
-                                            slideOffset: Float
-                                        ) {
-
-                                        }
-
-                                        override fun onStateChanged(
-                                            bottomSheet: View,
-                                            newState: Int
-                                        ) {
-                                            when (newState) {
-                                                BottomSheetBehavior.STATE_EXPANDED -> MainActivity.bottomNav?.visibility =
-                                                    View.GONE
-
-                                                BottomSheetBehavior.STATE_COLLAPSED -> MainActivity.bottomNav?.visibility =
-                                                    View.VISIBLE
-
-                                                else -> "Persistent Bottom Sheet"
-                                            }
-                                        }
-                                    })
-
-                                    val state =
-                                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
-                                        else BottomSheetBehavior.STATE_EXPANDED
-                                    bottomSheetBehavior.state = state
+                                    navController = Navigation.findNavController(
+                                        requireActivity(), R.id.nav_host_fragment
+                                    )
+                                    navController.navigate(
+                                        R.id.placeOrderFragment,
+                                        null,
+                                        options
+                                    )
                                 } else {
                                     presentPaymentSheet()
                                 }
@@ -681,8 +660,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                             Log.d("Databsae Token", "token ${token}")
 
                         } else {
-
-
                             mViewModel.getAddress()
 
                             mViewModel.addressList.observe(requireActivity()) {
@@ -737,8 +714,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                                         Resource.Status.SUCCESS -> {
                                             loadingDialog.dismiss()
                                             it.data?.let { data ->
-
-
                                                 try {
                                                     mViewDataBinding.paymentName.text =
                                                         "*** *** *** ${data.data.card.last4}"

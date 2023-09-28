@@ -148,7 +148,6 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
         }
 
 
-
 //        mViewModel.getCart()
         Guser_id = PrefHelper.getInstance(this).getUserId!!
 
@@ -165,7 +164,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
                 NetworkCallPoints.TOKENER = token.toString()
 
-
+                try {
                     if (token.isNullOrBlank()) {
                         mViewModel.getGuestCart(Guser_id.toInt())
 
@@ -173,6 +172,9 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
                         mViewModel.getCart()
                     }
+                } catch (e: Exception) {
+
+                }
 
 
             }
@@ -180,6 +182,8 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
         }
         Timber.tag("123123").d("onCreate: ")
+
+
         bottomNav = findViewById(R.id.bottomnavigationbar)
 
         if (!mViewModel.getCartList.hasActiveObservers()) {
@@ -245,22 +249,27 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     bottomNav?.visibility = View.VISIBLE
                     mViewDataBinding.bottomnavigationbar.menu.getItem(0)?.isChecked = true
                 }
+
                 R.id.orderHistoryFragment -> {
                     mViewDataBinding.bottomnavigationbar.menu.getItem(1)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+
                 R.id.profileFragment -> {
                     mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+
                 R.id.cartFragment -> {
                     mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+
                 R.id.checkoutFragment -> {
                     mViewDataBinding.bottomnavigationbar.menu.getItem(2)?.isChecked = true
                     bottomNav?.visibility = View.VISIBLE
                 }
+
                 else -> {
                     bottomNav?.visibility = View.GONE
                 }
@@ -302,16 +311,20 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     navController.navigate(R.id.dashboardFragment, null)
 
                 }
+
                 R.id.cart -> {
                     navController.navigate(R.id.cartFragment, null)
 
                 }
+
                 R.id.order -> {
                     navController.navigate(R.id.orderHistoryFragment, null)
                 }
+
                 R.id.cart -> {
                     navController.navigate(R.id.checkoutFragment, null)
                 }
+
                 R.id.profile -> {
                     navController.navigate(R.id.profileFragment, null)
                 }

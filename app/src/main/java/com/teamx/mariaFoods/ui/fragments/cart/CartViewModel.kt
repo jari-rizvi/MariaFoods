@@ -56,7 +56,7 @@ class CartViewModel @Inject constructor(
     }
 
 
-    private val _getCartListResponse = MutableLiveData<Resource<GetCartData>>()
+//    private val _getCartListResponse = MutableLiveData<Resource<GetCartData>>()
     val getCartList: LiveData<Resource<GetCartData>>
         get() = _getCartListResponse
 

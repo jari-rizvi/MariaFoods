@@ -103,4 +103,8 @@
         android:id="@+id/cartFragment"
         android:name="com.teamx.mariaFoods.ui.fragments.cart.CartFragment"
         android:label="CartFragment" />
+    <fragment
+        android:id="@+id/placeOrderFragment"
+        android:name="com.teamx.mariaFoods.ui.fragments.placeorder.PlaceOrderFragment"
+        android:label="PlaceOrderFragment" />
 </navigation>

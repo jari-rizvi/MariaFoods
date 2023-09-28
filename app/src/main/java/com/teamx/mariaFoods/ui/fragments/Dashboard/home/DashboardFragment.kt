@@ -861,14 +861,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                                 PrefHelper.getInstance(requireContext()).savaDays(days!!)
                                 PrefHelper.getInstance(requireContext()).savaTime(time!!)
 
-                                val bundle = Bundle()
+                                mViewDataBinding.root.snackbar(data.Message)
+
+                               /* val bundle = Bundle()
                                 bundle.putString("days", days.toString())
                                 bundle.putString("time", time.toString())
 
                                 navController = Navigation.findNavController(
                                     requireActivity(), R.id.nav_host_fragment
                                 )
-                                navController.navigate(R.id.cartFragment, bundle, options)
+                                navController.navigate(R.id.cartFragment, bundle, options)*/
 
 
                             } else {
