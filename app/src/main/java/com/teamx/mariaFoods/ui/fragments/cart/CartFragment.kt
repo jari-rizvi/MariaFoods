@@ -178,7 +178,7 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
 
 
-//        mViewModel.getProducts()
+        mViewModel.getProducts()
         if (!mViewModel.products.hasActiveObservers()) {
             mViewModel.products.observe(requireActivity()) {
                 when (it.status) {

@@ -107,6 +107,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             )
             navController.navigate(R.id.notificationFragment, null, options)
         }
+        days = PrefHelper.getInstance(requireContext()).days!!
+        time = PrefHelper.getInstance(requireContext()).time!!
 
 
 
@@ -779,6 +781,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                 } else {*/
 
+
+
+
         val paramsGUEST = JsonObject()
         try {
             paramsGUEST.addProperty("product_variation_id", id)
@@ -853,6 +858,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                         it.data?.let { data ->
                             if (data.Flag == 1) {
 
+                                PrefHelper.getInstance(requireContext()).savaDays(days!!)
+                                PrefHelper.getInstance(requireContext()).savaTime(time!!)
 
                                 val bundle = Bundle()
                                 bundle.putString("days", days.toString())

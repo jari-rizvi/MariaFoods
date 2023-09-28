@@ -11,7 +11,8 @@ class PrefHelper private constructor() {
         private val sharePref = PrefHelper()
         private lateinit var sharedPreferences: SharedPreferences
         private val USER_ID = "userId"
-
+        private val DAYS = "days"
+        private val TIME = "time"
 
 
         fun getInstance(context: Context): PrefHelper {
@@ -27,7 +28,11 @@ class PrefHelper private constructor() {
         }
     }
 
-    val firstname: String?? get() = sharedPreferences.getString(AppConstants.DataStore.FIRSTNAME, "")
+    val firstname: String??
+        get() = sharedPreferences.getString(
+            AppConstants.DataStore.FIRSTNAME,
+            ""
+        )
     val lastname: String?? get() = sharedPreferences.getString(AppConstants.DataStore.LASTNAME, "")
     val email: String?? get() = sharedPreferences.getString(AppConstants.DataStore.EMAIL, "")
     val avatar: String?? get() = sharedPreferences.getString(AppConstants.DataStore.AVATAR, "")
@@ -53,6 +58,22 @@ class PrefHelper private constructor() {
 
     fun savaUserId(userId: String) {
         sharedPreferences.edit().putString(USER_ID, userId).apply()
+    }
+
+    val days: Int?
+        get() = sharedPreferences.getInt(DAYS, 0)
+
+
+    fun savaDays(date: Int) {
+        sharedPreferences.edit().putInt(DAYS, date).apply()
+    }
+
+    val time: Int?
+        get() = sharedPreferences.getInt(TIME, 0)
+
+
+    fun savaTime(time: Int) {
+        sharedPreferences.edit().putInt(TIME, time).apply()
     }
 
 

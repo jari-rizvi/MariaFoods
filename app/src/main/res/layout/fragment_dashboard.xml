@@ -475,15 +475,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            app:backgroundTint="@color/orange"
             android:clickable="true"
             android:src="@drawable/schedule"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintVertical_bias="0.93"
+            app:backgroundTint="@color/orange"
             app:layout_constraintBottom_toBottomOf="@+id/main_content"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/main_content" />
+            app:layout_constraintTop_toTopOf="@id/main_content"
+            app:layout_constraintVertical_bias="0.93"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

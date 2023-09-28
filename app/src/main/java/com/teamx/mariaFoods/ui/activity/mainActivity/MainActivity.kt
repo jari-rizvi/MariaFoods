@@ -2,6 +2,7 @@ package com.teamx.mariaFoods.ui.activity.mainActivity
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -18,11 +19,19 @@ import com.teamx.mariaFoods.BR
 import com.teamx.mariaFoods.MainApplication
 import com.teamx.mariaFoods.R
 import com.teamx.mariaFoods.baseclasses.BaseActivity
+import com.teamx.mariaFoods.constants.NetworkCallPoints
+import com.teamx.mariaFoods.data.local.datastore.DataStoreProvider
+import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.databinding.ActivityMainBinding
 import com.teamx.mariaFoods.facebooklogin.FacebookResponse
 import com.teamx.mariaFoods.facebooklogin.FacebookUser
+import com.teamx.mariaFoods.utils.DialogHelperClass
 import com.teamx.mariaFoods.utils.FragHelper
+import com.teamx.mariaFoods.utils.PrefHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -41,7 +50,9 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
 
     private var navController: NavController? = null
+    lateinit var dataStoreProvider: DataStoreProvider
 
+    var Guser_id = ""
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -110,6 +121,9 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
         stateHelper = FragHelper(supportFragmentManager)
 
+        dataStoreProvider = DataStoreProvider(this)
+
+
         if (savedInstanceState == null) {
             idN = R.id.tempFragment
         } else {
@@ -133,7 +147,38 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
             );
         }
 
-     /*   mViewModel.getCart()
+
+
+//        mViewModel.getCart()
+        Guser_id = PrefHelper.getInstance(this).getUserId!!
+
+
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+
+                    if (token.isNullOrBlank()) {
+                        mViewModel.getGuestCart(Guser_id.toInt())
+
+                    } else {
+
+                        mViewModel.getCart()
+                    }
+
+
+            }
+
+
+        }
         Timber.tag("123123").d("onCreate: ")
         bottomNav = findViewById(R.id.bottomnavigationbar)
 
@@ -171,7 +216,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                 }
 
             }
-        }*/
+        }
 
 
 

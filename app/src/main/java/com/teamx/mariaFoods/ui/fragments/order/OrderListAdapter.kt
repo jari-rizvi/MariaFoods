@@ -40,6 +40,8 @@ class OrderListAdapter(
 
         holder.binding.orderProducts
         holder.binding.total.text = orderProductArrayList.jariis[position].total
+        holder.binding.date.text = orderProductArrayList.jariis[position].created_at?.dropLast(18)
+        holder.binding.orderStatus.text = orderProductArrayList.jariis[position].delivery_status
 
 
 //

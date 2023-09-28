@@ -8,11 +8,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_3sdp"
         android:layout_marginVertical="@dimen/_5sdp"
-        android:background="@drawable/card_background"
         android:elevation="@dimen/_1sdp">
 
 
@@ -45,7 +44,7 @@
         <TextView
             android:id="@+id/productName"
             style="@style/montserrat_bold"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:maxLines="1"
@@ -148,6 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_15sdp"
+            android:visibility="gone"
             android:text="TextView"
             android:textColor="#A7A7A7"
             android:textSize="@dimen/_8ssp"

@@ -10,15 +10,59 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_2sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:background="@drawable/card_background"
+        android:elevation="@dimen/_2sdp">
 
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/open_sans_secondary_medium_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="#A7A7A7"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toTopOf="@+id/orderStatus"
+            app:layout_constraintEnd_toEndOf="@+id/orderStatus"
+            app:layout_constraintStart_toStartOf="@+id/orderStatus"
+            app:layout_constraintTop_toTopOf="@+id/orderProducts" />
+
+
+        <TextView
+            android:id="@+id/orderStatus"
+            style="@style/open_sans_regular_small"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:background="@drawable/card_background_small"
+            android:backgroundTint="#FFD7C7"
+            android:elevation="@dimen/_1sdp"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@+id/orderProducts"
+            android:gravity="center"
+            android:maxLines="1"
+
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0.2"
+            android:text="sdsdds"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/orderProducts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orderProducts" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderProducts"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/orderStatus"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
@@ -46,9 +90,9 @@
             android:textColor="@color/orange"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintBottom_toBottomOf="@+id/textView33"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toEndOf="@+id/textView33"
             app:layout_constraintTop_toTopOf="@+id/textView33" />
 
@@ -70,24 +114,24 @@
             app:layout_constraintVertical_bias="0.1" />
 
 
-          <TextView
-              android:id="@+id/btnReOrder"
-              style="@style/montserrat_bold"
-              android:layout_width="@dimen/_200sdp"
-              android:layout_height="@dimen/_30sdp"
-              android:layout_marginHorizontal="@dimen/_10sdp"
-              android:layout_marginVertical="@dimen/_8sdp"
-              android:background="@drawable/card_background"
-              android:backgroundTint="@color/orange"
-              android:gravity="center"
-              android:text="@string/re_order"
-              app:layout_constraintVertical_bias="0.1"
-              android:textColor="@color/white"
-              android:textSize="@dimen/_12ssp"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/total" />
+        <TextView
+            android:id="@+id/btnReOrder"
+            style="@style/montserrat_bold"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:background="@drawable/card_background"
+            android:backgroundTint="@color/orange"
+            android:gravity="center"
+            android:text="@string/re_order"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total"
+            app:layout_constraintVertical_bias="0.1" />
 
 
         <TextView
@@ -100,16 +144,16 @@
             android:background="@drawable/card_background"
             android:backgroundTint="@color/orange"
             android:gravity="center"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
             android:text="@string/re_order"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintVertical_bias="0.1"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
             android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/total" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@+id/btnReOrder"
+            app:layout_constraintTop_toBottomOf="@+id/total"
+            app:layout_constraintVertical_bias="0.1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
