@@ -30,7 +30,14 @@ class FavouriteAdapter(
 
         holder.binding.price.text = list.max_price.toString()
 
-        Picasso.get().load(list.product_images[0]).into(holder.binding.imageView12)
+
+        try {
+            Picasso.get().load(list.product_images[0]).into(holder.binding.imageView12)
+        }
+        catch (e:Exception){
+
+        }
+
 
         holder.itemView.setOnClickListener {}
 

@@ -33,6 +33,7 @@ class MainRepository @Inject constructor(
     suspend fun getAddress() = apiService.getAddress()
     suspend fun getCart() = apiService.getCart()
     suspend fun getGuestCart(@Query("guest_id") guest_id: Int) = apiService.getGuestCart(guest_id)
+    suspend fun removeGuestCart(@Query("cart_id") cart_id: Int,@Query("guest_id") guest_id: Int) = apiService.removeGuestCart(guest_id,cart_id)
     suspend fun removeCart(@Query("cart_id") cart_id: Int) = apiService.removeCart(cart_id)
     suspend fun getCards() = apiService.getCards()
     suspend fun getWishList() = apiService.getWishList()

@@ -1,5 +1,8 @@
 package com.teamx.mariaFoods.data.dataclasses.removeCart
 
+import androidx.annotation.Keep
+@Keep
+
 data class Product(
     val description: Any,
     val discount_end_date: Int,

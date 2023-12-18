@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.teamx.mariaFoods.baseclasses.BaseViewModel
-import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.remote.Resource
 import com.teamx.mariaFoods.data.remote.reporitory.MainRepository
 import com.teamx.mariaFoods.utils.NetworkHelper
@@ -21,8 +20,8 @@ class MainViewModel @Inject constructor(
 
 
 //    private val _getCartListResponse = MutableLiveData<Resource<GetCartData>>()
-    val getCartList: LiveData<Resource<GetCartData>>
-        get() = _getCartListResponse
+//    val getCartList: LiveData<Resource<GetCartData>>
+//        get() = _getCartListResponse
 
     fun getCart() {
         viewModelScope.launch {

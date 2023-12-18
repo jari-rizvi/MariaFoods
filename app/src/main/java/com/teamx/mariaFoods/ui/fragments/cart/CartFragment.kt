@@ -1,5 +1,6 @@
 package com.teamx.mariaFoods.ui.fragments.cart
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -40,7 +41,7 @@ import java.util.Stack
 
 @AndroidEntryPoint
 class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartListener,
-    OnTimeListener {
+    OnTimeListener, DialogHelperClass.Companion.DialogCallBack {
 
     override val layoutId: Int
         get() = R.layout.fragment_cart
@@ -117,14 +118,19 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
                 NetworkCallPoints.TOKENER = token.toString()
 
-                if (isAdded) {
-                    if (token.isNullOrBlank()) {
+                try {
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
                             mViewModel.getGuestCart(Guser_id.toInt())
 
-                    } else {
+                        } else {
 
-                        mViewModel.getCart()
+                            mViewModel.getCart()
+                        }
                     }
+                } catch (e: Exception) {
+
                 }
 
             }
@@ -142,6 +148,23 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
+
+                            val size = data?.data?.cartCount ?: 0
+                            it?.let {
+                                MainActivity.bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
+                                    backgroundColor = Color.RED
+                                    badgeTextColor = Color.WHITE
+                                    maxCharacterCount = 3
+                                    number = size
+                                    isVisible = size != 0
+                                }
+                            }
+
+
+
+                            mViewDataBinding.btnCheckout.isClickable = size > 0
+
+
                             cartArrayList.clear()
 
                             data.data.carts.forEach {
@@ -152,6 +175,8 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                             cartAdapter.notifyDataSetChanged()
 
                             mViewDataBinding.subtotal.text = data.data.subTotal
+
+
                             try {
                                 mViewDataBinding.date.text = data.data.slot.timeline
                             } catch (e: Exception) {
@@ -240,79 +265,9 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
 
         mViewDataBinding.bottomSheetLayout.btnBook.setOnClickListener {
-
-            val params = JsonObject()
-            try {
-                params.addProperty("order_day", days)
-                params.addProperty("time_slot", time)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-            mViewModel.changeSlot(params)
-
-
-            if (!mViewModel.changeSlotResponse.hasActiveObservers()) {
-                mViewModel.changeSlotResponse.observe(requireActivity()) {
-                    when (it.status) {
-                        Resource.Status.LOADING -> {
-                            loadingDialog.show()
-                        }
-
-                        Resource.Status.SUCCESS -> {
-                            loadingDialog.dismiss()
-                            it.data?.let { data ->
-                                if (data.Flag == 1) {
-
-                                    var token: String?? = null
-                                    CoroutineScope(Dispatchers.Main).launch {
-
-                                        dataStoreProvider.token.collect {
-                                            Log.d("Databsae Token", "CoroutineScope ${it}")
-
-                                            Log.d(
-                                                "dataStoreProvider",
-                                                "subscribeToNetworkLiveData: $it"
-                                            )
-
-                                            token = it
-
-                                            NetworkCallPoints.TOKENER = token.toString()
-
-                                            if (isAdded) {
-                                                if (token.isNullOrBlank()) {
-                                                    mViewModel.getGuestCart(Guser_id.toInt())
-
-                                                } else {
-
-                                                    mViewModel.getCart()
-                                                }
-                                            }
-
-                                        }
-
-
-                                    }
-
-                                    openBottomSheer()
-
-                                } else {
-                                    data.Message?.let { it1 -> showToast(it1) }
-                                }
-
-
-                            }
-                        }
-
-                        Resource.Status.ERROR -> {
-                            loadingDialog.dismiss()
-                            DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                        }
-                    }
-                    if (isAdded) {
-                        mViewModel.changeSlotResponse.removeObservers(viewLifecycleOwner)
-                    }
-                }
-            }
+            DialogHelperClass.defaultCardDialog(
+                requireContext(), this, true
+            )
 
         }
 
@@ -425,8 +380,31 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
         val cartid = cartArrayList[position].id
 
-        mViewModel.removeCart(cartid)
 
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+                try {
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            mViewModel.removeGuestCart(Guser_id.toInt(), cartid)
+                        } else {
+                            mViewModel.removeCart(cartid)
+                        }
+                    }
+                } catch (e: Exception) {
+
+                }
+
+            }
+
+
+        }
         if (!mViewModel.removeCart.hasActiveObservers()) {
             mViewModel.removeCart.observe(requireActivity()) {
                 when (it.status) {
@@ -439,7 +417,30 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                         it.data?.let { data ->
                             cartArrayList.clear()
 
-                            mViewModel.getCart()
+                            var token: String?? = null
+                            CoroutineScope(Dispatchers.Main).launch {
+
+                                dataStoreProvider.token.collect {
+                                    token = it
+
+                                    NetworkCallPoints.TOKENER = token.toString()
+
+                                    try {
+                                        if (isAdded) {
+                                            if (token.isNullOrBlank()) {
+                                                mViewModel.getGuestCart(Guser_id.toInt())
+                                            } else {
+                                                mViewModel.getCart()
+                                            }
+                                        }
+                                    } catch (e: Exception) {
+
+                                    }
+
+                                }
+
+
+                            }
 
                             cartAdapter.notifyDataSetChanged()
                             data.Message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
@@ -484,13 +485,55 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
     private fun updateQtyResponse() {
 
         val params = JsonObject()
+        val paramsGuest = JsonObject()
+
 
         handler.postDelayed({
             if (actionStack.isNotEmpty()) {
                 val cartmodel = cartArrayList[actionStack.pop()]
                 params.addProperty("cart_id", cartmodel.id)
                 params.addProperty("qty", cartmodel.qty)
-                mViewModel.increaseDecrease(params)
+
+                paramsGuest.addProperty("cart_id", cartmodel.id)
+                paramsGuest.addProperty("qty", cartmodel.qty)
+                paramsGuest.addProperty("guest_id", Guser_id)
+
+
+                var token: String?? = null
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    dataStoreProvider.token.collect {
+                        Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                        Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                        token = it
+
+                        NetworkCallPoints.TOKENER = token.toString()
+
+
+                        try {
+
+                            if (isAdded) {
+                                if (token.isNullOrBlank()) {
+                                    mViewModel.increaseDecrease(paramsGuest)
+
+                                } else {
+
+                                    mViewModel.increaseDecrease(params)
+                                }
+                            }
+                        } catch (e: Exception) {
+
+                        }
+
+                    }
+
+
+                }
+
+
+
 
                 mViewModel.increaseDecreaseResponse.observe(requireActivity()) {
                     when (it.status) {
@@ -514,7 +557,10 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
                                     dataStoreProvider.token.collect {
                                         Log.d("Databsae Token", "CoroutineScope ${it}")
 
-                                        Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+                                        Log.d(
+                                            "dataStoreProvider",
+                                            "subscribeToNetworkLiveData: $it"
+                                        )
 
                                         token = it
 
@@ -602,6 +648,132 @@ class CartFragment : BaseFragment<FragmentCartBinding, CartViewModel>(), OnCartL
 
 
         dayAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCnfrmClicked() {
+        val params = JsonObject()
+        try {
+            params.addProperty("order_day", days)
+            params.addProperty("time_slot", time)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        val paramsGuest = JsonObject()
+        try {
+            paramsGuest.addProperty("order_day", days)
+            paramsGuest.addProperty("time_slot", time)
+            paramsGuest.addProperty("guest_id", Guser_id)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+                try {
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            mViewModel.changeSlot(paramsGuest)
+
+                        } else {
+
+                            mViewModel.changeSlot(params)
+                        }
+                    }
+                } catch (e: Exception) {
+
+                }
+
+            }
+
+        }
+
+
+        if (!mViewModel.changeSlotResponse.hasActiveObservers()) {
+            mViewModel.changeSlotResponse.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+                            if (data.Flag == 1) {
+
+                                var token: String?? = null
+                                CoroutineScope(Dispatchers.Main).launch {
+
+                                    dataStoreProvider.token.collect {
+                                        Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                                        Log.d(
+                                            "dataStoreProvider",
+                                            "subscribeToNetworkLiveData: $it"
+                                        )
+
+                                        token = it
+
+                                        NetworkCallPoints.TOKENER = token.toString()
+
+
+                                        try {
+
+                                            if (isAdded) {
+                                                if (token.isNullOrBlank()) {
+                                                    mViewModel.getGuestCart(Guser_id.toInt())
+
+                                                } else {
+
+                                                    mViewModel.getCart()
+                                                }
+                                            }
+                                        } catch (e: Exception) {
+
+                                        }
+
+
+                                    }
+
+
+                                }
+
+                                openBottomSheer()
+
+                            } else {
+                                data.Message?.let { it1 -> showToast(it1) }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+                    mViewModel.changeSlotResponse.removeObservers(viewLifecycleOwner)
+                }
+            }
+        }
+
+    }
+
+    override fun onCnclClicked() {
+
     }
 
 }

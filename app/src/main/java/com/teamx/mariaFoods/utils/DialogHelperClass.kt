@@ -68,6 +68,32 @@ class DialogHelperClass {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
         }
+        fun changeSlotDialog(context: Context, dialogCallBack: DialogCallBack, boo: Boolean) {
+            val dialog = Dialog(context)
+            dialog.setContentView(R.layout.change_slot_dialog)
+            dialog.window!!.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT
+            )
+
+
+            val removeBtn = dialog.findViewById<TextView>(R.id.removeBtn)
+            removeBtn.setOnClickListener {
+                if (boo) {
+                    dialogCallBack.onCnfrmClicked()
+                } else {
+                    dialogCallBack.onCnclClicked()
+                }
+                dialog.dismiss()
+            }
+
+            val cancelBtn = dialog.findViewById<TextView>(R.id.cancelBtn)
+            cancelBtn.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+        }
 
 
         interface DialogLoginCallBack {

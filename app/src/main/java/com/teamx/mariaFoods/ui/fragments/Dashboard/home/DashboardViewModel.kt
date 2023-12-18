@@ -62,6 +62,31 @@ class Dashboard @Inject constructor(
         }
     }
 
+    fun getGuestCart(guest_id: Int) {
+        viewModelScope.launch {
+            _getCartListResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.getGuestCart(guest_id).let {
+                        if (it.isSuccessful) {
+                            _getCartListResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                            _getCartListResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _getCartListResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _getCartListResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _getCartListResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
 
     private val _bannerListResponse = MutableLiveData<Resource<BannerListData>>()
     val bannerList: LiveData<Resource<BannerListData>>
@@ -287,4 +312,35 @@ class Dashboard @Inject constructor(
     fun getUser(): LiveData<ProductsData> {
         return getFav
     }
+
+    //
+    fun getCart() {
+        viewModelScope.launch {
+            _getCartListResponse.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                try {
+                    mainRepository.getCart().let {
+                        if (it.isSuccessful) {
+                            _getCartListResponse.postValue(Resource.success(it.body()!!))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
+                            _getCartListResponse.postValue(Resource.error(it.message(), null))
+                        } else {
+                            _getCartListResponse.postValue(
+                                Resource.error(
+                                    "Some thing went wrong",
+                                    null
+                                )
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _getCartListResponse.postValue(Resource.error("${e.message}", null))
+                }
+            } else _getCartListResponse.postValue(Resource.error("No internet connection", null))
+        }
+    }
+    //
+
+
+
 }

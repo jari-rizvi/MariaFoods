@@ -2,10 +2,13 @@ package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -66,6 +69,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     lateinit var productAdapter: ProductAdapter
     lateinit var productArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>
+    lateinit var filterProductArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>
 
     lateinit var timeAdapter: TimeAdapter
     lateinit var timeArrayList: ArrayList<TimeSlot>
@@ -80,6 +84,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
     var days: Int? = 0
     var time: Int? = 0
     var token: String?? = null
+    var Guser_id: String?? = null
 
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -110,6 +115,147 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         days = PrefHelper.getInstance(requireContext()).days!!
         time = PrefHelper.getInstance(requireContext()).time!!
 
+//        mViewDataBinding.etSearch.setOnClickListener {
+//            val searchEditText =  mViewDataBinding.etSearch
+//            searchEditText.addTextChangedListener(object : TextWatcher {
+//                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                }
+//
+//                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                    val searchText = s.toString().trim()
+//                    val filteredList = productSearchArrayList.filter { product1 ->
+//                        product1.name?.contains(searchText, ignoreCase = true)
+//                    }
+//
+//
+//                    productAdapter = ProductAdapter(filteredList)
+//                    mViewDataBinding.productRecycler.adapter = productAdapter
+//                }
+//
+//                override fun afterTextChanged(s: Editable?) {
+//                }
+//            })
+//        }
+
+        filterProductArrayList = ArrayList()
+        productArrayList = ArrayList()
+
+
+        mViewDataBinding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.isNotEmpty()) {
+
+                    filterProductArrayList = productArrayList.filter {
+                        it.name?.lowercase()!!.contains(s.toString().lowercase())
+                    } as ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>
+
+                    productRecyclerview(filterProductArrayList)
+
+                } else {
+                    productRecyclerview(productArrayList)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable) {
+
+            }
+        })
+
+
+//
+        try {
+
+            Guser_id = PrefHelper.getInstance(requireContext()).getUserId!!
+        } catch (e: Exception) {
+
+        }
+
+
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+                try {
+
+                    if (isAdded) {
+                        if (token.isNullOrBlank()) {
+                            mViewDataBinding.fav.visibility = View.GONE
+                            mViewDataBinding.textView3.text = ("Hello Guest")
+                            if (sharedViewModel.randomId == null && Guser_id == null) {
+
+                                sharedViewModel.randomId = generateRandomId()
+                                Log.d("TAG", "onViewCreated: $112122 ${sharedViewModel.randomId}")
+                            } else {
+                                sharedViewModel.randomId = Guser_id?.toInt()
+                            }
+                            PrefHelper.getInstance(requireContext())
+                                .savaUserId(sharedViewModel.randomId.toString())
+                            mViewModel.getGuestCart(Guser_id!!.toInt())
+
+                        } else {
+
+                            mViewModel.getCart()
+                        }
+                    }
+                } catch (e: Exception) {
+
+                }
+
+
+            }
+
+
+        }
+
+        if (!mViewModel.getCartList.hasActiveObservers()) {
+            mViewModel.getCartList.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
+                    }
+
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+
+                            val size = data?.data?.cartCount ?: 0
+                            it?.let {
+                                MainActivity.bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
+                                    backgroundColor = Color.RED
+                                    badgeTextColor = Color.WHITE
+                                    maxCharacterCount = 3
+                                    number = size
+                                    isVisible = size != 0
+                                }
+                            }
+
+
+                        }
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
+                }
+                if (isAdded) {
+
+                }
+            }
+        }
+        //
 
 
         mViewDataBinding.fav.setOnClickListener {
@@ -174,6 +320,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                     if (isAdded) {
                         if (token.isNullOrBlank()) {
+
                             Log.d("Databsae Token", "token ${token}")
 
                         } else {
@@ -232,7 +379,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
         mViewDataBinding.bottomSheetLayout.months.text = currentMonth
 
         initializeFeatureProducts()
-        productRecyclerview()
+        productRecyclerview(productArrayList)
 
         mViewModel.bannerList()
 
@@ -481,33 +628,45 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
             bottomSheetBehavior.state = state
         }
 
-        mViewModel.deletewishlist.observe(requireActivity()) {
-            when (it.status) {
-                Resource.Status.LOADING -> {
-                    loadingDialog.show()
-                }
-
-                Resource.Status.SUCCESS -> {
-                    loadingDialog.dismiss()
-                    it.data?.let { data ->
-                        if (productArrayList.isNotEmpty()) {
-
-
-//                            productArrayList.get(favPosition).is_wishlist = false
-                            productAdapter.notifyDataSetChanged()
-                        }
+        try {
+            mViewModel.deletewishlist.observe(requireActivity()) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        loadingDialog.show()
                     }
 
+                    Resource.Status.SUCCESS -> {
+                        loadingDialog.dismiss()
+                        it.data?.let { data ->
+//                        if (productArrayList.isNotEmpty()) {
+//
+//
+//                            productAdapter.notifyDataSetChanged()
+//                        }
+
+                            try {
+                                productArrayList[favPosition].is_wishlist = false
+                                mViewModel.products.value?.data?.data?.get(favPosition)?.is_wishlist =
+                                    false
+                                productAdapter.notifyItemChanged(favPosition)
+                            } catch (e: Exception) {
+
+                            }
+                        }
+
+
+                    }
+
+                    Resource.Status.ERROR -> {
+                        loadingDialog.dismiss()
+                        DialogHelperClass.errorDialog(requireContext(), it.message!!)
+                    }
                 }
 
-                Resource.Status.ERROR -> {
-                    loadingDialog.dismiss()
-                    DialogHelperClass.errorDialog(requireContext(), it.message!!)
-                }
             }
+        } catch (e: Exception) {
 
         }
-
 
     }
 
@@ -551,8 +710,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     }
 
-    private fun productRecyclerview() {
-        productArrayList = ArrayList()
+    private fun productRecyclerview(productArrayList: ArrayList<com.teamx.mariaFoods.data.dataclasses.products.Data>) {
+//        productArrayList = ArrayList()
 
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewDataBinding.productRecycler.layoutManager = linearLayoutManager
@@ -768,9 +927,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
     override fun onAddToCartListener(id: Int) {
 
-        val randomId = generateRandomId()
-        Log.d("TAG", "onViewCredsdsdsated: $randomId")
-        PrefHelper.getInstance(requireContext()).savaUserId(randomId.toString())
+        /* val randomId = generateRandomId()
+         Log.d("TAG", "onViewCredsdsdsated: $randomId")
+         PrefHelper.getInstance(requireContext()).savaUserId(randomId.toString())*/
 
 
         /*
@@ -782,15 +941,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
                 } else {*/
 
 
-
-
         val paramsGUEST = JsonObject()
         try {
             paramsGUEST.addProperty("product_variation_id", id)
             paramsGUEST.addProperty("quantity", qty)
             paramsGUEST.addProperty("order_day", days)
             paramsGUEST.addProperty("time_slot", time)
-            paramsGUEST.addProperty("guest_id", randomId)
+            paramsGUEST.addProperty("guest_id", sharedViewModel.randomId)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -809,12 +966,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
         Log.e("UserData", params.toString())
 
-   /*     if (randomId.toString().isEmpty()) {
-            mViewModel.addCart(params)
-        } else {
-            mViewModel.addCart(paramsGUEST)
+        /*     if (randomId.toString().isEmpty()) {
+                 mViewModel.addCart(params)
+             } else {
+                 mViewModel.addCart(paramsGUEST)
 
-        }*/
+             }*/
 
 
         var token: String?? = null
@@ -863,16 +1020,62 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, Dashboard>(), O
 
                                 mViewDataBinding.root.snackbar(data.Message)
 
-                               /* val bundle = Bundle()
-                                bundle.putString("days", days.toString())
-                                bundle.putString("time", time.toString())
 
-                                navController = Navigation.findNavController(
-                                    requireActivity(), R.id.nav_host_fragment
-                                )
-                                navController.navigate(R.id.cartFragment, bundle, options)*/
+                                val size = data?.data?.cartCount ?: 0
+                                it?.let {
+                                    MainActivity.bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
+                                        backgroundColor = Color.RED
+                                        badgeTextColor = Color.WHITE
+                                        maxCharacterCount = 3
+                                        number = size
+                                        isVisible = size != 0
+                                    }
+                                }
 
 
+                                /* val bundle = Bundle()
+                                 bundle.putString("days", days.toString())
+                                 bundle.putString("time", time.toString())
+
+                                 navController = Navigation.findNavController(
+                                     requireActivity(), R.id.nav_host_fragment
+                                 )
+                                 navController.navigate(R.id.cartFragment, bundle, options)*/
+
+                                var token: String?? = null
+                                CoroutineScope(Dispatchers.Main).launch {
+
+                                    dataStoreProvider.token.collect {
+                                        Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                                        Log.d(
+                                            "dataStoreProvider",
+                                            "subscribeToNetworkLiveData: $it"
+                                        )
+
+                                        token = it
+
+                                        NetworkCallPoints.TOKENER = token.toString()
+
+                                        try {
+
+                                            if (isAdded) {
+                                                if (token.isNullOrBlank()) {
+                                                    mViewModel.getGuestCart(Guser_id!!.toInt())
+
+                                                } else {
+
+                                                    mViewModel.getCart()
+                                                }
+                                            }
+                                        } catch (e: Exception) {
+
+                                        }
+
+                                    }
+
+
+                                }
                             } else {
                                 data.Message?.let { it1 -> showToast(it1) }
                             }

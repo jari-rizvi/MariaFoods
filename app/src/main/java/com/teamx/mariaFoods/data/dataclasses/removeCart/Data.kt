@@ -1,5 +1,8 @@
 package com.teamx.mariaFoods.data.dataclasses.removeCart
 
+import androidx.annotation.Keep
+@Keep
+
 data class Data(
     val Total: String,
     val cartCount: Int,

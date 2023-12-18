@@ -116,69 +116,6 @@ class LogInEmailFragment : BaseFragment<FragmentLoginEmailBinding, LoginViewMode
 
     }
 
-    /*    private val requestPermissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                // FCM SDK (and your app) can post notifications.
-                Firebase.initialize(requireContext())
-                FirebaseApp.initializeApp(requireContext())
-                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Log.w("123123", "Fetching FCM registration token failed", task.exception)
-                        return@OnCompleteListener
-                    }
-
-                    // Get new FCM registration token
-
-                    fcmToken = task.result
-
-                    // Log and toast
-    //                val msg = getString(R.string.about_us, token)
-    //                Log.d("TAG", msg)
-                })
-
-            } else {
-    //             Inform user that that your app will not show notifications.
-            }
-        }
-
-        private fun askNotificationPermission() {
-            // This is only necessary for API level >= 33 (TIRAMISU)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(), Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-
-
-                    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                        if (!task.isSuccessful) {
-                            Log.w("123123", "Fetching FCM registration token failed", task.exception)
-                            return@OnCompleteListener
-                        }
-
-                        // Get new FCM registration token
-                        fcmToken = task.result
-
-
-                        // Log and toast
-    //                val msg = getString(R.string.about_us, token)
-    //                Log.d("TAG", msg)
-                    })
-                    // FCM SDK (and your app) can post notifications.
-                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-
-                } else {
-                    // Directly ask for t
-                    //
-                    //
-                    // he permission
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
-            }
-        }*/
-
     private fun initialization() {
         userEmail = mViewDataBinding.email.text.toString().trim()
         password = mViewDataBinding.password.text.toString().trim()

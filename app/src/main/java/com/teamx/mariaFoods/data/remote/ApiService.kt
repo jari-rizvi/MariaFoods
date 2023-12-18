@@ -161,6 +161,14 @@ interface ApiService {
     ): Response<RemoveCartData>
 
 
+
+    @Headers("secret: dev")
+    @HTTP(method = "DELETE", path = NetworkCallPoints.REMOVE_CART)
+    suspend fun removeGuestCart(
+        @Query("cart_id") cart_id: Int?,
+        @Query("guest_id") guest_id: Int?
+    ): Response<RemoveCartData>
+
     @Headers("secret: dev")
     @GET(NetworkCallPoints.GET_CART)
     suspend fun getGuestCart(

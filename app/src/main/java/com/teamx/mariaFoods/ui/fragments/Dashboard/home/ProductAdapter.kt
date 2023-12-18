@@ -2,13 +2,20 @@ package com.teamx.mariaFoods.ui.fragments.Dashboard.home
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
+import com.teamx.mariaFoods.MainApplication.Companion.context
 import com.teamx.mariaFoods.R
+import com.teamx.mariaFoods.constants.NetworkCallPoints
 import com.teamx.mariaFoods.data.dataclasses.products.Data
+import com.teamx.mariaFoods.data.local.datastore.DataStoreProvider
 import com.teamx.mariaFoods.databinding.ItemProductsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ProductAdapter(
@@ -19,6 +26,7 @@ class ProductAdapter(
 
     lateinit var ProductBannerAdapter: ProductBannersAdapter
     private var tabLayoutMediator: TabLayoutMediator? = null
+    lateinit var dataStoreProvider: DataStoreProvider
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopProductViewHolder {
@@ -30,6 +38,9 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: TopProductViewHolder, position: Int) {
 
+        dataStoreProvider = DataStoreProvider(context)
+
+
         val productBannner: Data = arrayList[position]
 
         val product: Data = arrayList[position]
@@ -39,7 +50,7 @@ class ProductAdapter(
         holder.binding.price.text = "${product.max_price} AED"
 
 //       val quanti = product.qty ?: 1
-        if ( product.qty < 1) {
+        if (product.qty < 1) {
             product.qty = 1
         }
         holder.binding.textView19.text = "${product.qty}"
@@ -50,13 +61,42 @@ class ProductAdapter(
 
         Picasso.get().load(product.feature_image).into(holder.binding.img)
 
-        if(product.is_wishlist){
+        if (product.is_wishlist) {
             Log.d("true", "onBindViewHolder: ${product.is_wishlist}")
             holder.binding.btnFav.setImageResource(R.drawable.wishlist_selected)
-        }
-        else{
+        } else {
             holder.binding.btnFav.setImageResource(R.drawable.wishlist_circle)
             Log.d("true", "onBindViewHolder: ${product.is_wishlist}")
+
+        }
+
+
+        var token: String?? = null
+        CoroutineScope(Dispatchers.Main).launch {
+
+            dataStoreProvider.token.collect {
+                Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                token = it
+
+                NetworkCallPoints.TOKENER = token.toString()
+
+                try {
+                    if (token.isNullOrBlank()) {
+                        holder.binding.btnFav.visibility = View.GONE
+
+                    } else {
+
+                    }
+
+                } catch (e: Exception) {
+
+                }
+
+            }
+
 
         }
 
@@ -70,7 +110,7 @@ class ProductAdapter(
         }
 
         holder.binding.btnFav.setOnClickListener {
-            onTopProductListener.onAddFavClick(position,product.is_wishlist)
+            onTopProductListener.onAddFavClick(position, product.is_wishlist)
         }
 
 

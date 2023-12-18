@@ -3,6 +3,7 @@ package com.teamx.mariaFoods.ui.fragments.Checkout
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -222,20 +223,59 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
 
         mViewDataBinding.textView20.setOnClickListener {
-            if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
-                showToast("Enter Voucher")
-            } else {
 
-                val params = JsonObject()
-                try {
-                    params.addProperty(
-                        "code", mViewDataBinding.autoCompleteTextView.text.toString()
-                    )
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+            var token: String?? = null
+            CoroutineScope(Dispatchers.Main).launch {
+
+                dataStoreProvider.token.collect {
+                    Log.d("Databsae Token", "CoroutineScope ${it}")
+
+                    Log.d("dataStoreProvider", "subscribeToNetworkLiveData: $it")
+
+                    token = it
+
+                    NetworkCallPoints.TOKENER = token.toString()
+
+
+                    try {
+
+                        if (isAdded) {
+                            if (token.isNullOrBlank()) {
+                                navController = Navigation.findNavController(
+                                    requireActivity(), R.id.nav_host_fragment
+                                )
+                                navController.navigate(R.id.logInFragment, null, options)
+
+                            } else {
+
+
+                                if (mViewDataBinding.autoCompleteTextView.text.isNullOrEmpty()) {
+                                    showToast("Enter Voucher")
+                                } else {
+                                    val params = JsonObject()
+                                    try {
+                                        params.addProperty(
+                                            "code",
+                                            mViewDataBinding.autoCompleteTextView.text.toString()
+                                        )
+                                    } catch (e: JSONException) {
+                                        e.printStackTrace()
+                                    }
+                                    mViewModel.Applycoupon(params)
+                                }
+                            }
+
+
+                        }
+                    } catch (e: Exception) {
+
+                    }
+
                 }
-                mViewModel.Applycoupon(params)
+
+
             }
+
 
         }
 
@@ -249,12 +289,16 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
+                            if (data.Flag == 1) {
+                                mViewDataBinding.subtotal.text = data.data.subTotal
+                                mViewDataBinding.discount.text = data.data.couponDiscount
+                                mViewDataBinding.vat.text = data.data.vat
+                                mViewDataBinding.deliveryfee.text = data.data.delivery_charges
+                                mViewDataBinding.total.text = data.data.Total
+                            } else {
+                                it.message?.let { it1 -> mViewDataBinding.root.snackbar(it1) }
 
-                            mViewDataBinding.subtotal.text = data.data.subTotal
-                            mViewDataBinding.discount.text = data.data.couponDiscount
-                            mViewDataBinding.vat.text = data.data.vat
-                            mViewDataBinding.deliveryfee.text = data.data.delivery_charges
-                            mViewDataBinding.total.text = data.data.Total
+                            }
 
                         }
                     }
@@ -283,32 +327,33 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
         }
 
 
-
-/*
-        mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
-            bottomSheetBehavior =
-                BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
-
-
-            val state =
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
-                else BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = state
-            navController = Navigation.findNavController(
-                requireActivity(), R.id.nav_host_fragment
-            )
-            navController.navigate(R.id.dashboardFragment, null, options)
-//            popUpStack()
+        /*
+                mViewDataBinding.bottomSheetLayout1.btnShopping.setOnClickListener {
+                    bottomSheetBehavior =
+                        BottomSheetBehavior.from(mViewDataBinding.bottomSheetLayout1.bottomSheetOrderPlace)
 
 
-        }
-*/
+                    val state =
+                        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) BottomSheetBehavior.STATE_COLLAPSED
+                        else BottomSheetBehavior.STATE_EXPANDED
+                    bottomSheetBehavior.state = state
+                    navController = Navigation.findNavController(
+                        requireActivity(), R.id.nav_host_fragment
+                    )
+                    navController.navigate(R.id.dashboardFragment, null, options)
+        //            popUpStack()
+
+
+                }
+        */
 
         if (Guser_id.isNotEmpty()) {
-            mViewDataBinding.btnAddAdrress.visibility = View.GONE
             mViewDataBinding.imageView13.visibility = View.GONE
             mViewDataBinding.textView25.visibility = View.GONE
         }
+
+
+
         mViewDataBinding.bottomSheetLayout.btnAdd.setOnClickListener {
             initialization()
 
@@ -583,7 +628,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     params.addProperty("payment_method", "STRIPE")
                     params.addProperty("shipping_address", addressid)
                     if (!paymentid.isNullOrEmpty()) {
-                        params.addProperty("payment_method_id", paymentid)
+                        params.addProperty("payment_method_id",  paymentid)
                     }
 
                 } catch (e: JSONException) {
@@ -657,6 +702,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
 
                     if (isAdded) {
                         if (token.isNullOrBlank()) {
+                            mViewDataBinding.btnAddAdrress.visibility = View.GONE
                             Log.d("Databsae Token", "token ${token}")
 
                         } else {
@@ -842,6 +888,17 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding, CheckoutViewModel
                     Resource.Status.SUCCESS -> {
                         loadingDialog.dismiss()
                         it.data?.let { data ->
+
+                            val size = data?.data?.cartCount ?: 0
+                            it?.let {
+                                MainActivity.bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
+                                    backgroundColor = Color.RED
+                                    badgeTextColor = Color.WHITE
+                                    maxCharacterCount = 3
+                                    number = size
+                                    isVisible = size != 0
+                                }
+                            }
                             cartArrayList.clear()
 
                             data.data.carts.forEach {

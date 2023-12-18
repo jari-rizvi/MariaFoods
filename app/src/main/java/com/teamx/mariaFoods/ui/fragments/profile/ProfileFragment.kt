@@ -205,6 +205,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, EditProfileViewMode
                         if (token.isNullOrBlank()) {
                             mViewDataBinding.profilePicture.setImageResource(R.drawable.asasas)
                             mViewDataBinding.btnEditProfile.text = "Guest User"
+                            mViewDataBinding.btnEditProfile.isClickable = false
                             mViewDataBinding.textView49.text = "Login"
                             mViewDataBinding.textView42.visibility = View.GONE
                             mViewDataBinding.textView43.visibility = View.GONE

@@ -1,5 +1,8 @@
 package com.teamx.mariaFoods.data.dataclasses.wishList
 
+import androidx.annotation.Keep
+@Keep
+
 data class Item(
     val description: String,
     val discount_end_date: Int,

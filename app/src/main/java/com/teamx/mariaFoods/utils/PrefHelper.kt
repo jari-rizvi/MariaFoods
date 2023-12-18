@@ -53,7 +53,11 @@ class PrefHelper private constructor() {
 
 
     val getUserId: String?
-        get() = sharedPreferences.getString(USER_ID, "")
+        get() = if (sharedPreferences.getString(USER_ID, "")!!.isNotEmpty()) {
+            sharedPreferences.getString(USER_ID, "")
+        } else {
+            null
+        }
 
 
     fun savaUserId(userId: String) {

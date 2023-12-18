@@ -11,7 +11,6 @@ import com.teamx.mariaFoods.data.dataclasses.checkout.CheckoutData
 import com.teamx.mariaFoods.data.dataclasses.coupon.CouponData
 import com.teamx.mariaFoods.data.dataclasses.editAddress.EditAddressData
 import com.teamx.mariaFoods.data.dataclasses.getAddress.GetAddressData
-import com.teamx.mariaFoods.data.dataclasses.getCart.GetCartData
 import com.teamx.mariaFoods.data.dataclasses.getDefaultStripeCard.GetDefaultStripeCard
 import com.teamx.mariaFoods.data.dataclasses.sucessData.SuccessData
 import com.teamx.mariaFoods.data.remote.Resource
@@ -67,8 +66,8 @@ class CheckoutViewModel @Inject constructor(
 
 
 //    private val _getCartListResponse = MutableLiveData<Resource<GetCartData>>()
-    val getCartList: LiveData<Resource<GetCartData>>
-        get() = _getCartListResponse
+//    val getCartList: LiveData<Resource<GetCartData>>
+//        get() = _getCartListResponse
 
     fun getCart() {
         viewModelScope.launch {
@@ -134,8 +133,9 @@ class CheckoutViewModel @Inject constructor(
                     mainRepository.checkout(param).let {
                         if (it.isSuccessful) {
                             _checkoutResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _checkoutResponse.postValue(Resource.error(it.message(), null))
+                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _couponResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                         } else {
                             _checkoutResponse.postValue(
                                 Resource.error(
@@ -164,8 +164,10 @@ class CheckoutViewModel @Inject constructor(
                     mainRepository.coupon(param).let {
                         if (it.isSuccessful) {
                             _couponResponse.postValue(Resource.success(it.body()!!))
-                        } else if (it.code() == 500 || it.code() == 404 || it.code() == 403) {
-                            _couponResponse.postValue(Resource.error(it.message(), null))
+                        }
+                        else if (it.code() == 500 || it.code() == 404 || it.code() == 403 || it.code() == 400) {
+                            val jsonObj = JSONObject(it.errorBody()!!.charStream().readText())
+                            _couponResponse.postValue(Resource.error(jsonObj.getJSONArray("errors")[0].toString()))
                         } else {
                             _couponResponse.postValue(
                                 Resource.error(

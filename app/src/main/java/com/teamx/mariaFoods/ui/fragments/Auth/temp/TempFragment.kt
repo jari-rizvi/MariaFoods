@@ -55,7 +55,6 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
         booCheck = true
     }
 
-
     override fun onResume() {
         super.onResume()
         if (booCheck) {
@@ -104,6 +103,7 @@ class TempFragment : BaseFragment<FragmentTempBinding, TempViewModel>() {
                                     R.id.nav_host_fragment
                                 )
                                 navController.navigate(R.id.dashboardFragment, null, options)
+                                requestPermission()
 
                             } else {
                                 navController = Navigation.findNavController(

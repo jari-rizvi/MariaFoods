@@ -149,7 +149,14 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
 
 //        mViewModel.getCart()
-        Guser_id = PrefHelper.getInstance(this).getUserId!!
+
+        try {
+
+            Guser_id = PrefHelper.getInstance(this).getUserId!!
+        }
+        catch (e:Exception){
+
+        }
 
 
         var token: String?? = null
@@ -186,7 +193,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
 
         bottomNav = findViewById(R.id.bottomnavigationbar)
 
-        if (!mViewModel.getCartList.hasActiveObservers()) {
+
 
             mViewModel.getCartList.observe(this) {
                 when (it.status) {
@@ -197,7 +204,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                     Resource.Status.SUCCESS -> {
 
                         it.data.let {
-                            val size = it?.data?.qty ?: 0
+                            val size = it?.data?.cartCount ?: 0
                             it?.let {
                                 bottomNav?.getOrCreateBadge(R.id.cart)?.apply {
                                     backgroundColor = Color.RED
@@ -220,7 +227,7 @@ open class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Fa
                 }
 
             }
-        }
+
 
 
 
